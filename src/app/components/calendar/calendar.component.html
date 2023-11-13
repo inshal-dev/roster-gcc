@@ -1,0 +1,20 @@
+<div>
+    <!-- <button (click)="previousMonth()">Previous Month</button> -->
+    <h2>{{ currentDate.format('MMMM YYYY') }}</h2>
+    <!-- <button (click)="nextMonth()">Next Month</button> -->
+  </div>
+  
+  <table>
+    <tr>
+      <th *ngFor="let day of weekdays">{{ day }}</th>
+    </tr>
+    <tr *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
+      <td *ngFor="let day of week">
+        <div *ngIf="day">
+          {{ day.dayNumber }}
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+  
