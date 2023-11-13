@@ -8,17 +8,17 @@ import { LoginComponent } from '../login/login.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent], 
+  imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  userState:boolean = true; 
+  userState:boolean = true;
 
   LogIn(userState:any){
     this.userState = userState
 
     console.log(this.userState);
-    
+
   }
 }
