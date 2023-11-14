@@ -1,5 +1,40 @@
 .side-nav{
-    background-color: #1572A1;
+    width: 280px; 
+    border-right: 1px solid black;
+}
+.side-nav-content{  
+    background-color: #fff;
     width: 15vw;
-    height: 82vh;
+    height: 82vh; 
+   
+
+}
+hr{
+    width: 250px;
+    background-color:#1572A1 ;
+}
+.nav-head{
+    margin: 0;
+    padding: 0;
+    font-size: larger;
+}
+.nav-link{
+    font-weight: 300;
+    color: rgb(55, 55, 55);
+    margin-bottom: 15px;
+    width: 240px;
+}
+
+.actives{
+    // border-radius: 7px;
+     border-left: 4px solid #1572A1 ;
+    // background-color: #AFE1FA; 
+    border-radius: 4px;
+    background: rgba(175, 225, 250, 0.793);
+}
+
+.user-name{
+    font-size: medium;
+    font-weight: 300;
+    color: rgb(55, 55, 55);
 }

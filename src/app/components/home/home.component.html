@@ -1,5 +1,5 @@
 <app-head-nav></app-head-nav>
-<div class="container">
+<!-- <div class="container">
   @if(userState){
     <app-login (authState)="LogIn($event)"></app-login>
   }@else{
@@ -7,10 +7,20 @@
         <div class="col-3">
           <app-side-nav></app-side-nav>
         </div>
-        <div class="col">
+        <div class="col ">
           <app-dashboard></app-dashboard>
         </div>
       </div>
   }
+</div> -->
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <app-side-nav></app-side-nav>
+    </div>
+    <div class="col ">
+      <app-dashboard></app-dashboard>
+    </div>
+  </div>
 </div>
 

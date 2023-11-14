@@ -1,9 +1,50 @@
-<div>
-    <!-- <button (click)="previousMonth()">Previous Month</button> -->
-    <h2 class="month-font">{{ currentDate.format('MMMM YYYY') }}</h2>
-    <!-- <button (click)="nextMonth()">Next Month</button> -->
-  </div>
+@if(edit){
+  <!-- <form [formGroup]="holidayForm"> 
+  <table> 
+    <tr>
+      <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+    </tr>
+    <tr class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
+      
+      <td  *ngFor="let day of week; let i=index; trackBy:trackByFn">
+        <div *ngIf="day"> 
+            <select class="form-select cal-input" formControlName="description" (ngModelChange)="groupByFieldName($event, i)">
+              <option selected disabled>{{day.dayNumber}}</option>
+              <option *ngFor="let item of options; let i=index;" [value]="item" >{{day.dayNumber}}{{item}}</option>
+            </select>
+           <input class="form-control cal-input" type="text" [placeholder]="day.dayNumber">  
+        </div>
+      </td>
+      
+    </tr> 
+  </table>
+</form> -->
+ <form [formGroup]="holidayForm">
+  <table> 
+    <tr>
+      <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+    </tr>
+    <tr  class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
+    
+      <td *ngFor="let day of week">
+        <div *ngIf="day">
+          <select class="form-select cal-input" formControlName="description" >
+            <option selected disabled>{{day.dayNumber}}</option>
+            <option value="PH">PH</option>
+            <option value="CO">CO</option>
+          </select>
+        </div>
+     
+      </td>
+    </tr> 
+  </table>
+</form>  
 
+
+
+
+
+}@else{
   <table>
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
@@ -16,4 +57,21 @@
       </td>
     </tr>
   </table>
+}
 
+
+@if(!edit){
+  <div class="edit-roster">
+    <button class="btn btn-primary" (click)="editRoster()">Edit Roster</button>
+  </div>
+}@else{
+  <div class="edit-roster">
+    <!-- <button class="btn btn-primary" (click)="onSubmit()">Submit</button> -->
+
+  </div>
+}
+
+
+<div class="info mt-1">
+  <p><b>PH</b>:Public Holiday, <b>CO</b>:Comp Off</p> 
+</div>
