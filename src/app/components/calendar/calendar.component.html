@@ -8,7 +8,7 @@
       
       <td  *ngFor="let day of week; let i=index; trackBy:trackByFn">
         <div *ngIf="day"> 
-            <select class="form-select cal-input" formControlName="description" (ngModelChange)="groupByFieldName($event, i)">
+            <select class="form-select cal-input" [(ngModel)]="selectedOption" (change)="getUserLeave(day)">
               <option selected disabled>{{day.dayNumber}}</option>
               <option *ngFor="let item of options; let i=index;" [value]="item" >{{day.dayNumber}}{{item}}</option>
             </select>
@@ -18,27 +18,29 @@
       
     </tr> 
   </table>
-</form> -->
- <form [formGroup]="holidayForm">
-  <table> 
+</form>  -->
+ 
+<table> 
+  <thead>
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
     </tr>
-    <tr  class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
-    
+  </thead>
+  <tbody>
+    <tr class="table-row" *ngFor="let week of days | daysFormatter: 7">
       <td *ngFor="let day of week">
         <div *ngIf="day">
-          <select class="form-select cal-input" formControlName="description" >
-            <option selected disabled>{{day.dayNumber}}</option>
-            <option value="PH">PH</option>
-            <option value="CO">CO</option>
+          <!-- <div class="day-number">{{ day.dayNumber }}</div> -->
+          <select class="form-select cal-input" [(ngModel)]="day.option" >
+            <option [value]="null" disabled>{{day.dayNumber}}</option>
+            <option *ngFor="let option of options" [value]="option"> {{ option }}</option>
           </select>
         </div>
-     
       </td>
-    </tr> 
-  </table>
-</form>  
+    </tr>
+  </tbody>
+</table>
+
 
 
 
@@ -66,8 +68,7 @@
   </div>
 }@else{
   <div class="edit-roster">
-    <!-- <button class="btn btn-primary" (click)="onSubmit()">Submit</button> -->
-
+    <button class="btn btn-primary" (click)="getUserLeave()">Submit</button>
   </div>
 }
 

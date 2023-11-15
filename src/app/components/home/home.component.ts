@@ -14,6 +14,16 @@ import { LoginComponent } from '../login/login.component';
 })
 export class HomeComponent {
   userState:boolean = true;
+  constructor(){
+    let token = localStorage.getItem('myToken')
+    console.log(token);
+    
+    if(token){
+      this.userState = false
+    }else{
+      this.userState = true
+    }
+  }
 
   LogIn(userState:any){
     this.userState = userState

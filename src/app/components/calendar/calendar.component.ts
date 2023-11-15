@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { DaysFormatterPipe } from '../../pipes/days-formatter.pipe';
 import moment from 'moment';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Roster } from '../../interface/roster';
+import { RosterService } from '../../services/roster.service';
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, DaysFormatterPipe, NgFor, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, DaysFormatterPipe, NgFor, FormsModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
@@ -16,19 +18,41 @@ export class CalendarComponent {
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   options:string[] = ['PH', 'CO']
   edit:Boolean = false;
-  rosterCalendar:Array<Roster> = [];
+  rosterCalendar:Array<any> = [];
   holidayForm!: FormGroup;
   currentMonth:Array<any> = []
+  selectedOption:any
 
-  constructor( private fb: FormBuilder){
+  days:any = []
+  constructor( 
+    private fb: FormBuilder,
+    private rosterService: RosterService
+    ){
     this.holidayForm = this.fb.group({ 
       description: ['', Validators.required]
     });
+
+    this.getDaysInMonth()
+  } 
+
+
+  getUserLeave(){    
+    const userRosterData = {
+      userId: localStorage.getItem('myID'),
+      currentMonth: this.currentDate.format('MMMM'),
+      monthData : this.days
+    }
+    console.log(userRosterData);
+    this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
+      console.log(res);
+      this.edit = false
+    })
+    
   }
   getDaysInMonth() {
-    const days = [];
+    this.days= [];
     this.currentMonth = []
-    const daysInMonth = this.currentDate.daysInMonth();
+    const daysInMonth = this.currentDate.daysInMonth(); 
     const firstDay = moment(this.currentDate).startOf('month');
 
 
@@ -37,16 +61,18 @@ export class CalendarComponent {
       const day = {
         date,
         dayNumber: i,
-        weekday: date.format('ddd') // Get the weekday abbreviation (e.g., "Mon")
+        weekday: date.format('ddd'),
+        option: null
       };
-      days.push(day);
+      this.days.push(day);
     }
 
     const firstDayOfWeek = moment(firstDay).day();
     for (let i = 0; i < firstDayOfWeek; i++) {
-      days.unshift(null);
+      this.days.unshift(null);
     }  
-    return days;
+    console.log(this.days); 
+    return this.days;
   }
 
   previousMonth() {
