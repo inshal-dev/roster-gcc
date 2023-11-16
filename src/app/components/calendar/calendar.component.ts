@@ -22,7 +22,7 @@ export class CalendarComponent {
   holidayForm!: FormGroup;
   currentMonth:Array<any> = []
   selectedOption:any
-
+  response!:string
   days:any = []
   constructor( 
     private fb: FormBuilder,
@@ -44,9 +44,16 @@ export class CalendarComponent {
     }
     console.log(userRosterData);
     this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
-      console.log(res);
-      this.edit = false
+      this.response = res.response 
+      console.log(this.response); 
+      if(this.response == 'User is added in database'){
+        this.edit = false
+      }else{
+        this.edit = true
+      }
     })
+    
+   
     
   }
   getDaysInMonth() {
