@@ -1,4 +1,4 @@
- 
+
   <div class="container mt-3">
     <div class="jumbotron">
       <form [formGroup]="userForm">
@@ -11,22 +11,22 @@
         </div>
         <label for="keyword" class="form-label">Password</label>
         <input type="password" id="keyword" class="form-control" formControlName="passwd" placeholder="*******">
-        <small *ngIf="userForm.get('passwd')?.errors?.['minlength'] || userForm.get('passwd')?.errors?.['maxlength'] && (userForm.get('passwd')?.touched || userForm.get('passwd')?.dirty)"
-        >Enter correct password</small>
+        <!-- <small *ngIf="userForm.get('passwd')?.errors?.['minlength'] || userForm.get('passwd')?.errors?.['maxlength'] && (userForm.get('passwd')?.touched || userForm.get('passwd')?.dirty)"
+        >Enter correct password</small> -->
       </form>
-  
+
       <div class="button mt-3 text-center">
         <button class="btn btn-primary login-btn" (click)="LogIn()" >
           Login
           </button>
       </div>
-  
+
       <small *ngIf="response">{{response}}</small>
       <div class="text-center mt-3">
         <a  class="secondary-text">
           Forgot Password?
         </a>
       </div>
-     
+
     </div>
   </div>

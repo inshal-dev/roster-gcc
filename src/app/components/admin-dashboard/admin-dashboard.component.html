@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="input">
+    <div class="row" *ngFor="let item of rosterData; let i=index">
+      <p *ngIf="item">{{item.username}}</p>
+      <div class="col" *ngFor="let data of item.roster">
+
+        <select class="form-select cal-input" *ngIf="data" [(ngModel)]="data.option" >
+          <option  [value]="data.option" selected>{{data.option}}</option>
+          <option >{{data.option}}</option>
+          <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button (click)="logOutAdmin()">Logout </button>

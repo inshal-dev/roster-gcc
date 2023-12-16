@@ -1,0 +1,57 @@
+
+@if(rosterUserData.length > 0){
+
+  <p>Roster is already submitted</p>
+   <div class="update-roster">
+    <button class="btn btn-primary" (click)="openUserRoster('myRoster')">Update Roster</button>
+  </div>
+  <!-- <table>
+    <thead>
+      <tr>
+        <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-row"  *ngFor="let week of rosterUserData | daysFormatter: 7">
+        <td *ngFor="let day of week">
+          <div *ngIf="day">
+            <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': 'transparent'">
+              <option [value]="null" disabled>{{day.dayNumber}}</option>
+              <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+}@else{
+  <table>
+    <thead>
+      <tr>
+        <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-row" *ngFor="let week of days | daysFormatter: 7">
+        <td *ngFor="let day of week">
+          <div *ngIf="day">
+            <!-- <div class="day-number">{{ day.dayNumber }}</div> -->
+            <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent' ">
+
+              <option [value]="null" >{{day.dayNumber}}</option>
+              <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="update-roster">
+    <button class="btn btn-primary" (click)="submitUserRoster()">Submit Roster</button>
+  </div>
+}
+
+
+

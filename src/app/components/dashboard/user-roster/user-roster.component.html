@@ -1,0 +1,50 @@
+@if (!editRoster) {
+  <table *ngIf="rosterUserData.length > 0">
+    <tr>
+      <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+    </tr>
+    <tr class="table-row" *ngFor="let week of rosterUserData | daysFormatter: 7">
+      <td *ngFor="let day of week">
+        <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
+          <span class="date">{{ day.dayNumber }}</span>
+          <br>
+          <span class="option">{{day.option}}</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="edit-roster" *ngIf="rosterUserData.length > 0">
+    <button class="btn btn-primary" (click)="editUserRoster()">Edit</button>
+  </div>
+
+
+}
+<p *ngIf="rosterUserData.length == 0" >Create a Roster first
+  <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
+</p>
+<!-- Edit section -->
+
+@if(editRoster){
+   <table>
+    <thead>
+      <tr>
+        <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-row"  *ngFor="let week of rosterUserData | daysFormatter: 7">
+        <td *ngFor="let day of week">
+          <div *ngIf="day">
+            <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
+              <option [value]="null" disabled>{{day.dayNumber}}</option>
+              <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="edit-roster">
+    <button class="btn btn-primary" (click)="updateUserRoster()">Update</button>
+  </div>
+}

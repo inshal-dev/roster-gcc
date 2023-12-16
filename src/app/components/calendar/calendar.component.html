@@ -1,26 +1,26 @@
-@if(edit){
-  <!-- <form [formGroup]="holidayForm"> 
-  <table> 
+<!-- @if(edit){
+   <form [formGroup]="holidayForm">
+  <table>
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
     </tr>
     <tr class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
-      
+
       <td  *ngFor="let day of week; let i=index; trackBy:trackByFn">
-        <div *ngIf="day"> 
+        <div *ngIf="day">
             <select class="form-select cal-input" [(ngModel)]="selectedOption" (change)="getUserLeave(day)">
               <option selected disabled>{{day.dayNumber}}</option>
               <option *ngFor="let item of options; let i=index;" [value]="item" >{{day.dayNumber}}{{item}}</option>
             </select>
-           <input class="form-control cal-input" type="text" [placeholder]="day.dayNumber">  
+           <input class="form-control cal-input" type="text" [placeholder]="day.dayNumber">
         </div>
       </td>
-      
-    </tr> 
+
+    </tr>
   </table>
-</form>  -->
- 
-<table> 
+</form>
+
+<table>
   <thead>
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
@@ -30,10 +30,11 @@
     <tr class="table-row" *ngFor="let week of days | daysFormatter: 7">
       <td *ngFor="let day of week">
         <div *ngIf="day">
-          <!-- <div class="day-number">{{ day.dayNumber }}</div> -->
-          <select class="form-select cal-input" [(ngModel)]="day.option" >
+          <div class="day-number">{{ day.dayNumber }}</div>
+          <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'" >
+
             <option [value]="null" disabled>{{day.dayNumber}}</option>
-            <option *ngFor="let option of options" [value]="option"> {{ option }}</option>
+            <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
           </select>
         </div>
       </td>
@@ -47,22 +48,8 @@
 
 
 }@else{
-  <table>
-    <tr>
-      <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
-    </tr>
-    <tr class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
-      <td *ngFor="let day of week">
-        <div *ngIf="day">
-          {{ day.dayNumber }}
-        </div>
-      </td>
-    </tr>
-  </table>
-}
 
-
-@if(!edit){
+}   @if(!edit){
   <div class="edit-roster">
     <button class="btn btn-primary" (click)="editRoster()">Edit Roster</button>
   </div>
@@ -74,5 +61,22 @@
 
 
 <div class="info mt-1">
-  <p><b>PH</b>:Public Holiday, <b>CO</b>:Comp Off</p> 
+  <p><b>PH</b>:Public Holiday, <b>CO</b>:Comp Off</p>
+</div> -->
+
+ <table>
+  <tr>
+    <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+  </tr>
+  <tr class="table-row" *ngFor="let week of getDaysInMonth() | daysFormatter: 7">
+    <td *ngFor="let day of week">
+      <div *ngIf="day">
+        {{ day.dayNumber }}
+      </div>
+    </td>
+  </tr>
+</table>
+
+<div class="edit-roster">
+  <button class="btn btn-primary" (click)="rosterChange()">Create Roster</button>
 </div>

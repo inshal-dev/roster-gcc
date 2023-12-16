@@ -1,10 +1,20 @@
 <div class="section d-flex justify-content-center">
-  <app-calendar> </app-calendar>  
+  @switch(userNavValue.length > 0){
+    @case (userNavValue == 'currentRoster') {
+      @if(editRosterStatus){
+        <app-roster-edit (editRoster)="rosterUpdate()" (userNavigateTo)="userNavRoute($event)"></app-roster-edit>
+      }@else{
+        <app-calendar (editRoster)="rosterEdit()" (userNavigateToCurrent)="userNavRoute($event)"></app-calendar>
+      }
+    }
+    @case (userNavValue == 'myRoster') {
+      <app-user-roster></app-user-roster>
+    }
+    @default {
+      <span>Empty</span>
+    }
+  }
+</div>
 
-  
-  
-  
-  
-</div> 
 
 

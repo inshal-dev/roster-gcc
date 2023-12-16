@@ -1,65 +1,38 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { DaysFormatterPipe } from '../../pipes/days-formatter.pipe';
 import moment from 'moment';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Roster } from '../../interface/roster';
-import { RosterService } from '../../services/roster.service';
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, DaysFormatterPipe, NgFor, FormsModule, ReactiveFormsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, DaysFormatterPipe, NgFor],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
+
   currentDate: moment.Moment = moment()
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  options:string[] = ['PH', 'CO']
-  edit:Boolean = false;
-  rosterCalendar:Array<any> = [];
-  holidayForm!: FormGroup;
-  currentMonth:Array<any> = []
-  selectedOption:any
-  response!:string
+
   days:any = []
-  constructor( 
-    private fb: FormBuilder,
-    private rosterService: RosterService
-    ){
-    this.holidayForm = this.fb.group({ 
-      description: ['', Validators.required]
-    });
+  userEditStatus:any = false
 
+  @Output() editRoster = new EventEmitter<string>();
+
+  constructor(){
     this.getDaysInMonth()
-  } 
-
-
-  getUserLeave(){    
-    const userRosterData = {
-      userId: localStorage.getItem('myID'),
-      currentMonth: this.currentDate.format('MMMM'),
-      monthData : this.days
-    }
-    console.log(userRosterData);
-    this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
-      this.response = res.response 
-      console.log(this.response); 
-      if(this.response == 'User is added in database'){
-        this.edit = false
-      }else{
-        this.edit = true
-      }
-    })
-    
-   
-    
   }
+
+  //Emit user wants to edit roster
+  rosterChange() {
+    this.userEditStatus = true
+    this.editRoster.emit(this.userEditStatus);
+  }
+
+  //main: get current month calendar
   getDaysInMonth() {
     this.days= [];
-    this.currentMonth = []
-    const daysInMonth = this.currentDate.daysInMonth(); 
+    const daysInMonth = this.currentDate.daysInMonth();
     const firstDay = moment(this.currentDate).startOf('month');
 
 
@@ -69,7 +42,6 @@ export class CalendarComponent {
         date,
         dayNumber: i,
         weekday: date.format('ddd'),
-        option: null
       };
       this.days.push(day);
     }
@@ -77,36 +49,16 @@ export class CalendarComponent {
     const firstDayOfWeek = moment(firstDay).day();
     for (let i = 0; i < firstDayOfWeek; i++) {
       this.days.unshift(null);
-    }  
-    console.log(this.days); 
+    }
     return this.days;
   }
 
-  previousMonth() {
-    this.currentDate = this.currentDate.subtract(1, 'months');
-  }
-
-  nextMonth() {
-    this.currentDate = this.currentDate.add(1, 'months');
-  }
-
-  editRoster(){
-    this.edit = true
-  }
-
-  // getUserRoster(){ 
-
-  //     if (this.holidayForm.valid) { 
-  //       const description = this.holidayForm.get('description')?.value;
-  //        console.log(description);
-         
-  //       // Clear the form
-  //       this.holidayForm.reset();
-  //     }
+  // previousMonth() {
+  //   this.currentDate = this.currentDate.subtract(1, 'months');
   // }
 
-  trackByFn(index: any, item: any) {
-    return index;
-  } 
-  
+  // nextMonth() {
+  //   this.currentDate = this.currentDate.add(1, 'months');
+  // }
+
 }

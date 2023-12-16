@@ -13,7 +13,6 @@ export class AuthService {
   ) { }
 
   userLogin(data:any):Observable<any>{
-    console.log(data); 
     return this.http.post(this.url + 'user-login', data)
   }
 }

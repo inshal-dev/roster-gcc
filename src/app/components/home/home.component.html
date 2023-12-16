@@ -1,15 +1,18 @@
 <app-head-nav></app-head-nav>
+
 <div class="container">
   @if(userState){
     <app-login (authState)="LogIn($event)"></app-login>
   }@else{
-      <div class="row">
-        <div class="col-3">
-          <app-side-nav></app-side-nav>
-        </div>
-        <div class="col ">
-          <app-dashboard></app-dashboard>
-        </div>
+    <div class="row">
+      <div class="col-3">
+        <app-side-nav (userInputNav)="userNavInput($event)" [navValueDashboard]="navValue"></app-side-nav>
       </div>
+      <div class="col ">
+        <app-dashboard [userNavValue]="navValue" (navValueDash)="getNavDashboardValue($event)"></app-dashboard>
+      </div>
+    </div>
   }
-</div> 
+
+</div>
+

@@ -1,4 +1,6 @@
 export interface Roster {
-    day:string;
-    leave:string;
+    date:string;
+    dayNumber:string;
+    weekday:string;
+    option:string;
 }
