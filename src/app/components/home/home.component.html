@@ -1,9 +1,11 @@
 <app-head-nav></app-head-nav>
 
 <div class="container">
-  @if(userState){
+  @if(userState == 'login'){
     <app-login (authState)="LogIn($event)"></app-login>
-  }@else{
+  }@else if(userState == 'admin-dash'){
+    <app-admin-dashboard></app-admin-dashboard>
+  }@else if(userState == 'dash'){
     <div class="row">
       <div class="col-3">
         <app-side-nav (userInputNav)="userNavInput($event)" [navValueDashboard]="navValue"></app-side-nav>
@@ -12,7 +14,7 @@
         <app-dashboard [userNavValue]="navValue" (navValueDash)="getNavDashboardValue($event)"></app-dashboard>
       </div>
     </div>
-  }
+  } 
 
 </div>
 

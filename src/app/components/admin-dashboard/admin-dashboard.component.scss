@@ -1,3 +1,44 @@
 .cal-input{
   width: 70px;
 }
+
+ 
+
+.jumbotron{
+  box-shadow: 0px 2px 20px rgba(121, 121, 121, 0.257);
+}
+
+.table-head, .table-row {
+  display: flex;
+}
+
+.table-head th, .table-row td {
+  flex: 1;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+ 
+.table-container {
+  overflow-x: auto;
+  max-width: 100%; /* Adjust as needed */
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.username-column {
+  font-weight: medium;
+  position: sticky;
+  left: 0;
+  background-color: #fff; /* Adjust background color as needed */
+  z-index: 1;
+}
+
+*{
+  font-size: 12px;
+}

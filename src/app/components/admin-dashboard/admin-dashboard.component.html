@@ -1,17 +1,94 @@
-<div class="container">
-  <div class="input">
-    <div class="row" *ngFor="let item of rosterData; let i=index">
-      <p *ngIf="item">{{item.username}}</p>
-      <div class="col" *ngFor="let data of item.roster">
+<!-- <div class="container">
+  <div class="jumbotron m-2">
+    <div class="input">
+      @for(item of rosterData; track item.roster){
+        <div class="row" > 
+          <div class="col" *ngIf="item">{{item.username}}</div>
+          @for(data of item.roster; track data?.dayNumber){
+            <div class="col"  *ngIf="data" > 
+              <select class="form-select cal-input" [(ngModel)]="data.option" >
+                <option [value]="data.option" selected>{{data.option ? data.option : data.dayNumber}}</option>
+                <option >{{data.option}}</option>
+                <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+              </select>
+            </div>
+          }
+         
+        </div>
+      }@empty{
+        <p>No Data available</p>
+      }
+     
+    </div>
+  </div>
 
-        <select class="form-select cal-input" *ngIf="data" [(ngModel)]="data.option" >
-          <option  [value]="data.option" selected>{{data.option}}</option>
-          <option >{{data.option}}</option>
-          <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
+</div>   -->
+
+<div class="container-fluid"> 
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="username-column">Name</th>
+            @for (day of date; track day){
+              <th *ngIf="day" class="text-center">{{ day }}</th>
+            } 
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of rosterData; track item.roster) {
+            <tr>
+              <td *ngIf="item" class="username-column" >{{ item.username }} 
+                <a type="button" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</a>
+              </td>
+              @for (data of item.roster; track data?.dayNumber) {
+                <td *ngIf="data" [style.backgroundColor]="data.weekday == 'Sat' || data.weekday == 'Sun'? 'grey': 'transparent' ">
+                  <select class="form-select cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' || data.option == 'CO'? 'rgb(255, 191, 0)': data.option == 'L'? 'red' : 'transparent' ">
+                    <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
+                    <option>{{ data.option }}</option>
+                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                  </select>
+                </td>
+              }
+            </tr>
+          } @empty{
+          <tr>
+            <td >No Data available</td>
+          </tr>
+          }
+        </tbody>
+      </table> 
+    
+</div>
+<button class="btn btn-primary" (click)="submitRoster()"> Submit </button>
+
+<button class="btn btn-danger" (click)="logOutAdmin()">Logout </button>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ selectedUser?.username }}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="start">Start Date</label>
+        <span>{{ selectedUser?.currentMonth }}</span>
+        <input type="number" id="start" class="form-control" [(ngModel)]="startDate" name="startDate">
+        <label for="start">End Date</label>
+        <span>{{ selectedUser?.currentMonth }}</span>
+        <input type="number" id="start" class="form-control" [(ngModel)]="endDate" name="endDate">
+
+        <select name="" id="" class="form-select" [(ngModel)]="rosterValue">
+          <option *ngFor="let option of options" [value]="option">{{ option }}</option>
         </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" >Close</button>
+        <button type="button" class="btn btn-primary" (click)="getDates(startDate, endDate, rosterValue)" data-bs-dismiss="modal" aria-label="Close">Save changes</button>
       </div>
     </div>
   </div>
 </div>
-
-<button (click)="logOutAdmin()">Logout </button>

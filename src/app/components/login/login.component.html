@@ -11,8 +11,8 @@
         </div>
         <label for="keyword" class="form-label">Password</label>
         <input type="password" id="keyword" class="form-control" formControlName="passwd" placeholder="*******">
-        <!-- <small *ngIf="userForm.get('passwd')?.errors?.['minlength'] || userForm.get('passwd')?.errors?.['maxlength'] && (userForm.get('passwd')?.touched || userForm.get('passwd')?.dirty)"
-        >Enter correct password</small> -->
+        <small *ngIf="passwordError"
+        >{{ passwordError}}</small>
       </form>
 
       <div class="button mt-3 text-center">

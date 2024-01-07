@@ -3,11 +3,14 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http'; 
-  
+import { Socket, SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 export const appConfig: ApplicationConfig = {
   providers: [ 
     provideRouter(routes),
     importProvidersFrom(HttpClientModule),
-    
+    importProvidersFrom(SocketIoModule.forRoot(config))
   ]
 };

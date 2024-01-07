@@ -1,8 +1,8 @@
 import { Roster } from "./roster";
 
 export interface UserRoster {
-option: any;
+  username: string;
   userId:string;
   currentMonth:string;
-  rosterData: Array<Roster>;
+  roster: Array<Roster>;
 }

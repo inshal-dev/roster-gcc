@@ -15,12 +15,13 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   userLoginData!: Subscription;
   userForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+    email: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
     passwd: new FormControl('', [Validators.required])
   })
 
   response:any;
   errorMessage:any;
+  passwordError!:Object;
 
   authSubs!:Subscription;
   constructor(
@@ -34,6 +35,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
   }
+  
   LogIn(){
     localStorage.clear()
     if(this.userForm.valid){
@@ -46,6 +48,11 @@ export class LoginComponent {
         this.authState.emit(admin)
         console.log('User Token is created');
 
+      }, (err) => {
+        this.passwordError = err.error 
+        this.passwordError = Object.values(this.passwordError)
+        console.log(Object.values(this.passwordError));
+            
       })
     }
 

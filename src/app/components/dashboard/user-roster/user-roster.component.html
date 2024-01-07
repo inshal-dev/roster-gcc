@@ -7,7 +7,7 @@
       <td *ngFor="let day of week">
         <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
           <span class="date">{{ day.dayNumber }}</span>
-          <br>
+         
           <span class="option">{{day.option}}</span>
         </div>
       </td>

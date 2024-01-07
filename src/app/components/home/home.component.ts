@@ -6,6 +6,7 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { LoginComponent } from '../login/login.component';
 import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.component";
 
+
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -13,28 +14,40 @@ import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.comp
     styleUrl: './home.component.scss',
     imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent, AdminDashboardComponent]
 })
-export class HomeComponent implements OnInit{
-   userState!:boolean;
+export class HomeComponent {
+   userState!:string | null;
    navValue:any
-   adminState:any
+   adminState:any 
+  constructor(){  
+    this.detechUserToken()
+  
+  }
+ 
+ 
 
-  constructor(){
+  detechUserToken(){
     let token = localStorage.getItem('myToken')
     //User token
     if(token){
-      this.userState = false
+       this.userState = localStorage.getItem('userState')
     }else{
-      this.userState = true
+      this.userState = 'login'
     }
-  }
-
-  ngOnInit(){
 
   }
+
   LogIn(userState:any){
-    this.adminState = userState.admin
+    localStorage.removeItem('userState')
+    this.adminState = userState
+    if(this.adminState == false ){
+      this.userState = 'dash'
+      localStorage.setItem('userState', this.userState)
+    }else if(this.adminState == true){
+      this.userState = 'admin-dash'
+      localStorage.setItem('userState', this.userState)
+    }
     console.log(this.adminState);
-
+     
   }
 
   userNavInput(value:any){
@@ -45,3 +58,5 @@ export class HomeComponent implements OnInit{
     this.navValue = value 
   }
 }
+ 
+
