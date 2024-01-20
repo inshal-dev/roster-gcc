@@ -5,6 +5,7 @@ import { HeadNavComponent } from '../head-nav/head-nav.component';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { LoginComponent } from '../login/login.component';
 import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.component";
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 
 @Component({
@@ -12,12 +13,13 @@ import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.comp
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
-    imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent, AdminDashboardComponent]
+    imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent, AdminDashboardComponent, AdminNavComponent]
 })
 export class HomeComponent {
    userState!:string | null;
    navValue:any
    adminState:any 
+   rosterState:any
   constructor(){  
     this.detechUserToken()
   
@@ -56,6 +58,9 @@ export class HomeComponent {
 
   getNavDashboardValue(value:any){
     this.navValue = value 
+  }
+  getPublishState(res:any){
+    this.rosterState = res
   }
 }
  

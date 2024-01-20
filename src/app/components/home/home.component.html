@@ -1,11 +1,14 @@
-<app-head-nav></app-head-nav>
 
-<div class="container">
+<!-- 
+<app-admin-dashboard></app-admin-dashboard> -->
+ <div class="container-fluid">
   @if(userState == 'login'){
     <app-login (authState)="LogIn($event)"></app-login>
   }@else if(userState == 'admin-dash'){
-    <app-admin-dashboard></app-admin-dashboard>
+    <app-admin-nav (rosterPublishState)="getPublishState($event)"></app-admin-nav>
+    <app-admin-dashboard [state]="rosterState"></app-admin-dashboard>
   }@else if(userState == 'dash'){
+    <app-head-nav></app-head-nav>
     <div class="row">
       <div class="col-3">
         <app-side-nav (userInputNav)="userNavInput($event)" [navValueDashboard]="navValue"></app-side-nav>
@@ -16,5 +19,8 @@
     </div>
   } 
 
-</div>
+</div> 
+
+
+
 

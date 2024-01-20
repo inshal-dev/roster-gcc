@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RosterService } from '../../services/roster.service';
 import { Subscribable, Subscription } from 'rxjs';
@@ -14,72 +14,111 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent {
+
+  @Input() state!:any;
+
   rostersSubscription!: Subscription
   rosterData:any
   sel:any
   selectedUser!:UserRoster;
   date:Array<any> = [];
-  startDate!:number;
-  endDate!:number;
+  startDate:number = 0;
+  endDate:number = 0;
   rosterValue!:string;
-
+  initial:number = 0;
+  final: number = 15; 
+  initialRoster : number = 0;
+  finalRoster : number = 15
   rosterObjectId!:string;
   message$: BehaviorSubject<string> = new BehaviorSubject(''); 
   socket = io('http://localhost:3000');
-
+  nullCount = 0
+  apiResponse!:string;
   options:Array<string> = [
-    "T1", "S1", "F3", "G2", "G1", "CO", "PH", "L"
+    "T1", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
   ]
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  monthCount: number = 0;
   constructor(
     private rosterService: RosterService, 
   ){
   }
 
   ngOnInit(){
-    this.getRosterData() 
-    // window.addEventListener('beforeunload', (e)=> {
-    //   e.preventDefault();
-    //   e.returnValue = '';
-    // })
+    this.getRosterData()  
   }
 
   ngOnChanges(){ 
-
+    
+    if(this.state){
+      this.submitRoster()
+    }
+    
   }
 
   getRosterData(){
     this.rostersSubscription = this.rosterService.getRosters().subscribe(
       (res) => {
         this.rosterData = res  
+        console.log(this.rosterData);
+        this.apiResponse = this.rosterData.res
+        console.log(this.apiResponse);
+        
         this.rosterObjectId = this.rosterData.data[0]._id 
         if(this.rosterData.res == 'pre-published'){ 
           this.rosterData = this.rosterData.data[0].roster
         }else{
-          this.rosterData = this.rosterData.data[0].roster
+          this.rosterData = this.rosterData.data
         } 
         //check this logic again 
           this.rosterData[0].roster.forEach((el:any) => {
            if(el?.dayNumber){
-            this.date.push(el.dayNumber)
+            this.date.push({
+              date : el.dayNumber,
+              day : el.weekday
+            })
            }else{
             console.log('no data'); 
            } 
-          }) 
-         
+           if(el == null){
+            this.nullCount += 1
+           }else{
+            this.monthCount += 1
+           }
+          })     
         return this.date 
+       
       }
     )
   }
 
-  submitRoster(){
-    console.log(this.rosterData)
-    this.rostersSubscription = this.rosterService.publishRoster(this.rosterData).subscribe((res)=>{
-      console.log('Roster Published'); 
-    }, (err)=> console.log(err))
+  submitRoster(){ 
+    let data = {
+      _id: this.rosterObjectId,
+      roster: this.rosterData
+    }
+    if(this.apiResponse != '404'){
+      this.rostersSubscription = this.rosterService.publishRoster(data).subscribe((res)=>{
+        console.log('Roster Published'); 
+      }, (err)=> console.log(err))
+    }else{
+      console.log("Nope can't do that")
+    }
+    
   }
 
-
+  nextHalf(){
+    this.initial = this.final;
+    this.initialRoster = this.finalRoster + this.nullCount
+    this.final = this.monthCount
+    this.finalRoster = this.monthCount
+  }
+  prevHalf(){
+    this.initial = 0;
+    this.initialRoster = 0
+    this.final = 15
+    this.finalRoster = this.final
+  }
   //update selected users
 
   updateSelected(id:string){ 
@@ -100,8 +139,9 @@ export class AdminDashboardComponent {
           el.option = rosterValue 
         }
     }); 
-    this.sendMessage()
-    console.log(this.rosterData);
+    this.sendMessage() 
+    this.endDate = this.startDate = 0
+    this.rosterValue = ''
     
   }
 
@@ -111,18 +151,19 @@ export class AdminDashboardComponent {
     let modifiedRoster = {
       _id: this.rosterObjectId,
       roster: this.rosterData
-    }  
+    }   
+    
     this.socket.emit('userRosterUpdate', modifiedRoster);
     this.getNewMessage()
     
   }
 
    getNewMessage(){
-    this.socket.on('userRosterUpdate', (message) =>{
-      this.message$.next(message); 
+    this.socket.on('userRosterUpdate', (message) =>{ 
+      return message
     });
     
-    return this.message$.asObservable();
+    // return this.message$.asObservable();
   };
 
 

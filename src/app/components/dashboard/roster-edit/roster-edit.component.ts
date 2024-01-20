@@ -23,7 +23,8 @@ export class RosterEditComponent {
   userCurrentRoster!:any;
   rosterUserData:Array<Roster> = [];
   response: any;
-
+  currentMonth:any;
+  previousMonth:any
  @Output() editRoster = new EventEmitter<any>();
  @Output() userNavigateTo = new EventEmitter<any>();
 
@@ -63,7 +64,11 @@ export class RosterEditComponent {
     console.log('edit roster');
     const userId = localStorage.getItem('myID')
     this.rosterService.sendUserId(userId).subscribe((res:any)=>{
-      this.userCurrentRoster = res
+      this.userCurrentRoster = res 
+      this.previousMonth = this.userCurrentRoster.rosterData[0].currentMonth
+   
+      this.currentMonth = this.currentDate.startOf("month").format('MMMM')
+      
       this.rosterUserData = this.userCurrentRoster.rosterData[0].roster;
       console.log(this.rosterUserData); 
      })
