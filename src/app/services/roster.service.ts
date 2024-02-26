@@ -13,30 +13,36 @@ export class RosterService {
    private http:HttpClient
  ) { 
    this.auth = localStorage.getItem('myToken')
-   this.id = localStorage.getItem('myID')
+   this.id = localStorage.getItem('userName')
  }
  
  sendCurrentRoster(rosterData:any){
+  console.log(rosterData);
+  
   return this.http.post(this.url + 'current-roster', rosterData)
  }
- sendUserId(userId:any){
-  let data = { userId : userId }
+ getUserRosterbyIDMonth(userId:any, month:string ){
+  let data = { userId : userId, month: month }
   return this.http.post(this.url + 'user-check', data)
  }
- getRosters():Observable<any>{
+ getRosters(month:string):Observable<any>{
   const httpOptions = { 
-    headers: new HttpHeaders({
-
-     'Content-Type':  'application/json',
-
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
      'Authorization':  this.auth,
-     'id': this.id
-
-    })};
-  return this.http.get(this.url + 'rosters', httpOptions)
+     'id': this.id 
+    })}; 
+  console.log(month);
+  
+  return this.http.post(this.url + 'rosters', { data: month }, httpOptions)
  }
 
  publishRoster(roster:any):Observable<any>{ 
   return this.http.post(this.url + 'publish-roster', {data: roster})
  }
+  
+ getPublishRosterUser(id:string):Observable<any>{
+  return this.http.post(this.url + 'user-published-roster', {_id : id})
+ }
+  
 }

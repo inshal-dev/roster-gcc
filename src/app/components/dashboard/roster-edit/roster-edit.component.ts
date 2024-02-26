@@ -16,8 +16,9 @@ import { RosterService } from '../../../services/roster.service';
 })
 export class RosterEditComponent {
 
-  currentDate: moment.Moment = moment()
+  currentDate: moment.Moment = moment().add(1, 'months')
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  months:Array<string> = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   days:any = []
   options:string[] = ['PH', 'CO', 'L']
   userCurrentRoster!:any;
@@ -27,6 +28,7 @@ export class RosterEditComponent {
   previousMonth:any
  @Output() editRoster = new EventEmitter<any>();
  @Output() userNavigateTo = new EventEmitter<any>();
+  currentMonthValue: any; 
 
   constructor(
     private rosterService: RosterService
@@ -56,14 +58,16 @@ export class RosterEditComponent {
     for (let i = 0; i < firstDayOfWeek; i++) {
       this.days.unshift(null);
     }
+    this.currentMonthValue = this.months[this.currentDate.month()]
+    console.log(this.currentMonthValue);
+    
     return this.days;
   }
 
   //Get user roster for current month @if submitted
-  getUserRosterData(){
-    console.log('edit roster');
+  getUserRosterData(){ 
     const userId = localStorage.getItem('myID')
-    this.rosterService.sendUserId(userId).subscribe((res:any)=>{
+    this.rosterService.getUserRosterbyIDMonth(userId, this.currentMonthValue).subscribe((res:any)=>{
       this.userCurrentRoster = res 
       this.previousMonth = this.userCurrentRoster.rosterData[0].currentMonth
    
@@ -85,7 +89,7 @@ export class RosterEditComponent {
 
       this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
         this.response = res.response
-
+        
         this.editRoster.emit(false)
       })
 

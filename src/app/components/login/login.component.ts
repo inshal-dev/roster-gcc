@@ -51,8 +51,7 @@ export class LoginComponent {
       }, (err) => {
         this.passwordError = err.error 
         this.passwordError = Object.values(this.passwordError)
-        console.log(Object.values(this.passwordError));
-            
+        console.log(Object.values(this.passwordError)); 
       })
     }
 

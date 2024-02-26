@@ -26,9 +26,9 @@ table{
 }
 
 .cal-input{
-  margin: 10px;
-  width: 80px;
+  width: 75px;
   height: 60px;
+  margin: 5px; 
 }
 
 .view-box{
@@ -58,4 +58,12 @@ table{
   display: flex;
   align-items: end;
   float: right;
+}
+
+
+.no-data{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
 }

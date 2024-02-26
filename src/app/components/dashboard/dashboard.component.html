@@ -8,13 +8,17 @@
       }
     }
     @case (userNavValue == 'myRoster') {
-      <app-user-roster></app-user-roster>
+      <app-user-roster  [months]="monthValue"></app-user-roster>
+    }
+    @case (userNavValue == 'publish') {
+      <app-publish-roster-user></app-publish-roster-user>
     }
     @default {
       <span>Empty</span>
     }
   }
 </div>
+
 
 
 

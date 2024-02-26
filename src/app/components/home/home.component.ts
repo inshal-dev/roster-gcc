@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { HeadNavComponent } from '../head-nav/head-nav.component';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { LoginComponent } from '../login/login.component';
-import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.component";
-import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { AdminDashboardComponent } from "../admin-section/admin-dashboard/admin-dashboard.component";
+import { AdminNavComponent } from '../admin-section/admin-nav/admin-nav.component';
 
 
 @Component({
@@ -20,9 +20,9 @@ export class HomeComponent {
    navValue:any
    adminState:any 
    rosterState:any
+   @Input() monthValue:any
   constructor(){  
-    this.detechUserToken()
-  
+    this.detechUserToken() 
   }
  
  
@@ -61,6 +61,12 @@ export class HomeComponent {
   }
   getPublishState(res:any){
     this.rosterState = res
+  }
+
+  getSelectedMonth(month:any){ 
+    this.monthValue = month
+    console.log(this.monthValue);
+    
   }
 }
  

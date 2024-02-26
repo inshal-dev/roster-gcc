@@ -8,15 +8,19 @@
     <app-admin-nav (rosterPublishState)="getPublishState($event)"></app-admin-nav>
     <app-admin-dashboard [state]="rosterState"></app-admin-dashboard>
   }@else if(userState == 'dash'){
-    <app-head-nav></app-head-nav>
-    <div class="row">
-      <div class="col-3">
-        <app-side-nav (userInputNav)="userNavInput($event)" [navValueDashboard]="navValue"></app-side-nav>
-      </div>
-      <div class="col ">
-        <app-dashboard [userNavValue]="navValue" (navValueDash)="getNavDashboardValue($event)"></app-dashboard>
+    <app-head-nav (selectedMonth)="getSelectedMonth($event)"></app-head-nav>
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-3">
+          <app-side-nav (userInputNav)="userNavInput($event)" [navValueDashboard]="navValue" ></app-side-nav>
+        </div>
+        <div class="col ">
+          <app-dashboard [userNavValue]="navValue" (navValueDash)="getNavDashboardValue($event)" [month]="monthValue" ></app-dashboard>
+        </div>
       </div>
     </div>
+   
   } 
 
 </div> 

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { RosterService } from '../../services/roster.service';
+import { RosterService } from '../../../services/roster.service';
 import { Subscribable, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms'; 
-import { UserRoster } from '../../interface/userRoster';
+import { UserRoster } from '../../../interface/userRoster';
 import io from 'socket.io-client';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Component({
@@ -15,12 +15,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AdminDashboardComponent {
 
-  @Input() state!:any;
+  @Input() state:any ;
 
   rostersSubscription!: Subscription
   rosterData:any
   sel:any
-  selectedUser!:UserRoster;
+  selectedUser!:UserRoster | null;
   date:Array<any> = [];
   startDate:number = 0;
   endDate:number = 0;
@@ -39,6 +39,7 @@ export class AdminDashboardComponent {
   ]
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   monthCount: number = 0;
+  responseLength: any;
   constructor(
     private rosterService: RosterService, 
   ){
@@ -49,22 +50,29 @@ export class AdminDashboardComponent {
   }
 
   ngOnChanges(){ 
+    console.log(this.state);
     
-    if(this.state){
+    if(this.state == 'True'){
       this.submitRoster()
+    }else{
+      this.getRosterData()
     }
     
   }
 
   getRosterData(){
-    this.rostersSubscription = this.rosterService.getRosters().subscribe(
+    console.log(this.state);
+    
+    this.rostersSubscription = this.rosterService.getRosters(this.state).subscribe(
       (res) => {
-        this.rosterData = res  
-        console.log(this.rosterData);
-        this.apiResponse = this.rosterData.res
-        console.log(this.apiResponse);
+        this.rosterData = res   
+        this.apiResponse = this.rosterData.res 
+        this.responseLength = this.rosterData.data.length
+        console.log(this.responseLength);
         
         this.rosterObjectId = this.rosterData.data[0]._id 
+        console.log(this.rosterObjectId);
+        
         if(this.rosterData.res == 'pre-published'){ 
           this.rosterData = this.rosterData.data[0].roster
         }else{
@@ -126,13 +134,11 @@ export class AdminDashboardComponent {
       this.rosterData.find((item:any)=> {
         item.userId == id ? this.selectedUser = item : ''
       })
-    }
-    console.log(this.selectedUser); 
+    } 
   }
 
-  getDates(startDate:any, endDate:any, rosterValue:string){
-    console.log(startDate, endDate, rosterValue);
-    this.selectedUser.roster.forEach(el => {
+  getDates(startDate:any, endDate:any, rosterValue:string){ 
+    this.selectedUser?.roster.forEach(el => {
      // console.log(el?.dayNumber >= startDate);
       
         if(el?.dayNumber >= startDate && el?.dayNumber <= endDate){
@@ -141,29 +147,24 @@ export class AdminDashboardComponent {
     }); 
     this.sendMessage() 
     this.endDate = this.startDate = 0
-    this.rosterValue = ''
-    
+    this.rosterValue = '' 
   }
 
 
 
-  sendMessage() { 
+  sendMessage() {  
     let modifiedRoster = {
       _id: this.rosterObjectId,
       roster: this.rosterData
-    }   
-    
-    this.socket.emit('userRosterUpdate', modifiedRoster);
-    this.getNewMessage()
-    
+    }    
+    this.socket.emit('userRosterUpdate', modifiedRoster);    
+    this.getNewMessage() 
   }
 
    getNewMessage(){
     this.socket.on('userRosterUpdate', (message) =>{ 
       return message
-    });
-    
-    // return this.message$.asObservable();
+    }); 
   };
 
 

@@ -1,4 +1,13 @@
-@if (!editRoster) {
+<!-- 
+<select class="form-select" aria-label="Default select example" [(ngModel)]="month" (ngModelChange)="getUserRosterData()">
+  <option selected>Option</option> 
+  @for(month of monthList; track month){
+    <option [value]="month">{{month}}</option>
+  }@empty{
+    <p>no Value</p>
+  }
+</select> -->
+@if (!editRoster && rosterUserData != []) {
   <table *ngIf="rosterUserData.length > 0">
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
@@ -18,10 +27,20 @@
   </div>
 
 
+}@else{
+  <!-- <p>No data for {{months}}</p> -->
 }
-<p *ngIf="rosterUserData.length == 0" >Create a Roster first
+@if(rosterUserData == []){
+  <div class="no-data">
+    {{rosterUserData.length}}
+    <h4 class="display-6">No data for {{months}}</h4>
+
+  </div>
+}
+
+<!-- <p *ngIf="rosterUserData.length == 0" >Create a Roster first
   <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
-</p>
+</p> -->
 <!-- Edit section -->
 
 @if(editRoster){
@@ -36,7 +55,7 @@
         <td *ngFor="let day of week">
           <div *ngIf="day">
             <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
-              <option [value]="null" disabled>{{day.dayNumber}}</option>
+              <option [value]="null" selected>{{day.dayNumber}}</option>
               <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
             </select>
           </div>
@@ -45,6 +64,7 @@
     </tbody>
   </table>
   <div class="edit-roster">
+    <button class="btn btn-outline-danger me-2" (click)="editRoster = false">Cancel</button>
     <button class="btn btn-primary" (click)="updateUserRoster()">Update</button>
   </div>
 }

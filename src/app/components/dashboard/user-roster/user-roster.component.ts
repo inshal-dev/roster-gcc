@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Roster } from '../../../interface/roster';
 import moment from 'moment';
@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class UserRosterComponent {
 
-  currentDate: moment.Moment = moment()
+  currentDate: moment.Moment = moment().add(1, 'month')
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   days:any = []
   options:string[] = ['PH', 'CO', 'L']
@@ -24,19 +24,35 @@ export class UserRosterComponent {
   rosterUserData:Array<Roster> = [];
   response: any;
   editRoster:boolean = false;
+  month:any = this.currentDate.format('MMMM');
 
+  monthList:Array<string> = [
+    'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+  @Input() months!:string;
   @Output() userNavigateToCurrent = new EventEmitter<Event>;
 
   constructor(
     private rosterService: RosterService
-  ){
+  ){ 
     this.getUserRosterData()
   }
 
+  ngOnChanges(){
+    console.log(this.months);
+    this.rosterUserData = []
+    this.getUserRosterData()
+   
+  }
   getUserRosterData(){
+    if(this.months == undefined){
+      this.months = this.month
+    }    
     const userId = localStorage.getItem('myID')
-    this.rosterService.sendUserId(userId).subscribe((res:any)=>{
+    this.rosterService.getUserRosterbyIDMonth(userId, this.months).subscribe((res:any)=>{
       this.userCurrentRoster = res
+      console.log(this.userCurrentRoster);
+      
       this.rosterUserData = this.userCurrentRoster.rosterData[0].roster;
       console.log(this.rosterUserData)
      })

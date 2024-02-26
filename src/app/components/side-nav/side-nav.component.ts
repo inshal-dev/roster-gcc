@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './side-nav.component.scss'
 })
 export class SideNavComponent {
-  momentsMonth = moment()
+  momentsMonth = moment().add(1, 'month')
   months:Array<string> = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   currentMonth!:string;
   userName!:string | null;
@@ -23,9 +23,9 @@ export class SideNavComponent {
   //Style
 
   navSelectStyle = {
-    "border-left": "4px solid #1572A1",
+    "border-left": "4px solid #3983F2",
    " border-radius": "4px",
-   "background": "rgba(175, 225, 250, 0.793)"
+   "background": "#DFEAFC"
 
   }
 

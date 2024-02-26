@@ -11,7 +11,7 @@ import moment from 'moment';
 })
 export class CalendarComponent {
 
-  currentDate: moment.Moment = moment()
+  currentDate: moment.Moment = moment().add(1, 'months');
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   days:any = []
@@ -31,8 +31,9 @@ export class CalendarComponent {
 
   //main: get current month calendar
   getDaysInMonth() {
-    this.days= [];
-    const daysInMonth = this.currentDate.daysInMonth();
+    this.days= []; 
+    
+    const daysInMonth = this.currentDate.daysInMonth(); 
     const firstDay = moment(this.currentDate).startOf('month');
 
 
