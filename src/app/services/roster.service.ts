@@ -44,5 +44,10 @@ export class RosterService {
  getPublishRosterUser(id:string):Observable<any>{
   return this.http.post(this.url + 'user-published-roster', {_id : id})
  }
+
+
+ createUserRosters():Observable<any>{
+  return this.http.get(this.url + 'create-user-rosters')
+ }
   
 }

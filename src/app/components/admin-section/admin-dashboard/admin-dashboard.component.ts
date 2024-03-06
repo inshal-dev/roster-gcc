@@ -125,7 +125,8 @@ export class AdminDashboardComponent {
     this.initial = 0;
     this.initialRoster = 0
     this.final = 15
-    this.finalRoster = this.final
+    this.finalRoster = this.final 
+    
   }
   //update selected users
 
