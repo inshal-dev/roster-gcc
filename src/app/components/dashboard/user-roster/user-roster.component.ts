@@ -25,7 +25,7 @@ export class UserRosterComponent {
   response: any;
   editRoster:boolean = false;
   month:any = this.currentDate.format('MMMM');
-
+  rosterArrayLength!:number;
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ]
@@ -50,10 +50,11 @@ export class UserRosterComponent {
     }    
     const userId = localStorage.getItem('myID')
     this.rosterService.getUserRosterbyIDMonth(userId, this.months).subscribe((res:any)=>{
-      this.userCurrentRoster = res
-      console.log(this.userCurrentRoster);
+      this.userCurrentRoster = res  
+      this.rosterArrayLength = this.userCurrentRoster.rosterData.length
+      console.log(this.rosterArrayLength);
       
-      this.rosterUserData = this.userCurrentRoster.rosterData[0].roster;
+      this.rosterUserData = this.userCurrentRoster?.rosterData[0]?.roster;
       console.log(this.rosterUserData)
      })
   }

@@ -1,4 +1,4 @@
-@if(userRosterData.length > 0){
+@if(rosterLength > 0){
   <table >
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
@@ -14,7 +14,10 @@
     </tr>
   </table>  
 }@else{
-  <h4>No data for month of {{month}}</h4>
+  <div class="m-3">
+    <h4>No data for month of {{month}}</h4>
+  </div>
+  
 }
 
 

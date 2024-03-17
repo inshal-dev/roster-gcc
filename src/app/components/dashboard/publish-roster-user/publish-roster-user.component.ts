@@ -9,14 +9,14 @@ import { DaysFormatterPipe } from '../../../pipes/days-formatter.pipe';
   standalone: true,
   imports: [CommonModule, DaysFormatterPipe],
   templateUrl: './publish-roster-user.component.html',
-  styleUrl: './publish-roster-user.component.scss',
-  changeDetection:ChangeDetectionStrategy.OnPush
+  styleUrl: './publish-roster-user.component.scss', 
 })
 export class PublishRosterUserComponent {
   userId!:string | any;
   currentDate: moment.Moment = moment().add(1, 'months');
   userRosterData!:Array<Object> | any;
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  rosterLength!:number;
   errMessage!: string;
   @Input() month!: string;
  
@@ -29,19 +29,25 @@ export class PublishRosterUserComponent {
      
   }
 
-  // ngOnChanges(){ 
-  //   this.getMyRoster()
-  // }
+  ngOnChanges(){  
+    console.log('changed called - ngonchanges')
+    this.getMyRoster()
+  }
 
   getMyRoster(){
     this.rosterService.getPublishRosterUser(this.userId, this.month).subscribe(
       res => {
         this.userRosterData = res 
+        this.rosterLength = this.userRosterData?.data.length;
+        console.log(this.rosterLength);
+        
         this.userRosterData = this.userRosterData?.data[0].roster
-      },
-      (err) => {
-        this.errMessage = err.error.message
-      }
+        console.log(this.userRosterData);
+        console.log('changed called')
+       },
+      // (err) => {
+      //   this.errMessage = err.error.message
+      // }
     )
   }
 

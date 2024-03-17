@@ -7,8 +7,8 @@
     <p>no Value</p>
   }
 </select> -->
-@if (!editRoster && rosterUserData != []) {
-  <table *ngIf="rosterUserData.length > 0">
+@if (!editRoster && rosterArrayLength != 0) {
+  <table >
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
     </tr>
@@ -27,16 +27,12 @@
   </div>
 
 
-}@else{
-  <!-- <p>No data for {{months}}</p> -->
+}@else{ 
+  No data for month of {{months}}
 }
-@if(rosterUserData == []){
-  <div class="no-data">
-    {{rosterUserData.length}}
-    <h4 class="display-6">No data for {{months}}</h4>
-
-  </div>
-}
+<!-- @if(rosterUserData.length < 0){
+  <
+} -->
 
 <!-- <p *ngIf="rosterUserData.length == 0" >Create a Roster first
   <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
