@@ -41,8 +41,8 @@ export class RosterService {
   return this.http.post(this.url + 'publish-roster', {data: roster})
  }
   
- getPublishRosterUser(id:string):Observable<any>{
-  return this.http.post(this.url + 'user-published-roster', {_id : id})
+ getPublishRosterUser(id:string, month:string):Observable<any>{
+  return this.http.post(this.url + 'user-published-roster', {_id : id, month: month })
  }
 
 

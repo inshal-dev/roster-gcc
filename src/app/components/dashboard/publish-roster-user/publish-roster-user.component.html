@@ -1,8 +1,9 @@
-<!-- <table *ngIf="rosterUserData.length > 0">
+@if(userRosterData.length > 0){
+  <table >
     <tr>
       <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
     </tr>
-    <tr class="table-row" *ngFor="let week of rosterUserData | daysFormatter: 7">
+    <tr class="table-row" *ngFor="let week of userRosterData | daysFormatter: 7">
       <td *ngFor="let day of week">
         <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
           <span class="date">{{ day.dayNumber }}</span>
@@ -11,9 +12,12 @@
         </div>
       </td>
     </tr>
-  </table> -->
+  </table>  
+}@else{
+  <h4>No data for month of {{month}}</h4>
+}
 
-  <h2>Fetching Roster</h2>
+
 <!--   
   <div class="edit-roster" *ngIf="rosterUserData.length > 0">
     <button class="btn btn-primary" (click)="editUserRoster()">Edit</button>

@@ -2,8 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { DaysFormatterPipe } from "../../../pipes/days-formatter.pipe";
-import { FormsModule } from '@angular/forms';
-import { UserRoster } from '../../../interface/userRoster';
+import { FormsModule } from '@angular/forms'; 
 import { Roster } from '../../../interface/roster';
 import { RosterService } from '../../../services/roster.service';
 

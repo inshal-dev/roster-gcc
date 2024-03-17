@@ -1,4 +1,4 @@
-<div class="section d-flex justify-content-center">
+<div class="section d-flex justify-content-center ">
   @switch(userNavValue.length > 0){
     @case (userNavValue == 'currentRoster') {
       @if(editRosterStatus){
@@ -11,7 +11,7 @@
       <app-user-roster  [months]="monthValue"></app-user-roster>
     }
     @case (userNavValue == 'publish') {
-      <app-publish-roster-user></app-publish-roster-user>
+      <app-publish-roster-user [month]="monthValue"></app-publish-roster-user>
     }
     @default {
       <span>Empty</span>
