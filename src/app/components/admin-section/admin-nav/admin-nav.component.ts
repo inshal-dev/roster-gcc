@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RosterService } from '../../../services/roster.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-admin-nav',
@@ -11,12 +12,13 @@ import { RosterService } from '../../../services/roster.service';
   styleUrl: './admin-nav.component.scss'
 })
 export class AdminNavComponent {
-  @Output() rosterPublishState = new EventEmitter<any>;
-  month!:string;
+  @Output() rosterPublishState = new EventEmitter<any>; 
   selectValue:any;
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ] 
+  currentDate: moment.Moment = moment().add(1, 'month')
+  month:string = this.currentDate.format('MMMM');
 
   constructor(
     private rosterService: RosterService

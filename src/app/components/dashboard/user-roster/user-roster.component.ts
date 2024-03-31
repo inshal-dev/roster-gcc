@@ -29,12 +29,14 @@ export class UserRosterComponent {
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ]
+  date!:number;
   @Input() months!:string;
   @Output() userNavigateToCurrent = new EventEmitter<Event>;
 
   constructor(
     private rosterService: RosterService
-  ){ 
+  ){  
+    this.date = this.currentDate.date()
     this.getUserRosterData()
   }
 
@@ -42,6 +44,7 @@ export class UserRosterComponent {
     console.log(this.months);
     this.rosterUserData = []
     this.getUserRosterData()
+
    
   }
   getUserRosterData(){

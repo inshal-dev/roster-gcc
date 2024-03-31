@@ -28,6 +28,10 @@
   width: 100%;
   border-collapse: collapse;
 }
+thead{
+  height: 10px;
+  line-height: 17px;
+}
 
 .username-column {
   font-weight: medium;
@@ -89,4 +93,17 @@ input[type=number] {
 
 .nxt-btn{
   float: right;
+}
+.toast{
+  position: fixed; 
+  top: 2px;
+  right: 0;
+  z-index: 2;
+  border-radius: 7px;
+  background-color: #fff;
+  
+  .toast-body{
+    border-left:2px solid #3983F2; 
+    border-radius: 7px;
+  }
 }

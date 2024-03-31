@@ -19,14 +19,16 @@ export class PublishRosterUserComponent {
   rosterLength!:number;
   errMessage!: string;
   @Input() month!: string;
+  currentMonth = this.currentDate.format('MMMM'); 
  
   constructor(
     private rosterService : RosterService
   ){
-    this.userId = localStorage.getItem('myID')
-    this.month = this.currentDate.format('MMMM'); 
-    this.getMyRoster()
-     
+    this.userId = localStorage.getItem('myID') 
+    console.log(this.month)
+    setTimeout(()=>{
+      this.getMyRoster()
+    }, 10)
   }
 
   ngOnChanges(){  
@@ -35,20 +37,25 @@ export class PublishRosterUserComponent {
   }
 
   getMyRoster(){
-    this.rosterService.getPublishRosterUser(this.userId, this.month).subscribe(
-      res => {
-        this.userRosterData = res 
-        this.rosterLength = this.userRosterData?.data.length;
-        console.log(this.rosterLength);
-        
-        this.userRosterData = this.userRosterData?.data[0].roster
-        console.log(this.userRosterData);
-        console.log('changed called')
-       },
-      // (err) => {
-      //   this.errMessage = err.error.message
-      // }
-    )
+    if(this.month == undefined){
+      this.month = this.currentMonth
+    }else{
+      this.rosterService.getPublishRosterUser(this.userId, this.month).subscribe(
+        res => {
+          this.userRosterData = res 
+          this.rosterLength = this.userRosterData?.data.length;
+          console.log(this.rosterLength);
+          
+          this.userRosterData = this.userRosterData?.data[0].roster
+          console.log(this.userRosterData);
+          console.log('changed called')
+         },
+        // (err) => {
+        //   this.errMessage = err.error.message
+        // }
+      )
+    }
+   
   }
 
 

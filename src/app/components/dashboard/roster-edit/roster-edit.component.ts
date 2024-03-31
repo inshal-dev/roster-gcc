@@ -34,6 +34,7 @@ export class RosterEditComponent {
   ){
     this.getDaysInMonth()
     this.getUserRosterData()
+    console.log(this.currentDate)
   }
 
 

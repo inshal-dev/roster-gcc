@@ -65,8 +65,7 @@ export class HomeComponent {
 
   getSelectedMonth(month:any){ 
     this.monthValue = month
-    console.log(this.monthValue);
-    
+    console.log(this.monthValue); 
   }
 }
  

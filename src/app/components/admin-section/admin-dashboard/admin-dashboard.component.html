@@ -1,9 +1,15 @@
+<div #myToast class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-body"> 
+    <strong class="me-auto">Roster is Publised for {{month}}</strong> 
+    <button type="button" class="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div> 
+</div>
 @if(apiResponse == '404'){
   <h1>Not an Admin User</h1>
 }@else if(responseLength > 0){  
   <div class="container-fluid">  
-    <table class="table mt-4">  
-      <thead> 
+    <table class="table mt-3">  
+      <thead class="p-0 m-0"> 
         <tr class="head-section"> 
             <th class="name-title">Name</th>
             @for (day of date.slice(initial, final); track day){
@@ -20,7 +26,7 @@
       <tbody class="table-body">
         @for (item of rosterData; track item.roster) {
 
-          <tr *ngIf="item" class="mt-3">
+          <tr *ngIf="item" class="">
             <td *ngIf="item" class="username-column" >{{ item.username }} 
               <a type="button" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -109,4 +115,4 @@
     </div>
   </div>
 </div> 
- 
+<!-- <button class="btn btn-primary" (click)="exportToExcel()">Download Excel</button> -->
