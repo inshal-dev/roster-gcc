@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   user: any;
-  url:string = 'http://localhost:3000/'
+  url:string = 'https://roster-server.onrender.com/'
    constructor(
     private http:HttpClient
   ) { }
