@@ -56,60 +56,64 @@ export class AdminDashboardComponent {
   }
 
   ngOnInit(){ 
-    this.getRosterData() 
-    
+    this.getRosterData()  
   }
    
   ngOnChanges(){  
-
-    if(this.state == 'True'){
-      this.submitRoster()
-    }else{
-      this.getRosterData()
-    }
+    this.nullCount = 0
+    this.monthCount = 0
+    setTimeout(()=>{
+      if(this.state == 'True'){
+        this.submitRoster()
+      }else{
+        this.getRosterData()
+      }
+    }, 100)
+    
     
   }
 
-  getRosterData(){
-    if(this.state == undefined){
-      this.state = this.month
-    }else{
-      this.rostersSubscription = this.rosterService.getRosters(this.state).subscribe(
-        (res) => {
-          this.rosterData = res   
-          this.apiResponse = this.rosterData.res 
-          this.responseLength = this.rosterData.data.length
-          console.log(this.responseLength);
-          
-          this.rosterObjectId = this.rosterData.data[0]._id 
-          console.log(this.rosterObjectId);
-          
-          if(this.rosterData.res == 'pre-published'){ 
-            this.rosterData = this.rosterData.data[0].roster
-          }else{
-            this.rosterData = this.rosterData.data
-          } 
-          //check this logic again 
-            this.rosterData[0].roster.forEach((el:any) => {
-             if(el?.dayNumber){
-              this.date.push({
-                date : el.dayNumber,
-                day : el.weekday
-              })
-             }else{
-              console.log('no data'); 
-             } 
-             if(el == null){
-              this.nullCount += 1
-             }else{
-              this.monthCount += 1
-             }
-            })     
-          return this.date 
-         
-        }
-      )
-    }
+  getRosterData(){ 
+      if(this.state == undefined){
+        this.state = this.month
+      }else{
+        this.rostersSubscription = this.rosterService.getRosters(this.state).subscribe(
+          (res) => {
+            this.rosterData = res   
+            this.apiResponse = this.rosterData.res 
+            this.responseLength = this.rosterData.data.length
+            console.log(this.responseLength);
+            
+            this.rosterObjectId = this.rosterData.data[0]._id 
+            console.log(this.rosterObjectId);
+            
+            if(this.rosterData.res == 'pre-published'){ 
+              this.rosterData = this.rosterData.data[0].roster
+            }else{
+              this.rosterData = this.rosterData.data
+            } 
+            //check this logic again 
+              this.rosterData[0].roster.forEach((el:any) => {
+               if(el?.dayNumber){
+                this.date.push({
+                  date : el.dayNumber,
+                  day : el.weekday
+                })
+               }else{
+                console.log('no data'); 
+               } 
+               if(el == null){
+                this.nullCount += 1 
+               }else{
+                this.monthCount += 1
+               }
+              })   
+            return this.date 
+           
+          }
+        )
+      } 
+   
     
   }
 
@@ -214,16 +218,19 @@ export class AdminDashboardComponent {
   // }
   nextHalf(){
     this.initial = this.final;
-    this.initialRoster = this.finalRoster + this.nullCount
+  
+    this.initialRoster = this.finalRoster + this.nullCount 
     this.final = this.monthCount
+    console.log('222', this.final)
     this.finalRoster = this.monthCount
+    console.log(this.finalRoster)
   }
   prevHalf(){
     this.initial = 0;
     this.initialRoster = 0
     this.final = 15
     this.finalRoster = this.final 
-    
+    console.log(this.finalRoster)
   }
   //update selected users
 
