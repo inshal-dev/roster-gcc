@@ -62,6 +62,9 @@ export class AdminDashboardComponent {
   ngOnChanges(){  
     this.nullCount = 0
     this.monthCount = 0
+    this.initial = this.initialRoster = 0
+    this.final = this.finalRoster = 15
+    this.rosterData = []
     setTimeout(()=>{
       if(this.state == 'True'){
         this.submitRoster()
