@@ -22,7 +22,7 @@
       </td>
     </tr>
   </table>
-  <div class="edit-roster" *ngIf="rosterUserData.length > 0">
+  <div class="edit-roster mt-4" *ngIf="rosterUserData.length > 0">
     <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>
   </div>
 
@@ -47,7 +47,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="edit-roster">
+  <div class="edit-roster mt-5">
     <button class="btn btn-outline-danger me-2" (click)="editRoster = false">Cancel</button>
     <button class="btn btn-primary" (click)="updateUserRoster()">Update</button>
   </div> 

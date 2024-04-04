@@ -16,7 +16,7 @@ import { AdminNavComponent } from '../admin-section/admin-nav/admin-nav.componen
     imports: [CommonModule, DashboardComponent, HeadNavComponent, SideNavComponent, LoginComponent, AdminDashboardComponent, AdminNavComponent]
 })
 export class HomeComponent {
-   userState!:string | null;
+   @Input() userState!:string | null;
    navValue:any
    adminState:any 
    rosterState:any
@@ -37,10 +37,14 @@ export class HomeComponent {
     }
 
   }
-
+  ngOnChanges(){
+    console.log(this.adminState)
+  }
   LogIn(userState:any){
     localStorage.removeItem('userState')
+    console.log(userState)
     this.adminState = userState
+    console.log(this.adminState)
     if(this.adminState == false ){
       this.userState = 'dash'
       localStorage.setItem('userState', this.userState)

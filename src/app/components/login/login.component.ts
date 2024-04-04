@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; 
-import { Toast } from 'bootstrap'; 
+import { AuthService } from '../../services/auth.service';  
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -13,10 +12,7 @@ import { Toast } from 'bootstrap';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-
-
-  @ViewChild('loginToast')
-  myToast!: ElementRef;
+ 
   
   userLoginData!: Subscription;
   userForm = new FormGroup({
@@ -50,14 +46,7 @@ export class LoginComponent {
         localStorage.setItem('myID', res.userId)
         localStorage.setItem('userName', res.username);
         let admin = res.admin
-        if(admin = false){
-          this.response = 'Logged as User'
-        }else{
-          this.response = 'Logged as Admin'
-        }
-        const toastElement = this.myToast.nativeElement;
-        const bootstrapToast = new Toast(toastElement);
-        bootstrapToast.show();
+        console.log(admin); 
       
         this.authState.emit(admin)
        
