@@ -27,22 +27,8 @@
   </div>
 
 
-}@else{ 
-  <div class="m-3">
-    <h4>No data for month of {{month}}</h4>
-  </div>
-}
-<!-- @if(rosterUserData.length < 0){
-  <
-} -->
-
-<!-- <p *ngIf="rosterUserData.length == 0" >Create a Roster first
-  <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
-</p> -->
-<!-- Edit section -->
-
-@if(editRoster){
-   <table>
+}@else if(editRoster){
+  <table>
     <thead>
       <tr>
         <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
@@ -64,5 +50,19 @@
   <div class="edit-roster">
     <button class="btn btn-outline-danger me-2" (click)="editRoster = false">Cancel</button>
     <button class="btn btn-primary" (click)="updateUserRoster()">Update</button>
+  </div> 
+}@else{ 
+  <div class="m-3">
+    <h4>No data for month of {{month}}</h4>
   </div>
 }
+<!-- @if(rosterUserData.length < 0){
+  <
+} -->
+
+<!-- <p *ngIf="rosterUserData.length == 0" >Create a Roster first
+  <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
+</p> -->
+<!-- Edit section -->
+ 
+ 

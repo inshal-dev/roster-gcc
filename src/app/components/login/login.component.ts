@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-
+import { AuthService } from '../../services/auth.service'; 
+import { Toast } from 'bootstrap'; 
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -13,6 +13,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+
+
+  @ViewChild('loginToast')
+  myToast!: ElementRef;
+  
   userLoginData!: Subscription;
   userForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
@@ -36,7 +41,7 @@ export class LoginComponent {
   ngOnInit(): void {
   }
   
-  LogIn(){
+  LogIn(){ 
     localStorage.clear()
     if(this.userForm.valid){
       this.userLoginData = this.authService.userLogin(this.userForm.value).subscribe((res:any)=>{
@@ -45,7 +50,18 @@ export class LoginComponent {
         localStorage.setItem('myID', res.userId)
         localStorage.setItem('userName', res.username);
         let admin = res.admin
+        if(admin = false){
+          this.response = 'Logged as User'
+        }else{
+          this.response = 'Logged as Admin'
+        }
+        const toastElement = this.myToast.nativeElement;
+        const bootstrapToast = new Toast(toastElement);
+        bootstrapToast.show();
+      
         this.authState.emit(admin)
+       
+       
         console.log('User Token is created');
 
       }, (err) => {

@@ -1,32 +1,42 @@
+<div #loginToast class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-body"> 
+    <strong class="me-auto">{{response}}</strong> 
+    <button type="button" class="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div> 
+</div>
 
-  <div class="container mt-3">
-    <div class="jumbotron">
-      <form [formGroup]="userForm">
-        <div class="mb-3">
-          <label for="username-c" class="form-label">UserID</label>
-          <input type="email" class="form-control" id="username-c" formControlName="email" placeholder="name@test.com">
-          <small *ngIf="errorMessage">{{errorMessage}}</small>
-          <small *ngIf=" userForm.get('email')?.dirty && userForm.get('email')?.errors?.['pattern']"
-          >Invalid UserId</small>
-        </div>
-        <label for="keyword" class="form-label">Password</label>
-        <input type="password" id="keyword" class="form-control" formControlName="passwd" placeholder="*******">
-        <small *ngIf="passwordError"
-        >{{ passwordError}}</small>
-      </form>
-
-      <div class="button mt-3 text-center">
-        <button class="btn btn-primary login-btn" (click)="LogIn()" >
-          Login
-          </button>
+<div class="container-fluid">
+  <div class="row">
+      <!-- Column with image -->
+      <div class="col-md-6">
+          <div class="side-background">
+            Roster
+          </div>
       </div>
-
-      <small *ngIf="response">{{response}}</small>
-      <div class="text-center mt-3">
-        <a  class="secondary-text">
-          Forgot Password?
-        </a>
+       
+      <div class="col-md-6">
+          <div class="jumbotron ">
+              <form [formGroup]="userForm">
+                  <div class="mb-3">
+                      <label for="username-c" class="form-label">UserID</label>
+                      <input type="email" class="form-control" id="username-c" formControlName="email" placeholder="name@test.com">
+                      <small *ngIf="errorMessage">{{errorMessage}}</small>
+                      <small *ngIf="userForm.get('email')?.dirty && userForm.get('email')?.errors?.['pattern']">Invalid UserId</small>
+                  </div>
+                  <label for="keyword" class="form-label">Password</label>
+                  <input type="password" id="keyword" class="form-control" formControlName="passwd" placeholder="*******">
+                  <small *ngIf="passwordError">{{ passwordError}}</small>
+              </form>
+              
+              <div class="button mt-3 text-center">
+                  <button class="btn btn-primary login-btn" (click)="LogIn()">Login</button>
+              </div>
+              
+              <small *ngIf="response">{{response}}</small>
+              <div class="text-center mt-3">
+                  <a class="secondary-text">Contact Admin?</a>
+              </div>
+          </div>
       </div>
-
-    </div>
   </div>
+</div>

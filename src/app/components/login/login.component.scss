@@ -1,30 +1,54 @@
-.jumbotron{ 
-    margin: auto; 
-    padding: 30px;
-    width: 600px;
-    height: 320px;
-    border-radius: 7px;
-    box-shadow: 0px 1px 20px rgba(48, 48, 48, 0.157);
-    form{
-        margin: auto; 
-        width: 400px;
-    }
+.side-background {
+    background-image: url('../../../assets/back-Ai.jpg'); /* Specify the URL of your image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    height: 100vh; /* Set the height to match the viewport height */
+    font-size: 32px;
 }
 
-.secondary-text{
+.jumbotron {
+    margin: auto;
+    padding: 30px;
+    height: 100vh; /* Set the height to match the viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+}
+
+.secondary-text {
     font-size: small;
     color: grey;
 }
 
-.login-btn{
+.login-btn {
     margin-top: 10px;
     width: 160px;
 }
 
-input::placeholder{
+input::placeholder {
     color: rgb(159, 159, 159);
 }
 
-small{
+small {
     color: red;
 }
+
+.note {
+    color: #bebebe;
+    text-align: center;
+}
+
+.toast{
+    position: fixed; 
+    top: 2px;
+    right: 0;
+    z-index: 2;
+    border-radius: 7px;
+    background-color: #fff;
+    
+    .toast-body{
+      border-left:2px solid #3983F2; 
+      border-radius: 7px;
+    }
+  }
