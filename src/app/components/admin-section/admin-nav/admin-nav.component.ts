@@ -37,6 +37,8 @@ export class AdminNavComponent {
         console.log(res)
       }
     )
+
+    location.reload()
   }
 
   signOut(){
