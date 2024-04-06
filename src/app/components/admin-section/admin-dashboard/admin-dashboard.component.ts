@@ -37,8 +37,8 @@ export class AdminDashboardComponent {
   finalRoster : number = 15
   rosterObjectId!:string;
   message$: BehaviorSubject<string> = new BehaviorSubject(''); 
-  //socket = io('https://roster-server.onrender.com/');
-  socket = io('http://localhost:3000/')
+  socket = io('https://roster-server.onrender.com/');
+  //socket = io('http://localhost:3000/')
   nullCount = 0
   apiResponse!:string;
   options:Array<string> = [
@@ -143,86 +143,9 @@ export class AdminDashboardComponent {
     }
     
   }
-
  
-  // exportToExcel() {
-  // // Transform data for Excel
-  // const transformedData = this.transformDataForExcel(this.rosterData);
-
-  // // Create worksheet
-  // const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(transformedData); 
-
-  // // Create HTML table
-  // let tableHtml = '<table>';
-  // tableHtml += '<tr>';
-  // tableHtml += '<th>Employee</th>';
-  // // Add date headers
-  // const dateHeaders = this.getDateHeaders(transformedData[0]);
-  // for (const header of dateHeaders) {
-  //   tableHtml += `<th>${header}</th>`;
-  // }
-  // tableHtml += '</tr>';
-
-  // // Add data rows
-  // for (const row of transformedData) {
-  //   tableHtml += '<tr>';
-  //   tableHtml += `<td>${row.employee}</td>`;
-  //   // Add date values
-  //   for (const date of dateHeaders) {
-  //     tableHtml += `<td>${row[date]}</td>`;
-  //   }
-  //   tableHtml += '</tr>';
-  // }
-  // tableHtml += '</table>';
-
-
-
-  // // Create workbook
-  // const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-
-  //   // Generate Excel file
-  //   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  //   const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-    
-  //   // Save Excel file
-  //   saveAs(data, 'roster_data.xlsx');
-  // }
-
-  // getDateHeaders(userData: any): string[] {
-  //   return Object.keys(userData).filter(key => key !== 'Employee');
-  // }
- 
-  // transformDataForExcel(rosterData: any[]): any[] {
-  //   const transformedData = [];
-  
-  //   // Iterate over each user
-  //   for (const userData of rosterData) {
-  //     // Create a row for each user
-  //     const transformedUser: any = { Employee: userData.username };
-  
-  //     // Add data for each day of the month
-  //     userData.roster.forEach((dayData: any) => {
-  //       if (dayData?.dayNumber) {
-  //         transformedUser[`Day - ${dayData.dayNumber}`] = dayData.option || ''; // Assuming option is the data you want to export
-  //       }
-  //     });
-  
-  //     transformedData.push(transformedUser);
-  //   }
-  
-  //   // Move the "Employee" entry to the beginning of the array
-  //   const employeeIndex = transformedData.findIndex(entry => entry.hasOwnProperty('Employee'));
-  //   if (employeeIndex !== -1) {
-  //     const employeeData = transformedData.splice(employeeIndex, 1)[0]; // Remove the "Employee" entry
-  //     transformedData.unshift(employeeData); // Add it to the beginning of the array
-  //   }
-  //   console.log(transformedData);
-    
-  //   return transformedData;
-  // }
   nextHalf(){
-    this.initial = this.final;
-  
+    this.initial = this.final; 
     this.initialRoster = this.finalRoster + this.nullCount 
     this.final = this.monthCount
     console.log('222', this.final)
@@ -239,6 +162,7 @@ export class AdminDashboardComponent {
   //update selected users
 
   updateSelected(id:string){ 
+    
     if(this.rosterData){
       this.rosterData.find((item:any)=> {
         item.userId == id ? this.selectedUser = item : ''
