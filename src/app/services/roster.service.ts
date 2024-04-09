@@ -19,7 +19,7 @@ export class RosterService {
  }
  
  sendCurrentRoster(rosterData:any){
-  console.log(rosterData);
+  // console.log(rosterData);
   
   return this.http.post(this.url + 'current-roster', rosterData)
  }
@@ -34,7 +34,7 @@ export class RosterService {
      'Authorization':  this.auth,
      'id': this.id 
     })}; 
-  console.log(month);
+ // console.log(month);
   
   return this.http.post(this.url + 'rosters', { data: month }, httpOptions)
  }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { FormsModule } from '@angular/forms';
 import { RosterService } from '../../services/roster.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-view-dashboard',
@@ -20,6 +21,7 @@ export class AllViewDashboardComponent {
   ]
   dateObject:Array<any> = [];
   rosterData:any = [];
+  rostersSubscription!: Subscription;
 
   constructor(
     private rosterService: RosterService
@@ -33,8 +35,8 @@ export class AllViewDashboardComponent {
     this.dateObject = []
     this.rosterData = []
     if(month){
-      this.rosterService.getRosterforDashboard(month).subscribe((res) =>{
-        console.log(res)
+     this.rostersSubscription = this.rosterService.getRosterforDashboard(month).subscribe((res) =>{
+        // console.log(res)
         this.rosterData = res
         this.rosterData[0].roster.forEach((el:any) => {
           if(el?.dayNumber){
@@ -46,7 +48,7 @@ export class AllViewDashboardComponent {
         })
 
       },(err) =>{
-        console.log(err)
+       console.log(err)
       }
       )
     }
@@ -55,5 +57,9 @@ export class AllViewDashboardComponent {
   routeBack(){
     this.routetoPreviousState.emit(true)
 
+  }
+
+  ngOnDestory(){
+    this.rostersSubscription.unsubscribe()
   }
 }

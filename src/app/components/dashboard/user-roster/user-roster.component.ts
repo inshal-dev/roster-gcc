@@ -5,6 +5,7 @@ import moment from 'moment';
 import { DaysFormatterPipe } from "../../../pipes/days-formatter.pipe";
 import { RosterService } from '../../../services/roster.service';
 import { FormsModule } from '@angular/forms';
+import { Subscribable, Subscriber, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-user-roster',
@@ -30,6 +31,8 @@ export class UserRosterComponent {
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ]
   date!:number;
+  rostersSubscription!: Subscription; 
+
   @Input() months!:string;
   @Output() userNavigateToCurrent = new EventEmitter<Event>;
 
@@ -52,13 +55,13 @@ export class UserRosterComponent {
       this.months = this.month
     }    
     const userId = localStorage.getItem('myID')
-    this.rosterService.getUserRosterbyIDMonth(userId, this.months).subscribe((res:any)=>{
+    this.rostersSubscription = this.rosterService.getUserRosterbyIDMonth(userId, this.months).subscribe((res:any)=>{
       this.userCurrentRoster = res  
       this.rosterArrayLength = this.userCurrentRoster.rosterData.length
-      console.log(this.rosterArrayLength);
+    //  console.log(this.rosterArrayLength);
       
       this.rosterUserData = this.userCurrentRoster?.rosterData[0]?.roster;
-      console.log(this.rosterUserData)
+     // console.log(this.rosterUserData)
      })
   }
 
@@ -70,7 +73,7 @@ export class UserRosterComponent {
       currentMonth: this.currentDate.format('MMMM'),
       monthData : this.rosterUserData
     }
-    this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
+    this.rostersSubscription = this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
       this.response = res.response
     })
     this.editRoster = false
@@ -82,5 +85,9 @@ export class UserRosterComponent {
 
   routetoCurrent(value:any){
     this.userNavigateToCurrent.emit()
+  }
+
+  ngOnDestory(){
+    this.rostersSubscription.unsubscribe()
   }
 }

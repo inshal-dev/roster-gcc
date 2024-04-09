@@ -5,6 +5,7 @@ import { DaysFormatterPipe } from "../../../pipes/days-formatter.pipe";
 import { FormsModule } from '@angular/forms'; 
 import { Roster } from '../../../interface/roster';
 import { RosterService } from '../../../services/roster.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-roster-edit',
@@ -28,6 +29,8 @@ export class RosterEditComponent {
   @Output() editRoster = new EventEmitter<any>();
   @Output() userNavigateTo = new EventEmitter<any>();
   currentMonthValue: any; 
+
+  rostersSubscription!: Subscription;
 
   constructor(
     private rosterService: RosterService
@@ -67,7 +70,7 @@ export class RosterEditComponent {
   //Get user roster for current month @if submitted
   getUserRosterData(){ 
     const userId = localStorage.getItem('myID')
-    this.rosterService.getUserRosterbyIDMonth(userId, this.currentMonthValue).subscribe((res:any)=>{
+    this.rostersSubscription = this.rosterService.getUserRosterbyIDMonth(userId, this.currentMonthValue).subscribe((res:any)=>{
       this.userCurrentRoster = res 
       this.previousMonth = this.userCurrentRoster.rosterData[0].currentMonth
    
@@ -87,7 +90,7 @@ export class RosterEditComponent {
         monthData : this.days
       }
 
-      this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
+      this.rostersSubscription = this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
         this.response = res.response
         
         this.editRoster.emit(false)
@@ -97,6 +100,10 @@ export class RosterEditComponent {
 
   openUserRoster(value:any){
     this.userNavigateTo.emit(value)
+  }
+
+  ngOnDestory(){
+    this.rostersSubscription.unsubscribe()
   }
 
 

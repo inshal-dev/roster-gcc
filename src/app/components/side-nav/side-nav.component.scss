@@ -12,7 +12,7 @@
 }
 hr{
     width: 250px;
-    background-color:#3983F2 ;
+    background-color:#204FA1;
 }
 .nav-head{
     margin: 0;
@@ -24,11 +24,12 @@ hr{
     color: rgb(55, 55, 55);
     margin-bottom: 15px;
     width: 240px;
+    background-color: transparent;
 }
 
 .actives{
     // border-radius: 7px;
-     border-left: 4px solid #3983F2 ;
+     border-left: 4px solid #204FA1 ;
     // background-color: #AFE1FA;
     border-radius: 4px;
     background: #DFEAFC;
@@ -38,4 +39,8 @@ hr{
     font-size: medium;
     font-weight: 300;
     color: rgb(55, 55, 55);
+}
+
+svg{
+    color: red;
 }

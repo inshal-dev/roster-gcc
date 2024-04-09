@@ -25,7 +25,7 @@ export class DashboardComponent {
   }
   ngOnChanges(){ 
     this.monthValue = this.month
-    console.log(this.monthValue);
+    //console.log(this.monthValue);
     
   }
   rosterEdit(){

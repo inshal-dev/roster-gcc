@@ -30,7 +30,7 @@ export class HeadNavComponent {
   }
   passSelectedMonth(value:string){  
     this.selectedMonth.emit(value) 
-    console.log(value);
+  //  console.log(value);
     
   }
 }

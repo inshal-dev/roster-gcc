@@ -98,10 +98,10 @@ export class AdminDashboardComponent {
             this.rosterData = res   
             this.apiResponse = this.rosterData.res 
             this.responseLength = this.rosterData.data.length
-            console.log(this.responseLength);
+           // console.log(this.responseLength);
             
             this.rosterObjectId = this.rosterData.data[0]._id 
-            console.log(this.rosterObjectId);
+            //console.log(this.rosterObjectId);
             
             if(this.rosterData.res == 'pre-published'){ 
               this.rosterData = this.rosterData.data[0].roster
@@ -116,7 +116,7 @@ export class AdminDashboardComponent {
                   day : el.weekday
                 })
                }else{
-                console.log('no data'); 
+               // console.log('no data'); 
                } 
                if(el == null){
                 this.nullCount += 1 
@@ -151,7 +151,7 @@ export class AdminDashboardComponent {
         //return this.toast ? this.toast.show() : console.log('Toast not working') 
       }, (err)=> console.log(err))
     }else{
-      console.log("Nope can't do that")
+      //console.log("Nope can't do that")
     }
     
   }
@@ -160,16 +160,16 @@ export class AdminDashboardComponent {
     this.initial = this.final; 
     this.initialRoster = this.finalRoster + this.nullCount 
     this.final = this.monthCount
-    console.log('222', this.final)
+    // console.log('222', this.final)
     this.finalRoster = this.monthCount
-    console.log(this.finalRoster)
+   // console.log(this.finalRoster)
   }
   prevHalf(){
     this.initial = 0;
     this.initialRoster = 0
     this.final = 15
     this.finalRoster = this.final 
-    console.log(this.finalRoster)
+   // console.log(this.finalRoster)
   }
   //update selected users
 
@@ -205,7 +205,7 @@ export class AdminDashboardComponent {
         roster: this.rosterData
       }    
       this.socket.emit('userRosterUpdate', modifiedRoster);    
-      console.log(modifiedRoster)
+      // console.log(modifiedRoster)
       this.getNewMessage()
     }else{
         const toastElement = this.warningToast.nativeElement;

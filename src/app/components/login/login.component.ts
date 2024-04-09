@@ -46,17 +46,15 @@ export class LoginComponent {
         localStorage.setItem('myID', res.userId)
         localStorage.setItem('userName', res.username);
         let admin = res.admin
-        console.log(admin); 
+      //  console.log(admin); 
       
-        this.authState.emit(admin)
-       
-       
-        console.log('User Token is created');
+        this.authState.emit(admin) 
+      //console.log('User Token is created');
 
       }, (err) => {
         this.passwordError = err.error 
         this.passwordError = Object.values(this.passwordError)
-        console.log(Object.values(this.passwordError)); 
+      // console.log(Object.values(this.passwordError)); 
       })
     }
 

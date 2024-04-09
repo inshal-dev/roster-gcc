@@ -23,7 +23,7 @@ export class SideNavComponent {
   //Style
 
   navSelectStyle = {
-    "border-left": "4px solid #3983F2",
+    "border-left": "4px solid #204FA1",
    " border-radius": "4px",
    "background": "#DFEAFC"
 

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RosterService } from '../../../services/roster.service';
 import moment from 'moment';
 import { Toast } from 'bootstrap';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-nav',
@@ -22,10 +23,12 @@ export class AdminNavComponent {
   currentDate: moment.Moment = moment().add(1, 'month')
   month:string = this.currentDate.format('MMMM');
   @ViewChild('publishToast') publishToast!: ElementRef; 
+
+  rostersSubscription!: Subscription;
+
   constructor(
     private rosterService: RosterService
-  ){
-
+  ){ 
   }
    
 
@@ -42,17 +45,19 @@ export class AdminNavComponent {
   }
 
   createRoster(){
-    this.rosterService.createUserRosters().subscribe(
+    this.rostersSubscription = this.rosterService.createUserRosters().subscribe(
       (res:any) => {
-        console.log(res)
+       // console.log(res)
       }
-    )
-
+    ) 
     location.reload()
   }
 
   signOut(){
     localStorage.clear()
     location.reload()
+  }
+  ngOnDestory(){
+    this.rostersSubscription.unsubscribe()
   }
 }
