@@ -49,7 +49,7 @@
   </table>
   <div class="edit-roster mt-5">
     <button class="btn btn-outline-danger me-2" (click)="editRoster = false">Cancel</button>
-    <button class="btn btn-primary" (click)="updateUserRoster()">Update</button>
+    <button class="btn btn-primary" (click)="updateUserRoster()" [disabled]="date > 16" >Update</button>
   </div> 
 }@else{ 
   <div class="m-3">
