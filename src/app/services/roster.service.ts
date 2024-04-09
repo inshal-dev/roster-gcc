@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { months } from 'moment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RosterService {
-  url:string = 'https://roster-server.onrender.com/'
-  //url:string = 'http://localhost:3000/'
+  //url:string = 'https://roster-server.onrender.com/'
+  url:string = 'http://localhost:3000/'
   auth!:any;
   id:any
   constructor(
@@ -49,6 +50,10 @@ export class RosterService {
 
  createUserRosters():Observable<any>{
   return this.http.get(this.url + 'create-user-rosters')
+ }
+
+ getRosterforDashboard(value:string):Observable<any>{
+  return this.http.post(this.url + 'dash-roster', { month: value })
  }
   
 }

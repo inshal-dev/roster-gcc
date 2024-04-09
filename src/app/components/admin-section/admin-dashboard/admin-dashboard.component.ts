@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RosterService } from '../../../services/roster.service';
 import { Subscription } from 'rxjs';
@@ -15,13 +15,17 @@ import { Toast } from 'bootstrap';
   standalone: true,
   imports: [CommonModule, NgFor, FormsModule],
   templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
+  styleUrl: './admin-dashboard.component.scss' 
 })
 export class AdminDashboardComponent {
 
   @Input() state:any ; 
+  @Input() monthState:any;
   @ViewChild('myToast')
   myToast!: ElementRef; 
+
+  @ViewChild('toastWarning')
+  warningToast!:ElementRef;
 
   rostersSubscription!: Subscription
   rosterData:any
@@ -56,8 +60,10 @@ export class AdminDashboardComponent {
   ){ 
   }
 
-  ngOnInit(){ 
+  ngOnInit(){  
+    this.monthState = this.month 
     this.getRosterData()  
+    
   }
    
   ngOnChanges(){  
@@ -65,12 +71,17 @@ export class AdminDashboardComponent {
     this.monthCount = 0
     this.initial = this.initialRoster = 0
     this.final = this.finalRoster = 15
-    this.rosterData = []
+    //this.rosterData = []   
+    console.log(this.rosterData[0].roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
     setTimeout(()=>{
-      if(this.state == 'True'){
-        this.submitRoster()
-      }else{
+      if(this.monthState){
+        console.log(this.monthState)  
         this.getRosterData()
+      }
+      console.log();
+      
+      if(this.state == 'True' && this.monthState == this.month){
+       this.submitRoster()
       }
     }, 100)
     
@@ -78,10 +89,11 @@ export class AdminDashboardComponent {
   }
 
   getRosterData(){ 
-      if(this.state == undefined){
-        this.state = this.month
+    console.log(this.monthState)
+      if(this.monthState == undefined){
+        this.monthState = this.month
       }else{
-        this.rostersSubscription = this.rosterService.getRosters(this.state).subscribe(
+        this.rostersSubscription = this.rosterService.getRosters(this.monthState).subscribe(
           (res) => {
             this.rosterData = res   
             this.apiResponse = this.rosterData.res 
@@ -126,8 +138,8 @@ export class AdminDashboardComponent {
       _id: this.rosterObjectId,
       roster: this.rosterData
     }
- 
-    if(this.apiResponse != '404'){
+    
+    if(this.apiResponse != '404' ){
       this.rostersSubscription = this.rosterService.publishRoster(data).subscribe((res)=>{
         console.log('Roster Published'); 
         const toastElement = this.myToast.nativeElement;
@@ -186,13 +198,21 @@ export class AdminDashboardComponent {
 
 
   sendMessage() {  
-    let modifiedRoster = {
-      _id: this.rosterObjectId,
-      roster: this.rosterData
-    }    
-    this.socket.emit('userRosterUpdate', modifiedRoster);    
-    console.log(modifiedRoster)
-    this.getNewMessage() 
+
+    if(this.currentDate.date() >= 8){
+      let modifiedRoster = {
+        _id: this.rosterObjectId,
+        roster: this.rosterData
+      }    
+      this.socket.emit('userRosterUpdate', modifiedRoster);    
+      console.log(modifiedRoster)
+      this.getNewMessage()
+    }else{
+        const toastElement = this.warningToast.nativeElement;
+        const bootstrapToast = new Toast(toastElement);
+        bootstrapToast.show();
+    }
+     
   }
 
    getNewMessage(){

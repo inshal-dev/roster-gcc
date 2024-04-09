@@ -1,0 +1,47 @@
+.navbar{ 
+    height: 46px; 
+    background-color: #ffffff;
+  }
+  a{
+  margin: 0;
+  padding: 0;
+  color: black;
+  } 
+  
+  .table {
+    padding: 0; 
+  }
+.username-column{
+  font-size: 13px;
+  font-weight: 600;  
+  background-color: #fff; 
+  width: 130px;
+}
+  .date{
+    font-size: 13px; 
+  margin: 0;
+  padding: 0;
+  }
+
+  .table-body{
+    padding: 10px;
+    background-color: #fff;
+  }
+  .cal-input {
+    width: 30px;
+    height: 30px;
+    padding:0; /* Reset padding */
+    margin: 0; /* Reset margin */
+    font-size: 13px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    line-height: 30px;
+    box-shadow: inset 0px 1px 4px rgba(124, 124, 124, 0.448);
+    -webkit-appearance: none; 
+  }
+
+  
+.form-select{
+  width: 20%;
+}

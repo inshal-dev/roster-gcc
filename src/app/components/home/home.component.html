@@ -5,10 +5,10 @@
   @if(userState == 'login'){
     <app-login (authState)="LogIn($event)"></app-login>
   }@else if(userState == 'admin-dash'){
-    <app-admin-nav (rosterPublishState)="getPublishState($event)"></app-admin-nav>
-    <app-admin-dashboard [state]="rosterState"></app-admin-dashboard>
+    <app-admin-nav (rosterPublishState)="getPublishState($event)" (changeMonth)="getSelectedMonth($event)"></app-admin-nav>
+    <app-admin-dashboard [state]="rosterState" [monthState]="monthValue"></app-admin-dashboard>
   }@else if(userState == 'dash'){
-    <app-head-nav (selectedMonth)="getSelectedMonth($event)"></app-head-nav>
+    <app-head-nav (selectedMonth)="getSelectedMonth($event)" (routeDashboard)="getRouteForDashboard($event)"></app-head-nav>
     <div class="container"> 
       <div class="row">
         <div class="col-3 mt-2">
@@ -20,6 +20,8 @@
       </div>
     </div>
    
+  }@else if(userState == 'all-dash'){
+    <app-all-view-dashboard (routetoPreviousState)="routetoCurrentState($event)"/>
   } 
 
 </div> 

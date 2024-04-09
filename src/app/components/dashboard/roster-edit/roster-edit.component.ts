@@ -25,8 +25,8 @@ export class RosterEditComponent {
   response: any;
   currentMonth:any;
   previousMonth:any
- @Output() editRoster = new EventEmitter<any>();
- @Output() userNavigateTo = new EventEmitter<any>();
+  @Output() editRoster = new EventEmitter<any>();
+  @Output() userNavigateTo = new EventEmitter<any>();
   currentMonthValue: any; 
 
   constructor(

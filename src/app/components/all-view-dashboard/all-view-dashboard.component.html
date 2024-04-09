@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid d-flex justify-content-start">
+     <select class="form-select" aria-label="Default select example" [ngModel]="month" (ngModelChange)="getRosterData($event)">
+      <option selected>Option</option> 
+      @for(month of monthList; track month){
+        <option [value]="month">{{month}}</option>
+      }@empty{
+        <p>no Value</p>
+      }
+    </select> 
+  </div>
+  
+
+    <a class="navbar-brand" href="#">Roster</a>
+  
+    <div class="container-fluid d-flex justify-content-end">
+      <button class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+        </svg>
+      </button> 
+      <button class="btn ms-2 btn-primary" type="submit" (click)="routeBack()">Home</button> 
+  
+    </div>  
+  </nav>
+
+  <div class="container-fluid mt-3">
+    <table class="table mt-3">  
+        <thead class="p-0 m-0"> 
+          <tr class="head-section"> 
+              <th class="name-title">Name</th>
+              @for (day of dateObject; track day){
+                <th *ngIf="day" class="text-center date"> 
+                  {{ day?.day }}  
+                  <br> 
+                <small>{{day?.date}}</small>  
+  
+                  </th>  
+              }   
+          </tr> 
+          <br>
+        </thead> 
+        <tbody class="table-body">
+          @for (item of rosterData; track item.roster) {
+  
+            <tr *ngIf="item" class="">
+              <td *ngIf="item" class="username-column" >
+                {{ item.username }}  
+              </td>
+              @for (data of item.roster; track data?.dayNumber) {
+                <td *ngIf="data" class="cal-input" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"> 
+                    {{data.option}}
+                </td>
+              }@empty{
+                <p>No Data for</p>
+              }
+            </tr>
+          } @empty{ 
+            <tr  >
+              <td colspan="16" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div> 
+              </td>
+             
+            </tr> 
+          }
+        </tbody>
+      </table> 
+  </div>

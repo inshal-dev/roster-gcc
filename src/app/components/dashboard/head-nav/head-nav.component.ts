@@ -14,6 +14,7 @@ export class HeadNavComponent {
   @Output() selectedMonth = new EventEmitter<any>;
   currentDate: moment.Moment = moment().add(1, 'month')
   month:any = this.currentDate.format('MMMM');
+  @Output() routeDashboard = new EventEmitter<any>;
 
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
@@ -24,6 +25,9 @@ export class HeadNavComponent {
   constructor(){ 
   }
 
+  RoutetoAllViewDashboard(value:string){
+    this.routeDashboard.emit(value)
+  }
   passSelectedMonth(value:string){  
     this.selectedMonth.emit(value) 
     console.log(value);

@@ -4,6 +4,12 @@
     <button type="button" class="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
   </div> 
 </div>
+<div #toastWarning class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-body"> 
+    <strong class="me-auto">Cannot update the roster as current date is <b></b>{{currentDate.format('MMMM DD YYYY')}}</strong>  
+  </div> 
+</div>
+
 @if(apiResponse == '404'){
   <h1>Not an Admin User</h1>
 }@else if(responseLength > 0){  
@@ -37,14 +43,14 @@
             </td>
             @for (data of item.roster.slice(initialRoster, finalRoster + nullCount); track data?.dayNumber) {
               <td *ngIf="data">
-                <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
+                <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent' && data.option == 'WO' ? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
                   <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
                   <option>{{ data.option }}</option>
                   <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                 </select>
               </td>
             }@empty{
-              <p>No Data for {{state}}</p>
+              <p>No Data for {{monthState}}</p>
             }
           </tr>
         } @empty{ 
@@ -66,7 +72,7 @@
 </div>
 }@else{
   <div class="jumbotron box-no-data mt-2">
-    <h4 class="text-center">No Data for month of {{state}}</h4>
+    <h4 class="text-center">No Data for month of {{monthState}}</h4>
   </div>
 }
  

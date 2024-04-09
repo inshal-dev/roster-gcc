@@ -2,7 +2,7 @@
   @switch(userNavValue.length > 0){
     @case (userNavValue == 'currentRoster') {
       @if(editRosterStatus){
-        <app-roster-edit (editRoster)="rosterUpdate()" (userNavigateTo)="userNavRoute($event)"></app-roster-edit>
+        <app-roster-edit (editRoster)="rosterUpdate()" (userNavigateTo)="userNavRoute($event)" ></app-roster-edit>
       }@else{
         <app-calendar (editRoster)="rosterEdit()" (userNavigateToCurrent)="userNavRoute($event)"></app-calendar>
       }
