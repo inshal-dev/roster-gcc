@@ -9,7 +9,9 @@
   -webkit-appearance: none;
 }
 
- 
+.container-fluid{
+  font-size: 15px;
+}
 
 .jumbotron{
   box-shadow: 0px 2px 20px rgba(150, 150, 150, 0.257);
@@ -20,6 +22,17 @@
   margin:20px;
   border-radius: 12px;
   padding: 15px;
+}
+.btn-sticky {
+  position: fixed;
+  bottom: 10px;
+  width: 98.5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nxt-btn {
+  margin-left: auto; /* Pushes the button to the right */
 }
  
 
@@ -91,9 +104,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.nxt-btn{
-  float: right;
-}
+
 .toast{
   position: fixed; 
   top: 2px;
@@ -107,3 +118,106 @@ input[type=number] {
     border-radius: 7px;
   }
 }
+
+
+
+
+
+
+
+.sidenav {
+  width: 100%; /* Full-width */
+  height: 0; /* 0 height - hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  bottom: 0; /* Place at the bottom */
+  left: 0;
+  background-color: #ffffff; /* Black */
+  overflow: hidden; /* Disable horizontal scroll */
+  transition: height 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  .user{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    font-size:16px;
+    margin-right: 50px;
+  }
+}
+
+/* The navigation links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0px;
+  right: 25px; 
+  margin-left: 50px;
+}
+
+
+.semi-circle-btn {
+  position: fixed;
+  bottom: 2px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px; /* Adjust width as needed */
+  height: 25px; /* Adjust height as needed */
+  border-radius: 50% 50% 0 0; /* Semi-circle shape */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Text color */
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.semi-circle-btn:hover {
+  background-color: #0056b3; /* Hover background color */
+}
+
+.table-container {
+  height: 300px;
+  margin: 50px 5px 5px 5px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px; /* Adjust font size */
+}
+
+.custom-tr{
+  padding: 0;
+  height: 0;
+}
+.custom-th
+.custom-th,
+.custom-td {
+  font-weight: bold;
+  padding: 2px;  
+}
+
+.custom-th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  text-align: center;
+}
+
+.custom-td { 
+  border: 1px solid #dee2e6;
+}
+
+ 
+

@@ -7,7 +7,18 @@ margin: 0;
 padding: 0;
 color: black;
 }
+ 
+
+.btn{
+  height: 32px;  
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
 
 .form-select{
-width: 120px;
+  height: 33px;
+  font-size: 14px;
+  padding-top: 5px;
+  width: 120px;
 }

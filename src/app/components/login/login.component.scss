@@ -1,11 +1,14 @@
 .side-background {
-    background-image: url('../../../assets/back-Ai.jpg'); /* Specify the URL of your image */
+    background-image: url('../../../assets/back-Ai 1.svg'); /* Specify the URL of your image */
     background-size: cover; /* Cover the entire container */
     background-position: center; /* Center the background image */
     height: 100vh; /* Set the height to match the viewport height */
     font-size: 32px;
 }
-
+.row > *{
+    padding: 0 !important;
+}
+ 
 .jumbotron {
     margin: auto;
     padding: 30px;
@@ -13,17 +16,22 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 60%;
+    width: 60%;  
+    
+    .form-control{
+        box-shadow: inset 0px 1px 4px rgba(79, 79, 79, 0.359); 
+    }
 }
 
 .secondary-text {
     font-size: small;
-    color: grey;
+    color: rgb(84, 84, 84);
 }
 
 .login-btn {
     margin-top: 10px;
-    width: 160px;
+    width: 200px;
+    border-radius: 7px;
 }
 
 input::placeholder {

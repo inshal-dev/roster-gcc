@@ -10,7 +10,7 @@
       <!-- Column with image -->
       <div class="col-md-6">
           <div class="side-background">
-            Roster
+            <p class="ps-2">Roster</p>
           </div>
       </div>
        
@@ -18,7 +18,7 @@
           <div class="jumbotron ">
               <form [formGroup]="userForm">
                   <div class="mb-3">
-                      <label for="username-c" class="form-label">UserID</label>
+                      <label for="username-c" class="form-label">Username</label>
                       <input type="email" class="form-control" id="username-c" formControlName="email" placeholder="name@test.com">
                       <small *ngIf="errorMessage">{{errorMessage}}</small>
                       <small *ngIf="userForm.get('email')?.dirty && userForm.get('email')?.errors?.['pattern']">Invalid UserId</small>

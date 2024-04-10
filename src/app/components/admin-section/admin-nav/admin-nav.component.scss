@@ -11,6 +11,19 @@
 .form-select{
   width: 160px;
 }
+
+.btn{
+  height: 32px;  
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.form-select{
+  height: 33px;
+  font-size: 15px;
+  padding-top: 4px;
+}
  
 .toast {
   position: fixed;

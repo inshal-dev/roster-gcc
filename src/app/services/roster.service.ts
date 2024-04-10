@@ -18,14 +18,22 @@ export class RosterService {
    this.id = localStorage.getItem('userName')
  }
  
- sendCurrentRoster(rosterData:any){
-  // console.log(rosterData);
-  
-  return this.http.post(this.url + 'current-roster', rosterData)
+ sendCurrentRoster(rosterData:any){ 
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'current-roster', rosterData, httpOptions)
  }
  getUserRosterbyIDMonth(userId:any, month:string ){
   let data = { userId : userId, month: month }
-  return this.http.post(this.url + 'user-check', data)
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'user-check', data, httpOptions)
  }
  getRosters(month:string):Observable<any>{
   const httpOptions = { 
@@ -40,20 +48,40 @@ export class RosterService {
  }
 
  publishRoster(roster:any):Observable<any>{ 
-  return this.http.post(this.url + 'publish-roster', {data: roster})
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'publish-roster', {data: roster}, httpOptions)
  }
   
  getPublishRosterUser(id:string, month:string):Observable<any>{
-  return this.http.post(this.url + 'user-published-roster', {_id : id, month: month })
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'user-published-roster', {_id : id, month: month }, httpOptions)
  }
 
 
  createUserRosters():Observable<any>{
-  return this.http.get(this.url + 'create-user-rosters')
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.get(this.url + 'create-user-rosters', httpOptions)
  }
 
  getRosterforDashboard(value:string):Observable<any>{
-  return this.http.post(this.url + 'dash-roster', { month: value })
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'dash-roster', { month: value }, httpOptions)
  }
   
 }

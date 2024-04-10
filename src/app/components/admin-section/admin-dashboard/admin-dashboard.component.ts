@@ -54,7 +54,8 @@ export class AdminDashboardComponent {
   currentDate: moment.Moment = moment().add(1, 'months');
   month: string = this.currentDate.format('MMMM')
   btnMessage:string= 'Publish';
-
+  isOpen: boolean = false; 
+  sortedRosterData: any[] = [];
   constructor(
     private rosterService: RosterService, 
   ){ 
@@ -71,6 +72,7 @@ export class AdminDashboardComponent {
     this.monthCount = 0
     this.initial = this.initialRoster = 0
     this.final = this.finalRoster = 15
+    this.date = []
     //this.rosterData = []   
     console.log(this.rosterData[0].roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
     setTimeout(()=>{
@@ -83,11 +85,16 @@ export class AdminDashboardComponent {
       if(this.state == 'True' && this.monthState == this.month){
        this.submitRoster()
       }
-    }, 100)
-    
-    
+    }, 100)  
   }
 
+  
+  toggleSidebar() {
+    console.log(this.isOpen);
+    
+    this.isOpen = !this.isOpen; 
+    this.getDetailedRosterValue()
+  }
   getRosterData(){ 
     console.log(this.monthState)
       if(this.monthState == undefined){
@@ -128,11 +135,81 @@ export class AdminDashboardComponent {
            
           }
         )
-      } 
-   
-    
+      }  
   }
 
+  getDetailedRosterValue() { 
+    const dateOptionsMap:any = {};
+    this.sortedRosterData = []
+    this.rosterData.forEach((rosterItem: any) => {
+      rosterItem.roster.forEach((dayData: any) => {
+          if (dayData && dayData.dayNumber && dayData.option) {
+              const date = 'date' + dayData.dayNumber;
+              const option = dayData.option;
+  
+              // Initialize options count object for the date if not already initialized
+              if (!dateOptionsMap[date]) {
+                  dateOptionsMap[date] = {};
+              }
+  
+              // Increment count for the option
+              dateOptionsMap[date][option] = (dateOptionsMap[date][option] || 0) + 1;
+          } else {
+              console.log('dayData is undefined or missing properties:', dayData);
+          }
+      });
+  }); 
+  
+  // Convert dateOptionsMap to an array of objects
+  const dataArray = Object.entries<any>(dateOptionsMap).map(([date, options]) => {
+      const optionsArray = Object.entries<any>(options).map(([option, count]) => ({ option, count }));
+      return { date, options: optionsArray };
+  });
+   
+  this.sortedRosterData = dataArray;
+  console.log(this.sortedRosterData); 
+  }
+
+  prepareDataForTable() {
+    const tableData:any = [];
+    for (const option of this.options) {
+      const rowData:any = { shift: option, counts: [] };
+      for (const data of this.sortedRosterData) {
+        const count = data.options.find((item:any) => item.option === option)?.count || 0;
+        rowData.counts.push(count);
+      }
+      tableData.push(rowData);
+    } 
+    return tableData;
+  }
+  
+  getTotalCounts(): number[] {
+    const totalCounts: number[] = [];
+    const preparedData = this.prepareDataForTable();
+    
+    if (preparedData.length === 0) {
+      return totalCounts;
+    }
+  
+    // Initialize total counts array with zeros
+    const totalLength = preparedData[0].counts.length;
+    for (let i = 0; i < totalLength; i++) { 
+      totalCounts.push(0);
+    }
+  
+    // Sum counts for each day, excluding specific shifts
+    preparedData.forEach((rowData: any) => {
+      if (!['WO', 'L', 'PH', 'CO'].includes(rowData.shift)) { // Exclude specific shifts
+        rowData.counts.forEach((count: any, index: any) => {
+          totalCounts[index] += count;
+        });
+      }
+    }); 
+  
+    return totalCounts;
+  }
+  
+  
   submitRoster(){ 
     let data = {
       _id: this.rosterObjectId,
@@ -199,7 +276,7 @@ export class AdminDashboardComponent {
 
   sendMessage() {  
 
-    if(this.currentDate.date() >= 16){
+    if(this.currentDate.date() >= 10){
       let modifiedRoster = {
         _id: this.rosterObjectId,
         roster: this.rosterData
