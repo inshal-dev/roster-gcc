@@ -72,6 +72,9 @@ export class HomeComponent {
     this.getRouteForDashboard('all-dash')
   }
 
+  adminRoutetoDash($event:Event){ 
+    this.getRouteForDashboard('all-dash')
+  }
   getSelectedMonth(month:any){ 
     this.monthValue = month
     console.log(this.monthValue); 

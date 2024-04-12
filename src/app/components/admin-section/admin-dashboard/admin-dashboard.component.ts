@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RosterService } from '../../../services/roster.service';
-import { Subscription } from 'rxjs';
+import { Subscription, retry } from 'rxjs';
 import { FormsModule } from '@angular/forms'; 
 import { UserRoster } from '../../../interface/userRoster';
 import io from 'socket.io-client';
@@ -79,9 +79,7 @@ export class AdminDashboardComponent {
       if(this.monthState){
         console.log(this.monthState)  
         this.getRosterData()
-      }
-      console.log();
-      
+      } 
       if(this.state == 'True' && this.monthState == this.month){
        this.submitRoster()
       }
@@ -95,6 +93,7 @@ export class AdminDashboardComponent {
     this.isOpen = !this.isOpen; 
     this.getDetailedRosterValue()
   }
+
   getRosterData(){ 
     console.log(this.monthState)
       if(this.monthState == undefined){
@@ -143,19 +142,22 @@ export class AdminDashboardComponent {
     this.sortedRosterData = []
     this.rosterData.forEach((rosterItem: any) => {
       rosterItem.roster.forEach((dayData: any) => {
-          if (dayData && dayData.dayNumber && dayData.option) {
+        
+          if (dayData && dayData.dayNumber) {
               const date = 'date' + dayData.dayNumber;
-              const option = dayData.option;
-  
+              const option = dayData.option; 
+              
               // Initialize options count object for the date if not already initialized
-              if (!dateOptionsMap[date]) {
+              if (!dateOptionsMap[date]) { 
                   dateOptionsMap[date] = {};
               }
   
               // Increment count for the option
+              console.log((dateOptionsMap[date][option] || 0) + 1)
               dateOptionsMap[date][option] = (dateOptionsMap[date][option] || 0) + 1;
           } else {
-              console.log('dayData is undefined or missing properties:', dayData);
+              return dateOptionsMap
+            //  console.log('dayData is undefined or missing properties:', dayData);
           }
       });
   }); 
@@ -166,20 +168,19 @@ export class AdminDashboardComponent {
       return { date, options: optionsArray };
   });
    
-  this.sortedRosterData = dataArray;
-  console.log(this.sortedRosterData); 
+  this.sortedRosterData = dataArray; 
   }
 
   prepareDataForTable() {
     const tableData:any = [];
-    for (const option of this.options) {
+    for (const option of this.options) { 
       const rowData:any = { shift: option, counts: [] };
       for (const data of this.sortedRosterData) {
         const count = data.options.find((item:any) => item.option === option)?.count || 0;
         rowData.counts.push(count);
       }
       tableData.push(rowData);
-    } 
+    }  
     return tableData;
   }
   
@@ -199,15 +200,16 @@ export class AdminDashboardComponent {
   
     // Sum counts for each day, excluding specific shifts
     preparedData.forEach((rowData: any) => {
-      if (!['WO', 'L', 'PH', 'CO'].includes(rowData.shift)) { // Exclude specific shifts
+      if (rowData && rowData.counts && !['WO', 'L', 'PH', 'CO'].includes(rowData.shift)) { // Exclude specific shifts
         rowData.counts.forEach((count: any, index: any) => {
-          totalCounts[index] += count;
+          totalCounts[index] += count || 0; // If count is null or undefined, use 0
         });
       }
     }); 
   
     return totalCounts;
   }
+  
   
   
   submitRoster(){ 

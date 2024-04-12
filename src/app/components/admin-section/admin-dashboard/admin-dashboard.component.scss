@@ -10,8 +10,10 @@
 }
 
 .container-fluid{
-  font-size: 15px;
+  font-size: 15px;  
 }
+
+ 
 
 .jumbotron{
   box-shadow: 0px 2px 20px rgba(150, 150, 150, 0.257);
@@ -27,19 +29,26 @@
   position: fixed;
   bottom: 10px;
   width: 98.5%;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
+  backdrop-filter: blur(2px);
 }
 
 .nxt-btn {
   margin-left: auto; /* Pushes the button to the right */
-}
+} 
  
 
 .table {
   padding: 0;
-  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 60px;
+  width: 100%;    
   border-collapse: collapse;
+  .table-body{ 
+    background-color: #fff;   
+  }
 }
 thead{
   height: 10px;
@@ -74,9 +83,7 @@ th:last-child{
 }
  
 
-.table-body{
-  background-color: #fff; 
-}
+
 table tbody tr:first-child td:first-child {
   border-top-left-radius: 7px;
 }
@@ -180,6 +187,7 @@ input[type=number] {
   color: white; /* Text color */
   border: none;
   outline: none;
+  z-index: 1;
   cursor: pointer;
 }
 

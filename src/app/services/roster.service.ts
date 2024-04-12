@@ -84,4 +84,12 @@ export class RosterService {
   return this.http.post(this.url + 'dash-roster', { month: value }, httpOptions)
  }
   
+ unApprovedCountCheck(){
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+    return this.http.get(this.url + 'count', httpOptions);
+ }
 }
