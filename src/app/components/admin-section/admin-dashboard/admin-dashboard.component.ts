@@ -74,7 +74,7 @@ export class AdminDashboardComponent {
     this.final = this.finalRoster = 15
     this.date = []
     //this.rosterData = []   
-    console.log(this.rosterData[0].roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
+    console.log(this.rosterData[0]?.roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
     setTimeout(()=>{
       if(this.monthState){
         console.log(this.monthState)  
