@@ -276,7 +276,7 @@ export class AdminDashboardComponent {
 
   sendMessage() {  
 
-    if(this.currentDate.date() >= 10){
+    if(this.currentDate.date() > 15){
       let modifiedRoster = {
         _id: this.rosterObjectId,
         roster: this.rosterData
