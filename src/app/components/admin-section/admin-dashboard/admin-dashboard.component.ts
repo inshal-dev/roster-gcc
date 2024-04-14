@@ -7,8 +7,7 @@ import { UserRoster } from '../../../interface/userRoster';
 import io from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';   
-import { Toast } from 'bootstrap'; 
-
+import { Toast } from 'bootstrap';  
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -210,7 +209,7 @@ export class AdminDashboardComponent {
     return totalCounts;
   }
   
-  
+   
   
   submitRoster(){ 
     let data = {

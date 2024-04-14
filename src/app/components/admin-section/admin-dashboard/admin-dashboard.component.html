@@ -14,7 +14,7 @@
   <h1>Not an Admin User</h1>
 }@else if(responseLength > 0){  
   <div class="container-fluid">   
-      <table class="table">  
+      <table class="table" id="excel-table">  
         <thead class="p-0 m-0 sticky" > 
           <tr class="head-section"> 
               <th class="name-title">Name</th>
@@ -87,8 +87,7 @@
   <div class="jumbotron box-no-data mt-2">
     <h4 class="text-center">No Data for month of {{monthState}}</h4>
   </div>
-}
- 
+} 
 <!--
   Modal content
   Multiple days 
