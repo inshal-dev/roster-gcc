@@ -65,10 +65,13 @@ export class AdminNavComponent {
   createRoster(){
     this.rostersSubscription = this.rosterService.createUserRosters().subscribe(
       (res:any) => {
-       // console.log(res)
+       console.log(res)
       }
     ) 
-    location.reload()
+    setTimeout(()=>{
+      location.reload()
+    },1000)
+    
   }
 
   signOut(){
