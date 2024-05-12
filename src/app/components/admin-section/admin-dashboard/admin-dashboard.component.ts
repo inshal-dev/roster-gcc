@@ -1,21 +1,24 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RosterService } from '../../../services/roster.service';
-import { Subscription, retry } from 'rxjs';
+import { Subscription, count, filter, retry } from 'rxjs';
 import { FormsModule } from '@angular/forms'; 
 import { UserRoster } from '../../../interface/userRoster';
 import io from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';   
-import { Toast } from 'bootstrap';  
+import { Toast } from 'bootstrap';   
+import { UserShift } from '../../../interface/user-shift';
 
 @Component({
-  selector: 'app-admin-dashboard',
-  standalone: true,
-  imports: [CommonModule, NgFor, FormsModule],
-  templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss' 
+    selector: 'app-admin-dashboard',
+    standalone: true,
+    templateUrl: './admin-dashboard.component.html',
+    styleUrl: './admin-dashboard.component.scss',
+    imports: [CommonModule, NgFor, FormsModule]
 })
+
+
 export class AdminDashboardComponent {
 
   @Input() state:any ; 
@@ -45,7 +48,7 @@ export class AdminDashboardComponent {
   nullCount = 0
   apiResponse!:string;
   options:Array<string> = [
-    "T1", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
+    "T7", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
   ]
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   monthCount: number = 0;
@@ -54,7 +57,11 @@ export class AdminDashboardComponent {
   month: string = this.currentDate.format('MMMM')
   btnMessage:string= 'Publish';
   isOpen: boolean = false; 
+  isSideOpen: boolean = false;
   sortedRosterData: any[] = [];
+  filterRoster:any[] = [] 
+  userOverviewArray: Array<UserShift> = [];
+
   constructor(
     private rosterService: RosterService, 
   ){ 
@@ -62,7 +69,8 @@ export class AdminDashboardComponent {
 
   ngOnInit(){  
     this.monthState = this.month 
-    this.getRosterData()  
+    this.getRosterData()      
+    
     
   }
    
@@ -86,11 +94,17 @@ export class AdminDashboardComponent {
   }
 
   
-  toggleSidebar() {
+  toggleDownbar() {
     console.log(this.isOpen);
     
-    this.isOpen = !this.isOpen; 
+    this.isOpen = !this.isOpen;
     this.getDetailedRosterValue()
+  }
+  toggleSidebar() {
+    console.log(this.isSideOpen);
+    
+    this.isSideOpen = !this.isSideOpen;
+    this.createOverViewwithUser()
   }
 
   getRosterData(){ 
@@ -103,16 +117,17 @@ export class AdminDashboardComponent {
             this.rosterData = res   
             this.apiResponse = this.rosterData.res 
             this.responseLength = this.rosterData.data.length
-           // console.log(this.responseLength);
-            
+           // console.log(this.responseLength); 
+           
             this.rosterObjectId = this.rosterData.data[0]._id 
-            //console.log(this.rosterObjectId);
-            
+            //console.log(this.rosterObjectId); 
             if(this.rosterData.res == 'pre-published'){ 
               this.rosterData = this.rosterData.data[0].roster
             }else{
               this.rosterData = this.rosterData.data
             } 
+
+            this.createOverViewwithUser()
             //check this logic again 
               this.rosterData[0].roster.forEach((el:any) => {
                if(el?.dayNumber){
@@ -133,7 +148,65 @@ export class AdminDashboardComponent {
            
           }
         )
-      }  
+      }
+
+  }
+
+  createOverViewwithUser(){ 
+    console.log(this.rosterData);
+    const userOverviewArray:Array<UserShift> = [];
+    this.rosterData.forEach((item: any) => {
+        let overiewObject: UserShift = {
+            username: item.username,
+            S1: 0,
+            T7: 0,
+            G2: 0,
+            G1: 0,
+            L: 0,
+            PH: 0,
+            F3: 0,
+            CO: 0,
+            WO: 0,
+            NA: 0,
+        };
+        item.roster.forEach((el: any) => {
+            switch (el?.option) {
+                case 'S1':
+                    overiewObject.S1++;
+                    break;
+                case 'T7':
+                    overiewObject.T7++;
+                    break;
+                case 'G2':
+                    overiewObject.G2++;
+                    break;
+                case 'G1':
+                    overiewObject.G1++;
+                    break;
+                case 'L':
+                    overiewObject.L++;
+                    break;
+                case 'PH':
+                    overiewObject.PH++;
+                    break;
+                case 'F3':
+                    overiewObject.F3++;
+                    break;
+                case 'CO':
+                    overiewObject.CO++;
+                    break;
+                case 'WO':
+                    overiewObject.WO++;
+                    break;
+                default:
+                    overiewObject.NA++;
+            }
+        });
+        userOverviewArray.push(overiewObject);
+    });
+    console.log(userOverviewArray);
+    return this.userOverviewArray = userOverviewArray;
+
   }
 
   getDetailedRosterValue() { 
@@ -208,9 +281,7 @@ export class AdminDashboardComponent {
   
     return totalCounts;
   }
-  
-   
-  
+ 
   submitRoster(){ 
     let data = {
       _id: this.rosterObjectId,
@@ -273,11 +344,28 @@ export class AdminDashboardComponent {
     this.rosterValue = '' 
   }
 
+  
+  
 
 
-  sendMessage() {  
-
-    if(this.currentDate.date() >= 15){
+  sendMessage() { 
+    console.log(this.currentDate.date() >= 15 && this.monthState !== this.month);
+    if(this.monthState === this.month){
+      if(this.currentDate.date() >= 15){
+        let modifiedRoster = {
+          _id: this.rosterObjectId,
+          roster: this.rosterData
+        }    
+        this.socket.emit('userRosterUpdate', modifiedRoster);    
+        // console.log(modifiedRoster)
+        this.getNewMessage()
+      }else{
+          const toastElement = this.warningToast.nativeElement;
+          const bootstrapToast = new Toast(toastElement);
+          bootstrapToast.show();
+      }
+    }else{
+      console.log(this.month, this.monthState);
       let modifiedRoster = {
         _id: this.rosterObjectId,
         roster: this.rosterData
@@ -285,11 +373,8 @@ export class AdminDashboardComponent {
       this.socket.emit('userRosterUpdate', modifiedRoster);    
       // console.log(modifiedRoster)
       this.getNewMessage()
-    }else{
-        const toastElement = this.warningToast.nativeElement;
-        const bootstrapToast = new Toast(toastElement);
-        bootstrapToast.show();
     }
+    
      
   }
 
@@ -312,3 +397,4 @@ export class AdminDashboardComponent {
   }
 } 
 
+ 

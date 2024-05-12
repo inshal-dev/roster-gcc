@@ -14,14 +14,8 @@
     <a class="navbar-brand" href="#">Roster</a>
   
     <div class="container-fluid d-flex justify-content-end">
-      <button class="btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-        </svg>
-      </button> 
-      <button class="btn ms-2 btn-primary" type="submit" (click)="routeBack()">Home</button> 
-  
+      <app-excel-converter [month]="month"/>
+      <button class="btn ms-2 btn-primary" type="submit" (click)="routeBack()">Home</button>  
     </div>  
   </nav>
 
@@ -41,16 +35,28 @@
               }   
           </tr> 
           <br>
-        </thead> 
-       
+        </thead>  
           <tbody class="table-body" >
-            @for (item of rosterData; track item.roster) {
+            <tr>
+              <td class="username-column">Shift Filter</td>
+              <td *ngFor="let len of dateObject"> 
+                <select *ngIf="len" class="select-input" [(ngModel)]="len.option"  (change)="objectifyFilter(len, len.option)" data-bs-toggle="dropdown" aria-expanded="false">
     
+                  <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                  <option value=""> </option>
+                </select>
+ 
+              </td>
+            </tr>
+            @for (item of (rosterData | shiftFilter: filterOption ) ; track item.roster) {
+             
               <tr *ngIf="item" class="">
                 <td *ngIf="item" class="username-column" >
                   {{ item.username }}  
                 </td>
-                @for (data of item.roster; track data?.dayNumber) {
+               
+                @for (data of item.roster ; track data?.dayNumber) {
+                 
                   <td *ngIf="data" class="cal-input" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"> 
                       {{data.option}}
                   </td>
@@ -58,16 +64,20 @@
                   <p>No Data for</p>
                 }
               </tr>
+             
             } @empty{ 
               <tr>
-                <td colspan="16" class="text-center">
-                  <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div> 
+                <td colspan="31" class="text-center">
+                  <div class="jumbotron text-center mt-3">
+                    <h5 class="text-danger">
+                      No data for selected filter
+                    </h5>
+                   </div>
                 </td>
                
               </tr> 
             }
+            
           </tbody> 
       </table> 
     }@else {
@@ -82,9 +92,9 @@
 
 
 
-  <div id="mySidenav" class="sidenav" [ngStyle]="{ height: isOpen ? '320px' : '0' }">
+  <div id="mySidenav" class="downnav" [ngStyle]="{ height: isOpen ? '320px' : '0' }">
     <span class="user">Shift users overview</span>
-    <a href="javascript:void(0)" class="closebtn" (click)="toggleSidebar()">&times;</a>
+    <a href="javascript:void(0)" class="closebtn" (click)="toggleDownbar()">&times;</a>
     <div class="table-container">
       <table class="custom-table">
         <thead class="custom-thead">
@@ -128,8 +138,67 @@
     
   </div>
   
-  <button class="btn btn-primary semi-circle-btn" (click)="toggleSidebar()">
+  <button class="btn btn-primary semi-circle-btn" (click)="toggleDownbar()">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5m-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5"/>
     </svg>
   </button>
+
+
+
+  <!-- SideNav with username details -->
+  <div class="sidenav" [ngStyle]="{ width: isSideOpen ? '500px' : '0' }">
+    <span class="user">Shift users overview</span>
+    <a href="javascript:void(0)" class="closebtn" (click)="toggleSidebar()" >&times;</a>
+    <div class="table-container">
+      <table class="custom-table">
+        <thead class="custom-thead">
+          <tr class="custom-tr">
+            <th class="custom-th">Shift</th>
+            <!-- Display dates in the header row -->
+            <ng-container *ngFor="let item of options">
+              <th *ngIf="item" class="custom-th">{{ item }}</th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody> 
+            @for (item of userOverviewArray; track item){
+              <tr class="custom-tr">
+                <td class="custom-td">{{item.username}} </td>
+                 <td class="custom-td shift">{{item.T7}} </td> 
+                 <td class="custom-td shift">{{item.S1}} </td> 
+                 <td class="custom-td shift">{{item.F3}} </td> 
+                 <td class="custom-td shift">{{item.G2}} </td> 
+                 <td class="custom-td shift">{{item.G1}} </td> 
+                 <td class="custom-td shift">{{item.CO}} </td> 
+                 <td class="custom-td shift">{{item.PH}} </td> 
+                 <td class="custom-td shift">{{item.L}} </td> 
+                 <td class="custom-td shift">{{item.WO}} </td>
+
+
+              </tr>
+            }@empty {
+              <tr>
+                <td>Empty</td>
+              </tr>
+            }
+            
+           
+        </tbody>
+      </table>
+    </div>
+  
+    
+    
+    
+    
+  </div>
+  
+  <button class="btn btn-primary  side-btn" (click)="toggleSidebar()" >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5m-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5"/>
+    </svg>
+  </button> 
+
+
+  

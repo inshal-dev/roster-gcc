@@ -92,4 +92,14 @@ export class RosterService {
     })}; 
     return this.http.get(this.url + 'count', httpOptions);
  }
+
+ getCSVdata(data:Object){
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'toCSV', {data: data}, { ...httpOptions, responseType: 'text' })
+ }
+
 }

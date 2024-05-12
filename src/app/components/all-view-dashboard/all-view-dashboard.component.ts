@@ -5,11 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { RosterService } from '../../services/roster.service';
 import { Subscription } from 'rxjs';
 import { UserRoster } from '../../interface/userRoster';
+import { ShiftFilterPipe } from '../../pipes/shift-filter.pipe';
+import { UserShift } from '../../interface/user-shift';
+import { ExcelConverterComponent } from '../excel-converter/excel-converter.component';
 
 @Component({
   selector: 'app-all-view-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ShiftFilterPipe, ExcelConverterComponent],
   templateUrl: './all-view-dashboard.component.html',
   styleUrl: './all-view-dashboard.component.scss'
 })
@@ -25,17 +28,50 @@ export class AllViewDashboardComponent {
   rosterData:Array<UserRoster> = [];
   rostersSubscription!: Subscription;
   isOpen: boolean = false; 
+  isSideOpen: boolean = false;
   sortedRosterData: any[] = [];
   options:Array<string> = [
-    "T1", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
-  ]
+    "T7", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
+  ]  
+filterOption:any;
+userOverviewArray: Array<UserShift> = [] 
+prevObject!: string; 
+
   constructor(
     private rosterService: RosterService
   ){  
     this.getRosterData(this.month) 
+  } 
+  
+  //function for filter table  
+  objectifyFilter(date:any, option:string){ 
+  
+  if(this.prevObject && this.prevObject !== date.date){
+    this.dateObject.filter(el => {
+      if(el?.date == this.prevObject){
+        el.option = ''
+      }else{
+        return el
+      }
+    });
+  } 
+  this.prevObject = date.date 
+
+  if(!this.filterOption){
+    this.filterOption = {}   
+  } 
+    
+  if(date.date && option){
+      this.filterOption = {
+        date: date.date,
+        shift: option
+      }
+  }else if(option == ''){   
+      this.filterOption = undefined 
+  } 
+    return this.filterOption, this.dateObject
   }
  
-
   getRosterData(month:string){ 
     this.month = month
     this.dateObject = []
@@ -44,13 +80,14 @@ export class AllViewDashboardComponent {
     if(month){
      this.rostersSubscription = this.rosterService.getRosterforDashboard(month).subscribe((res) =>{
         // console.log(res)
-        this.rosterData = res 
-     //   console.log(this.rosterData.length)
+        this.rosterData = res  
+     //   console.log(this.rosterData.length) 
+
         this.rosterData[0].roster.forEach((el:any) => {
           if(el?.dayNumber){
            this.dateObject.push({
              date : el.dayNumber,
-             day : el.weekday
+             day : el.weekday, 
            })
           }
         }) 
@@ -61,12 +98,19 @@ export class AllViewDashboardComponent {
       )
     }
   }
-  toggleSidebar() {
+  toggleDownbar() {
     console.log(this.isOpen);
     
     this.isOpen = !this.isOpen;
     this.getDetailedRosterValue()
   }
+  toggleSidebar() {
+    console.log(this.isSideOpen);
+    
+    this.isSideOpen = !this.isSideOpen;
+    this.createOverViewwithUser()
+  }
+  
   getDetailedRosterValue() { 
     const dateOptionsMap:any = {};
     if(this.rosterData.length > 0){
@@ -98,10 +142,9 @@ export class AllViewDashboardComponent {
     }else{
       console.log('No data for current month')
     }
-  
    
-  
   }
+
 
   prepareDataForTable() {
     let tableData:any = [];
@@ -146,7 +189,66 @@ export class AllViewDashboardComponent {
     return totalCounts;
   }
   
-  
+
+  createOverViewwithUser(){ 
+    console.log(this.rosterData);
+    const userOverviewArray:Array<UserShift> = [];
+    this.rosterData.forEach((item: any) => {
+        let overiewObject: UserShift = {
+            username: item.username,
+            S1: 0,
+            T7: 0,
+            G2: 0,
+            G1: 0,
+            L: 0,
+            PH: 0,
+            F3: 0,
+            CO: 0,
+            WO: 0,
+            NA: 0,
+        };
+        item.roster.forEach((el: any) => {
+            switch (el?.option) {
+                case 'S1':
+                    overiewObject.S1++;
+                    break;
+                case 'T1':
+                    overiewObject.T7++;
+                    break;
+                case 'G2':
+                    overiewObject.G2++;
+                    break;
+                case 'G1':
+                    overiewObject.G1++;
+                    break;
+                case 'L':
+                    overiewObject.L++;
+                    break;
+                case 'PH':
+                    overiewObject.PH++;
+                    break;
+                case 'F3':
+                    overiewObject.F3++;
+                    break;
+                case 'CO':
+                    overiewObject.CO++;
+                    break;
+                case 'WO':
+                    overiewObject.WO++;
+                    break;
+                default:
+                    overiewObject.NA++;
+            }
+        });
+        userOverviewArray.push(overiewObject);
+    });
+    console.log(userOverviewArray);
+    return this.userOverviewArray = userOverviewArray;
+
+  }
+   
+
+
 
   routeBack(){
     this.routetoPreviousState.emit(true)

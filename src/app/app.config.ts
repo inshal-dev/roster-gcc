@@ -6,6 +6,7 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { Socket, SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
 const config: SocketIoConfig = { url: 'https://roster-server.onrender.com/', options: {} };
+//const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
 
 export const appConfig: ApplicationConfig = {
   providers: [ 

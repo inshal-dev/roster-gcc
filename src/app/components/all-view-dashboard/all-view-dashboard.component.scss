@@ -17,6 +17,19 @@
   background-color: #fff; 
   width: 130px;
 }
+.select-input{
+  margin: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px; 
+  border: none;
+  font-size: 12px;
+  text-align: center;
+  box-shadow: inset 0px 1.5px 4px rgba(124, 124, 124, 0.536);
+  -webkit-appearance: none;
+}
+
+
   .date{
     font-size: 13px; 
   margin: 0;
@@ -87,15 +100,80 @@ table tbody tr:last-child td:last-child {
 
 
  
+// overview based on daywise shift
 
-
-.sidenav {
+.downnav {
   width: 100%; /* Full-width */
   height: 0; /* 0 height - hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   bottom: 0; /* Place at the bottom */
   left: 0;
+  background-color: #ffffff; /* Black */
+  overflow: hidden; /* Disable horizontal scroll */
+  transition: height 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  .user{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    font-size:16px;
+    margin-right: 50px;
+  }
+}
+
+/* The navigation links */
+.downnav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.downnav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.downnav .closebtn {
+  position: absolute;
+  top: 0px;
+  right: 25px; 
+  margin-left: 50px;
+}
+
+
+
+.semi-circle-btn {
+  position: fixed;
+  bottom: 2px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px; /* Adjust width as needed */
+  height: 25px; /* Adjust height as needed */
+  border-radius: 50% 50% 0 0; /* Semi-circle shape */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Text color */
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.semi-circle-btn:hover {
+  background-color: #0056b3; /* Hover background color */
+}
+
+// sidenav for overview on user based
+
+
+.sidenav {
+  width: 0; /* Full-width */
+  height: 100%; /* 0 height - hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; 
+  right: 0;
   background-color: #ffffff; /* Black */
   overflow: hidden; /* Disable horizontal scroll */
   transition: height 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -132,24 +210,31 @@ table tbody tr:last-child td:last-child {
 }
 
 
-
-.semi-circle-btn {
+.side-btn {
   position: fixed;
-  bottom: 2px; /* Adjust as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px; /* Adjust width as needed */
-  height: 25px; /* Adjust height as needed */
-  border-radius: 50% 50% 0 0; /* Semi-circle shape */
+  top: 50%; /* Adjust as needed */
+  right: 0;
+  transform: translateX(-10%);
+  width: 35px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  border-radius: 50% 0 0 50%; /* Semi-circle shape */
   background-color: #007bff; /* Button background color */
   color: white; /* Text color */
   border: none;
   outline: none;
   cursor: pointer;
+  svg{
+    height: 20px;
+    transform: rotate(-90deg);
+  }
+}
+.side-btn:hover {
+  background-color: #0056b3; /* Hover background color */
 }
 
-.semi-circle-btn:hover {
-  background-color: #0056b3; /* Hover background color */
+.shift
+{
+  text-align: center;
 }
 
 .table-container {
@@ -185,4 +270,7 @@ table tbody tr:last-child td:last-child {
 }
 
  
+
+
+
 

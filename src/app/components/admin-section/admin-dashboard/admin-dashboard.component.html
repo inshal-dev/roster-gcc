@@ -19,10 +19,11 @@
           <tr class="head-section"> 
               <th class="name-title">Name</th>
               @for (day of date.slice(initial, final); track day){
-                <th *ngIf="day" class="text-center "> 
+                <th *ngIf="day" class="text-center " > 
                   {{ day.day }}  
                   <br> 
-                <small>{{day.date}}</small>  
+                <small> 
+                  {{day.date}}</small>  
   
                   </th>  
               }@empty {
@@ -39,40 +40,44 @@
           <br>
         </thead> 
         <tbody class="table-body" >
-          @for (item of rosterData; track item.roster) {
+         
+              <!-- Roster Data without Filter-->
+            @for (item of rosterData; track item.roster ) {
   
-            <tr *ngIf="item" class="">
-              <td *ngIf="item" class="username-column" >
-                <b>{{ item.username }}</b> 
-                <a type="button" class="ps-2" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                  </svg>
-                </a>
-              </td>
-              @for (data of item.roster.slice(initialRoster, finalRoster + nullCount); track data?.dayNumber) {
-                <td *ngIf="data">
-                  <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent' && data.option == 'WO' ? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
-                    <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
-                    <option>{{ data.option }}</option>
-                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-                  </select>
+              <tr *ngIf="item" class="">
+                <td *ngIf="item" class="username-column" >
+                  <b>{{ item.username }}</b> 
+                  <a type="button" class="ps-2" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                  </a>
                 </td>
-              }@empty{
-                <p>No Data for {{monthState}}</p>
-              }
-            </tr>
-          } @empty{ 
-            <tr  >
-              <td colspan="16" class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div> 
-              </td>
-             
-            </tr> 
-          }
+                @for (data of item.roster.slice(initialRoster, finalRoster + nullCount); track data?.dayNumber) {
+                  <td *ngIf="data">
+                    <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent' && data.option == 'WO' ? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
+                      <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
+                      <option>{{ data.option }}</option>
+                      <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                    </select>
+                  </td>
+                }@empty{
+                  <p>No Data for {{monthState}}</p>
+                }
+              </tr>
+            } @empty{ 
+              <tr  >
+                <td colspan="16" class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div> 
+                </td>
+               
+              </tr> 
+            } 
+
+
         </tbody>
       </table>  
    
@@ -140,10 +145,11 @@
 </div> 
 <!-- <button class="btn btn-primary" (click)="exportToExcel()">Download Excel</button> -->
 
+<!-- Overview section -->
 
-<div id="mySidenav" class="sidenav" [ngStyle]="{ height: isOpen ? '320px' : '0' }">
+<div id="mySidenav" class="downnav" [ngStyle]="{ height: isOpen ? '320px' : '0' }">
   <span class="user">Shift users overview</span>
-  <a href="javascript:void(0)" class="closebtn" (click)="toggleSidebar()">&times;</a>
+  <a href="javascript:void(0)" class="closebtn" (click)="toggleDownbar()">&times;</a>
   <div class="table-container">
     <table class="custom-table">
       <thead class="custom-thead">
@@ -175,7 +181,7 @@
         </ng-container>
         <!-- Show message if no data -->
         <tr *ngIf="!prepareDataForTable().length">
-          <td class="custom-td text-center">No Data for {{ monthState }}</td>
+          <td class="custom-td text-center">No Data for {{ month }}</td>
         </tr>
       </tbody>
     </table>
@@ -187,8 +193,64 @@
   
 </div>
 
-<button class="btn btn-primary semi-circle-btn" (click)="toggleSidebar()" [hidden]="isOpen">
+<button class="btn btn-primary semi-circle-btn" (click)="toggleDownbar()">
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
     <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5m-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5"/>
   </svg>
 </button>
+
+
+
+<!-- SideNav with username details -->
+<div class="sidenav" [ngStyle]="{ width: isSideOpen ? '500px' : '0' }">
+  <span class="user">Shift users overview</span>
+  <a href="javascript:void(0)" class="closebtn" (click)="toggleSidebar()" >&times;</a>
+  <div class="table-container">
+    <table class="custom-table">
+      <thead class="custom-thead">
+        <tr class="custom-tr">
+          <th class="custom-th">Shift</th>
+          <!-- Display dates in the header row -->
+          <ng-container *ngFor="let item of options">
+            <th *ngIf="item" class="custom-th">{{ item }}</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody> 
+          @for (item of userOverviewArray; track item){
+            <tr class="custom-tr">
+              <td class="custom-td">{{item.username}} </td>
+               <td class="custom-td shift">{{item.T7}} </td> 
+               <td class="custom-td shift">{{item.S1}} </td> 
+               <td class="custom-td shift">{{item.F3}} </td> 
+               <td class="custom-td shift">{{item.G2}} </td> 
+               <td class="custom-td shift">{{item.G1}} </td> 
+               <td class="custom-td shift">{{item.CO}} </td> 
+               <td class="custom-td shift">{{item.PH}} </td> 
+               <td class="custom-td shift">{{item.L}} </td> 
+               <td class="custom-td shift">{{item.WO}} </td>
+
+
+            </tr>
+          }@empty {
+            <tr>
+              <td>Empty</td>
+            </tr>
+          }
+          
+         
+      </tbody>
+    </table>
+  </div>
+
+  
+  
+  
+  
+</div>
+
+<button class="btn btn-primary  side-btn" (click)="toggleSidebar()" >
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5m-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5"/>
+  </svg>
+</button> 

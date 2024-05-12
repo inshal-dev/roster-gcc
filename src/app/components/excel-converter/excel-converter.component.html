@@ -1,0 +1,10 @@
+<div class="download-btn">
+    @if(state){
+        <button class="btn btn-outline-primary" (click)="download()" [disabled]="admin !== 'admin'">Download</button>
+    }@else {
+        <small>{{value}}</small>
+    }
+   
+</div>
+
+ 
