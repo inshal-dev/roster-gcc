@@ -8,23 +8,26 @@
   }
 </select> -->
 @if (!editRoster && rosterArrayLength != 0) {
-  <table >
-    <tr>
-      <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
-    </tr>
-    <tr class="table-row" *ngFor="let week of rosterUserData | daysFormatter: 7">
-      <td *ngFor="let day of week">
-        <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
-          <span class="date">{{ day.dayNumber }}</span>
-         
-          <span class="option">{{day.option}}</span>
-        </div>
-      </td>
-    </tr>
-  </table>
-  <div class="edit-roster mt-4" *ngIf="rosterUserData.length > 0">
-    <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>
+  <div class="table-view">
+    <table >
+      <tr>
+        <th class="table-head" *ngFor="let day of weekdays">{{ day }}</th>
+      </tr>
+      <tr class="table-row" *ngFor="let week of rosterUserData | daysFormatter: 7">
+        <td *ngFor="let day of week">
+          <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
+            <span class="date">{{ day.dayNumber }}</span>
+           
+            <span class="option">{{day.option}}</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="edit-roster mt-4" *ngIf="rosterUserData.length > 0">
+      <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>
+    </div>
   </div>
+ 
 
 
 }@else if(editRoster){

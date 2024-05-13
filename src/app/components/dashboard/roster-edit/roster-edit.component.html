@@ -17,7 +17,7 @@
     <tbody>
       <tr class="table-row" *ngFor="let week of days | daysFormatter: 7">
         <td *ngFor="let day of week">
-          <div *ngIf="day"> 
+          <div  *ngIf="day"> 
             <select class="cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent' " data-bs-toggle="dropdown" aria-expanded="false">
 
               <option [value]="null" >{{day.dayNumber}}</option>
@@ -30,7 +30,7 @@
   </table>
 
 
-  <div class="update-roster mt-4">
+  <div class="update-roster mt-2">
     <button class="btn btn-primary" (click)="submitUserRoster()">Submit Roster</button>
   </div>
 }

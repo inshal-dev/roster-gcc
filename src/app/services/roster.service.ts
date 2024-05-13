@@ -84,7 +84,7 @@ export class RosterService {
   return this.http.post(this.url + 'dash-roster', { month: value }, httpOptions)
  }
   
- unApprovedCountCheck(){
+ unApprovedCountCheck():Observable<any>{
   const httpOptions = { 
     headers: new HttpHeaders({ 
      'Content-Type':  'application/json', 
@@ -93,7 +93,7 @@ export class RosterService {
     return this.http.get(this.url + 'count', httpOptions);
  }
 
- getCSVdata(data:Object){
+ getCSVdata(data:Object):Observable<any>{
   const httpOptions = { 
     headers: new HttpHeaders({ 
      'Content-Type':  'application/json', 

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RosterService } from '../../services/roster.service';
 import FileSaver from 'file-saver';
-import { Subscription } from 'rxjs';
+import { Subscription }   from 'rxjs';
 
 @Component({
   selector: 'app-excel-converter',
@@ -31,40 +31,35 @@ export class ExcelConverterComponent {
       this.admin = localStorage.getItem('userName')
     }
 
-    download(): void { 
-      
+    download(): void {  
       const data = {
         admin: this.admin,
         month: this.month
       }; 
       
-      this.rostersSubscription = this.rosterService.getCSVdata(data).subscribe(
-        (res:any) => {  
-          if(res !== "Roster not Published"){
-            const blob = new Blob([res], { type: 'text/csv' });
-            console.log(blob);
-            
-            FileSaver.saveAs(blob, 'roster_data.csv');
-          }else{
-            this.value = 'No Data for '+ this.month;  
+      this.rostersSubscription = this.rosterService.getCSVdata(data).subscribe({next:  (res:any) => {  
+        if(res !== "Roster not Published"){
+          const blob = new Blob([res], { type: 'text/csv' });
+          console.log(blob);
+          
+          FileSaver.saveAs(blob, 'roster_data.csv');
+        }else{
+          this.value = 'No Data for '+ this.month;  
+          this.state = !this.state
+          setTimeout(()=>{
+            this.value = 'Download'
             this.state = !this.state
-            setTimeout(()=>{
-              this.value = 'Download'
-              this.state = !this.state
-            }, 5000)
-          }
-          
-          
-        },
-        error => {
-          console.error('Error downloading CSV:', error);
-          // Handle error
+          }, 5000)
         }
-      );
+        
+        
+      }} 
+        
+    );
     }
 
-    ngOnDestroy(){
-      this.rostersSubscription.unsubscribe()
+    ngOnDestory(){
+      return this.rostersSubscription.unsubscribe()
     }
 
      
