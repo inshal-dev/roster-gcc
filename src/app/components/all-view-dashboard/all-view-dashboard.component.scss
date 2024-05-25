@@ -29,6 +29,12 @@
   -webkit-appearance: none;
 }
 
+.head-section{
+  border-radius: 26px;
+  box-shadow: 0px 2px 4px rgba(103, 103, 103, 0.394);
+
+}
+
 
   .date{
     font-size: 13px; 
@@ -52,6 +58,7 @@
     //  box-shadow: inset 0px 1px 4px rgba(124, 124, 124, 0.448);
       -webkit-appearance: none; 
     }
+
   
   }
 
@@ -236,6 +243,15 @@ table tbody tr:last-child td:last-child {
 {
   text-align: center;
 }
+
+thead{
+  height: 10px;
+  line-height: 17px; 
+  position: sticky; 
+  top: 30px;
+  z-index: 2; 
+} 
+
 
 .table-container {
   height: 300px;

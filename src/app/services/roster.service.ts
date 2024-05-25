@@ -47,13 +47,13 @@ export class RosterService {
   return this.http.post(this.url + 'rosters', { data: month }, httpOptions)
  }
 
- publishRoster(roster:any):Observable<any>{ 
+ publishRoster(data:any):Observable<any>{ 
   const httpOptions = { 
     headers: new HttpHeaders({ 
      'Content-Type':  'application/json', 
      'Authorization':  `${this.auth}`
     })}; 
-  return this.http.post(this.url + 'publish-roster', {data: roster}, httpOptions)
+  return this.http.post(this.url + 'publish-roster', {data: data}, httpOptions)
  }
   
  getPublishRosterUser(id:string, month:string):Observable<any>{

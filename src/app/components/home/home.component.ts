@@ -69,7 +69,11 @@ export class HomeComponent {
   }
   getPublishState(res:any){
     this.rosterState = res 
-    this.getRouteForDashboard('all-dash')
+    console.log(this.rosterState);
+    // setTimeout(()=>{
+    //   this.getRouteForDashboard('all-dash')
+    // }, 2000)
+    
   }
 
   adminRoutetoDash($event:Event){ 

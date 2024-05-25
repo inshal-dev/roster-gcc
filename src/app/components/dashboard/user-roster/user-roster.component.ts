@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Roster } from '../../../interface/roster';
 import moment from 'moment';
 import { DaysFormatterPipe } from "../../../pipes/days-formatter.pipe";
 import { RosterService } from '../../../services/roster.service';
 import { FormsModule } from '@angular/forms';
-import { Subscribable, Subscriber, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs'; 
+import { Modal, Toast } from 'bootstrap';   
 
 @Component({
     selector: 'app-user-roster',
@@ -32,9 +33,12 @@ export class UserRosterComponent {
   ]
   date!:number;
   rostersSubscription!: Subscription; 
-
+  mouseState:boolean = false
+  modalTempData!: Roster | any;
   @Input() months!:string;
   @Output() userNavigateToCurrent = new EventEmitter<Event>;
+  @ViewChild('reasonCO')
+  toastCO!: ElementRef; 
 
   constructor(
     private rosterService: RosterService
@@ -50,6 +54,8 @@ export class UserRosterComponent {
 
    
   }
+
+  
   getUserRosterData(){
     if(this.months == undefined){
       this.months = this.month
@@ -61,18 +67,19 @@ export class UserRosterComponent {
     //  console.log(this.rosterArrayLength);
       
       this.rosterUserData = this.userCurrentRoster?.rosterData[0]?.roster;
-     // console.log(this.rosterUserData)
+     console.log(this.rosterUserData)
      })
   }
-
-
+ 
    updateUserRoster(){
     const userRosterData = {
       userId: localStorage.getItem('myID'),
       userName: localStorage.getItem('userName'),
+      category: localStorage.getItem('category'),
       currentMonth: this.currentDate.format('MMMM'),
       monthData : this.rosterUserData
-    }
+    } 
+    
     this.rostersSubscription = this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
       this.response = res.response
     })
@@ -81,6 +88,36 @@ export class UserRosterComponent {
 
   editUserRoster(){
     this.editRoster = true
+  } 
+
+  optionChange(day:Roster){
+    console.log(day);
+    this.modalTempData = day
+    if(day.option == 'CO'){ 
+      const toastElement = this.toastCO.nativeElement;
+      const bootstrapModal = new Modal(toastElement)
+      bootstrapModal.show();
+    } 
+  }
+  submitCOreason(){
+    const toastElement = this.toastCO.nativeElement;
+    const bootstrapModal = new Modal(toastElement)
+    bootstrapModal.hide();  
+    // let date = this.modalTempData?.date
+    // if(date !== null){
+    //   const itemToUpdate:any = this.rosterUserData.find(item => item?.date == date);
+    //   console.log(itemToUpdate);
+    // }else{
+    //   console.log('No date', date);
+      
+    // }
+   
+
+ 
+    
+    // if (itemToUpdate) {
+    //     itemToUpdate.reason = this.modalTempData?.reason;
+    // }  
   }
 
   routetoCurrent(value:any){

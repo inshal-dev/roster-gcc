@@ -6,24 +6,29 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ShiftFilterPipe implements PipeTransform {
   transform(roster: any[], selectedOption: any):any {
-   
     if (!roster || !selectedOption) {
       return roster;
-    }else{
-       
-      let rosterdata = []  
-  ///     console.log(rosterdata[0].roster[1]?.dayNumber);
-       const {date, shift} = selectedOption 
-       for(let i=0; i<= roster.length; i++){ 
-        if(roster[i]?.roster[date]?.option == shift){
-          rosterdata.push(roster[i])
-        }else{
-          console.log('')
+    } else {
+      let rosterData = [];
+      const { date, shift } = selectedOption;
+  
+      for (let i = 0; i < roster.length; i++) {
+        const userRoster = roster[i]?.roster || [];
+  
+        for (let j = 0; j < userRoster.length; j++) {
+          if (userRoster[j]?.dayNumber == date && userRoster[j]?.option == shift) {
+            rosterData.push(roster[i]);
+            break; // Exit the inner loop if a match is found
+          }
         }
-       } 
-       return roster = rosterdata
+      }
+  
+      if (rosterData.length === 0) {
+        console.log('No user for selected shifts');
+      }
+  
+      return rosterData;
     }
-    
   }
 }
 /*

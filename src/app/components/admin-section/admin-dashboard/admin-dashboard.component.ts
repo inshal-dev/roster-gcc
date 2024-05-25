@@ -9,13 +9,14 @@ import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';   
 import { Toast } from 'bootstrap';   
 import { UserShift } from '../../../interface/user-shift';
+import { CategoryPipe } from '../../../pipes/category.pipe';
 
 @Component({
     selector: 'app-admin-dashboard',
     standalone: true,
     templateUrl: './admin-dashboard.component.html',
     styleUrl: './admin-dashboard.component.scss',
-    imports: [CommonModule, NgFor, FormsModule]
+    imports: [CommonModule, NgFor, FormsModule, CategoryPipe]
 })
 
 
@@ -37,14 +38,14 @@ export class AdminDashboardComponent {
   startDate:number = 0;
   endDate:number = 0;
   rosterValue!:string;
-  initial:number = 0;
-  final: number = 15; 
-  initialRoster : number = 0;
-  finalRoster : number = 15
+  // initial:number = 0;
+  // final: number = 15; 
+  // initialRoster : number = 0;
+  // finalRoster : number = 15
   rosterObjectId!:string;
   message$: BehaviorSubject<string> = new BehaviorSubject(''); 
-  socket = io('https://roster-server.onrender.com/');
-  //socket = io('http://localhost:3000/')
+  //socket = io('https://roster-server.onrender.com/');
+  socket = io('http://localhost:3000/')
   nullCount = 0
   apiResponse!:string;
   options:Array<string> = [
@@ -61,7 +62,9 @@ export class AdminDashboardComponent {
   sortedRosterData: any[] = [];
   filterRoster:any[] = [] 
   userOverviewArray: Array<UserShift> = [];
-
+  userCategory!:string;
+  temp4Category!:string;
+  customOrder = ['OL', 'TL', 'SM', 'Backup', 'BDC'];
   constructor(
     private rosterService: RosterService, 
   ){ 
@@ -70,24 +73,29 @@ export class AdminDashboardComponent {
   ngOnInit(){  
     this.monthState = this.month 
     this.getRosterData()      
-    
+    this.date = []
     
   }
    
   ngOnChanges(){  
-    this.nullCount = 0
-    this.monthCount = 0
-    this.initial = this.initialRoster = 0
-    this.final = this.finalRoster = 15
-    this.date = []
-    //this.rosterData = []   
-    console.log(this.rosterData[0]?.roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
+    //commented pagination logic
+    // this.nullCount = 0
+    // this.monthCount = 0
+    // this.initial = this.initialRoster = 0
+    // this.final = this.finalRoster = 15
+    
+   // this.rosterData = []   
+  //  console.log(this.rosterData[0]?.roster.slice(this.initialRoster, this.finalRoster + this.nullCount)) 
     setTimeout(()=>{
       if(this.monthState){
         console.log(this.monthState)  
+       // this.rosterData = []
         this.getRosterData()
       } 
       if(this.state == 'True' && this.monthState == this.month){
+        console.log(this.state, this.month);
+        console.log(this.rosterData);
+        
        this.submitRoster()
       }
     }, 100)  
@@ -109,6 +117,8 @@ export class AdminDashboardComponent {
 
   getRosterData(){ 
     console.log(this.monthState)
+ 
+
       if(this.monthState == undefined){
         this.monthState = this.month
       }else{
@@ -125,10 +135,22 @@ export class AdminDashboardComponent {
               this.rosterData = this.rosterData.data[0].roster
             }else{
               this.rosterData = this.rosterData.data
-            } 
+              this.rosterData.sort((a:any, b:any) => {
+                const indexA = this.customOrder.indexOf(a.category);
+                const indexB = this.customOrder.indexOf(b.category);
+            
+                // If a category is not found, indexOf returns -1. Handle such cases by placing them at the end.
+                const effectiveIndexA = indexA === -1 ? this.customOrder.length : indexA;
+                const effectiveIndexB = indexB === -1 ? this.customOrder.length : indexB;
+            
+                return effectiveIndexA - effectiveIndexB;
+            });
+             
+      } 
 
             this.createOverViewwithUser()
             //check this logic again 
+            this.date = []
               this.rosterData[0].roster.forEach((el:any) => {
                if(el?.dayNumber){
                 this.date.push({
@@ -138,13 +160,15 @@ export class AdminDashboardComponent {
                }else{
                // console.log('no data'); 
                } 
-               if(el == null){
-                this.nullCount += 1 
-               }else{
-                this.monthCount += 1
-               }
+              //  if(el == null){
+              //   this.nullCount += 1 
+              //  }else{
+              //   this.monthCount += 1
+              //  } 
+              
+              return this.date 
               })   
-            return this.date 
+             
            
           }
         )
@@ -153,7 +177,7 @@ export class AdminDashboardComponent {
   }
 
   createOverViewwithUser(){ 
-    console.log(this.rosterData);
+    //console.log(this.rosterData);
     const userOverviewArray:Array<UserShift> = [];
     this.rosterData.forEach((item: any) => {
         let overiewObject: UserShift = {
@@ -204,7 +228,7 @@ export class AdminDashboardComponent {
         });
         userOverviewArray.push(overiewObject);
     });
-    console.log(userOverviewArray);
+    // /console.log(userOverviewArray);
     return this.userOverviewArray = userOverviewArray;
 
   }
@@ -287,6 +311,9 @@ export class AdminDashboardComponent {
       _id: this.rosterObjectId,
       roster: this.rosterData
     }
+
+    console.log(this.rosterData);
+    
     
     if(this.apiResponse != '404' ){
       this.rostersSubscription = this.rosterService.publishRoster(data).subscribe((res)=>{
@@ -304,22 +331,24 @@ export class AdminDashboardComponent {
     }
     
   }
+
+  ///commented pagination logic
  
-  nextHalf(){
-    this.initial = this.final; 
-    this.initialRoster = this.finalRoster + this.nullCount 
-    this.final = this.monthCount
-    // console.log('222', this.final)
-    this.finalRoster = this.monthCount
-   // console.log(this.finalRoster)
-  }
-  prevHalf(){
-    this.initial = 0;
-    this.initialRoster = 0
-    this.final = 15
-    this.finalRoster = this.final 
-   // console.log(this.finalRoster)
-  }
+  // nextHalf(){
+  //   this.initial = this.final; 
+  //   this.initialRoster = this.finalRoster + this.nullCount 
+  //   this.final = this.monthCount
+  //   // console.log('222', this.final)
+  //   this.finalRoster = this.monthCount
+  //  // console.log(this.finalRoster)
+  // }
+  // prevHalf(){
+  //   this.initial = 0;
+  //   this.initialRoster = 0
+  //   this.final = 15
+  //   this.finalRoster = this.final 
+  //  // console.log(this.finalRoster)
+  // }
   //update selected users
 
   updateSelected(id:string){ 

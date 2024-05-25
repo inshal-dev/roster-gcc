@@ -47,10 +47,10 @@ export class AdminNavComponent {
   }
 
   publishRoster(value:string){ 
-    this.rosterPublishState.emit(value) 
-    const toastElement = this.publishToast.nativeElement;
-    const bootstrapToast = new Toast(toastElement);
-    bootstrapToast.show();
+    this.rosterPublishState.emit(value)  
+    // const toastElement = this.publishToast.nativeElement;
+    // const bootstrapToast = new Toast(toastElement);
+    // bootstrapToast.show();
     
   }
 

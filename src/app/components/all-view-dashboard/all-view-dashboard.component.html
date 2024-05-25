@@ -56,10 +56,12 @@
                 </td>
                
                 @for (data of item.roster ; track data?.dayNumber) {
-                 
-                  <td *ngIf="data" class="cal-input" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"> 
+               
+                  <td *ngIf="data" class="cal-input  " [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"> 
                       {{data.option}}
-                  </td>
+                   
+                  </td>   
+
                 }@empty{
                   <p>No Data for</p>
                 }

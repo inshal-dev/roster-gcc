@@ -14,11 +14,22 @@
   <h1>Not an Admin User</h1>
 }@else if(responseLength > 0){  
   <div class="container-fluid">   
-      <table class="table" id="excel-table">  
-        <thead class="p-0 m-0 sticky" > 
+      <table class="table p-0" id="excel-table">  
+        <thead class="p-0 m-0" > 
           <tr class="head-section"> 
-              <th class="name-title">Name</th>
-              @for (day of date.slice(initial, final); track day){
+            <th class="name-title">
+              <div class="header-content">
+                <span>Name</span>
+                <select name="" class="form-select select-category" [(ngModel)]="userCategory">
+                  <option [value]="temp4Category" disabled selected>Category</option>
+                  <option value="">All</option>
+                  <option value="SM">SM</option>
+                  <option value="BDC">BDC</option>
+                  <option value="BACKUP">Backup</option>
+                </select>
+              </div>
+            </th>
+              @for (day of date ; track day){
                 <th *ngIf="day" class="text-center " > 
                   {{ day.day }}  
                   <br> 
@@ -42,25 +53,32 @@
         <tbody class="table-body" >
          
               <!-- Roster Data without Filter-->
-            @for (item of rosterData; track item.roster ) {
+            @for (item of (rosterData | category: userCategory); track item.roster ) {
   
               <tr *ngIf="item" class="">
                 <td *ngIf="item" class="username-column" >
-                  <b>{{ item.username }}</b> 
-                  <a type="button" class="ps-2" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <b>{{ item.username }} </b> 
+                  <a type="button" class="float-end" (click)="updateSelected(item.userId)" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                       <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                       <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                     </svg>
                   </a>
                 </td>
-                @for (data of item.roster.slice(initialRoster, finalRoster + nullCount); track data?.dayNumber) {
+                @for (data of item.roster; track data?.dayNumber) {
                   <td *ngIf="data">
-                    <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()" [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent' && data.option == 'WO' ? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
-                      <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
-                      <option>{{ data.option }}</option>
-                      <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-                    </select>
+
+                    <div class="tooltip-container">
+                      <select class="cal-input" [(ngModel)]="data.option" (change)="sendMessage()"  [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.weekday == 'Sat' || data.weekday == 'Sun'? '#B6D7A8': 'transparent' && data.option == 'WO' ? '#B6D7A8': 'transparent'" data-bs-toggle="dropdown" aria-expanded="false">
+                        <option [value]="data.option" selected>{{ data.option ? data.option : data.dayNumber }}</option>
+                        <option>{{ data.option }}</option>
+                        <option *ngFor="let option of options" [value]="option" [attr.title]="data.reason ? data.reason : ''">{{ option }}
+                        
+                        </option>
+                      </select>
+                      <span *ngIf="data.option == 'CO' && data.reason" class="custom-tooltip">{{ data.reason }}</span>
+                    </div>
+                 
                   </td>
                 }@empty{
                   <p>No Data for {{monthState}}</p>
@@ -81,11 +99,11 @@
         </tbody>
       </table>  
    
-  <div class="btn-sticky">
+  <!-- <div class="btn-sticky">
     <button class="btn btn-outline-primary bck-btn" [disabled]="finalRoster < monthCount" (click)="prevHalf()">back</button>
 
     <button class="btn btn-outline-primary  nxt-btn" [disabled]="initialRoster > 0 " (click)="nextHalf()">next</button>
-  </div>
+  </div> -->
 
 </div>
 }@else{

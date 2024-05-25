@@ -15,16 +15,22 @@
       </tr>
       <tr class="table-row" *ngFor="let week of rosterUserData | daysFormatter: 7">
         <td *ngFor="let day of week">
-          <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
-            <span class="date">{{ day.dayNumber }}</span>
-           
-            <span class="option">{{day.option}}</span>
+          <div class="tooltip-container">
+            <div class="view-box" *ngIf="day"   [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
+              <span class="date">{{ day.dayNumber }}</span>
+             
+              <span class="option"  >{{ day?.option !== 'null' ? day.option : '' }}</span>
+              <span *ngIf="day.option === 'CO' && day.reason" class="custom-tooltip">{{ day.reason }}</span>
+  
+            </div>
           </div>
+          
         </td>
       </tr>
     </table>
-    <div class="edit-roster mt-4" *ngIf="rosterUserData.length > 0">
-      <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>
+    <div class="edit-roster" *ngIf="rosterUserData.length > 0">
+        <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>  
+      <!-- <button class="btn btn-primary" (click)="editUserRoster()" >Edit</button> -->
     </div>
   </div>
  
@@ -41,18 +47,29 @@
       <tr class="table-row"  *ngFor="let week of rosterUserData | daysFormatter: 7">
         <td *ngFor="let day of week">
           <div *ngIf="day">
-            <select class="form-select cal-input" [(ngModel)]="day.option" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' || day.option == 'CO'? 'rgb(255, 191, 0)': day.option == 'L'? 'red' : 'transparent'">
-              <option [value]="null" selected>{{day.dayNumber}}</option>
-              <option *ngFor="let option of options" [value]="option" > {{ option }}</option>
-            </select>
+            <select class="form-select cal-input" [(ngModel)]="day.option" (ngModelChange)="optionChange(day)" [disabled]="day.weekday == 'Sun' || day.weekday == 'Sat'"  [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent' && day.option == 'WO' ? '#B6D7A8': 'transparent'">
+
+              <!-- <option [value]="day.option"  selected>{{day.dayNumber}}</option> -->
+              <option [value]="day.option"  selected>{{day.option !== null ? day.option : day.dayNumber}}</option>
+              
+              <option *ngFor="let option of options" [value]="option" > {{ option }}
+               
+              
+              </option> 
+              
+            </select> 
+            <!-- @if(day.option == 'CO'){
+              <input type="text" class="form-control" [(ngModel)]="day.reason">
+            }     -->
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-  <div class="edit-roster mt-5">
-    <button class="btn btn-outline-danger me-2" (click)="editRoster = false">Cancel</button>
-    <button class="btn btn-primary" (click)="updateUserRoster()" [disabled]="date > 16" >Update</button>
+  <div class="edit-roster">
+    <button class="btn btn-outline-danger me-2" (click)="editRoster = false; getUserRosterData()">Cancel</button>
+    <button class="btn btn-primary" (click)="updateUserRoster()" [disabled]="date > 16" >Update</button> 
+    <!-- <button class="btn btn-primary" (click)="updateUserRoster()" >Update</button>  -->
   </div> 
 }@else{ 
   <div class="m-3">
@@ -67,5 +84,31 @@
   <a href="" (click)="routetoCurrent('currentRoster')">Create Roster</a>
 </p> -->
 <!-- Edit section -->
- 
- 
+<div class="modal fade" #reasonCO id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Reason for CO</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">  
+      
+       @if(modalTempData){
+        <span class="float-end">{{modalTempData.date | date }}</span> <span class="float-start">{{modalTempData.weekday}}</span>
+   
+        <div class="mt-4">
+          <label for="reason">Reason:</label>
+          <input type="text" id="reason" class="form-control" [(ngModel)]="modalTempData.reason">
+        </div>
+       
+       }@else {
+        <p>Some issue in Modal</p>
+       }
+     
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="submitCOreason()" data-bs-dismiss="modal" >Update</button> 
+   </div>
+    </div>
+  </div>
+</div> 

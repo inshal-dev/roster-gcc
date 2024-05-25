@@ -51,10 +51,11 @@ export class RosterEditComponent {
         date,
         dayNumber: i,
         weekday: date.format('ddd'),
-        option: null
+        option:null,
+        reason:null,
       };
-      this.days.push(day);
-
+      this.days.push(day); 
+      
     }
 
     const firstDayOfWeek = moment(firstDay).day();
@@ -87,6 +88,7 @@ export class RosterEditComponent {
         userId: localStorage.getItem('myID'),
         userName: localStorage.getItem('userName'),
         currentMonth: this.currentDate.format('MMMM'),
+        category: localStorage.getItem('category'),
         monthData : this.days
       }
 
