@@ -44,8 +44,8 @@ export class AdminDashboardComponent {
   // finalRoster : number = 15
   rosterObjectId!:string;
   message$: BehaviorSubject<string> = new BehaviorSubject(''); 
-  //socket = io('https://roster-server.onrender.com/');
-  socket = io('http://localhost:3000/')
+  socket = io('https://roster-server.onrender.com/');
+  //socket = io('http://localhost:3000/')
   nullCount = 0
   apiResponse!:string;
   options:Array<string> = [
