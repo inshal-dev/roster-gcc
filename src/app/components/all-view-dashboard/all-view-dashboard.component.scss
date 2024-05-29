@@ -178,7 +178,7 @@ table tbody tr:last-child td:last-child {
   width: 0; /* Full-width */
   height: 100%; /* 0 height - hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 2.5; /* Stay on top */
   top: 0; 
   right: 0;
   background-color: #ffffff; /* Black */
