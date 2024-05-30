@@ -89,6 +89,7 @@ export class RosterEditComponent {
         userName: localStorage.getItem('userName'),
         currentMonth: this.currentDate.format('MMMM'),
         category: localStorage.getItem('category'),
+        group: localStorage.getItem('group'),
         monthData : this.days
       }
 

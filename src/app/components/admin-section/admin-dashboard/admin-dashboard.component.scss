@@ -225,6 +225,7 @@ input[type=number] {
   background-color: #0056b3; /* Hover background color */
 }
 
+
 // sidenav for overview on user based
 
 
@@ -298,9 +299,12 @@ input[type=number] {
   text-align: center;
 }
 
-.table-container {
-  height: 300px;
-  margin: 50px 5px 5px 5px;
+.table-container { 
+    margin-top: 40px ;
+    min-height: 600px;
+    max-height: 93vh;
+    overflow:auto; 
+    
 }
 
 .custom-table {
@@ -309,10 +313,15 @@ input[type=number] {
   font-size: 12px; /* Adjust font size */
 }
 
-.custom-tr{
+.custom-tr{ 
   padding: 0;
   height: 0;
 }
+.custom-thead{
+  position: sticky;
+  top: 0.5%;
+}
+
 .custom-th
 .custom-th,
 .custom-td {
@@ -324,6 +333,7 @@ input[type=number] {
   background-color: #f8f9fa;
   border-bottom: 2px solid #dee2e6;
   text-align: center;
+ 
 }
 
 .custom-td { 

@@ -172,13 +172,13 @@ table tbody tr:last-child td:last-child {
 }
 
 // sidenav for overview on user based
-
+ 
 
 .sidenav {
   width: 0; /* Full-width */
   height: 100%; /* 0 height - hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Stay on top */
+  z-index: 4; /* Stay on top */
   top: 0; 
   right: 0;
   background-color: #ffffff; /* Black */
@@ -244,18 +244,12 @@ table tbody tr:last-child td:last-child {
   text-align: center;
 }
 
-thead{
-  height: 10px;
-  line-height: 17px; 
-  position: sticky; 
-  top: 30px;
-  z-index: 2; 
-} 
-
-
-.table-container {
-  height: 300px;
-  margin: 50px 5px 5px 5px;
+.table-container { 
+    margin-top: 40px ;
+    min-height: 600px;
+    max-height: 93vh;
+    overflow:auto; 
+    
 }
 
 .custom-table {
@@ -264,10 +258,15 @@ thead{
   font-size: 12px; /* Adjust font size */
 }
 
-.custom-tr{
+.custom-tr{ 
   padding: 0;
   height: 0;
 }
+.custom-thead{
+  position: sticky;
+  top: 0.5%;
+}
+
 .custom-th
 .custom-th,
 .custom-td {
@@ -279,6 +278,7 @@ thead{
   background-color: #f8f9fa;
   border-bottom: 2px solid #dee2e6;
   text-align: center;
+ 
 }
 
 .custom-td { 

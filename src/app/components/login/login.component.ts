@@ -46,6 +46,7 @@ export class LoginComponent {
         localStorage.setItem('myID', res.userId)
         localStorage.setItem('userName', res.username);
         localStorage.setItem('category', res.category)
+        localStorage.setItem('group', res.group)
         let admin = res.admin
       //  console.log(admin); 
       

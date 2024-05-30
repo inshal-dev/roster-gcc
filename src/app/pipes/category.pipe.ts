@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CategoryPipe implements PipeTransform {
 
-  transform( roster:Array<any>, categorySelected: string,): any {
+  transform( roster:Array<any>, categorySelected: string): any {
+    
      if(categorySelected){
       let rosterdata = []  
       for(let i=0; i<= roster.length; i++){ 

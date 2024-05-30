@@ -26,7 +26,19 @@
                   <option value="SM">SM</option>
                   <option value="BDC">BDC</option>
                   <option value="BACKUP">Backup</option>
+                  <option value="DATABASE">Database</option>
                 </select>
+                <!-- <select id="categorySelect" class="form-select" [(ngModel)]="userCategory">
+                  <option selected disabled>Choose a category</option>
+                  <ng-container *ngFor="let category of categories">
+                    <optgroup [label]="category.label">
+                      <option *ngFor="let subcategory of category.subcat" [value]="category">
+                        {{ subcategory }}
+                      </option>
+                    </optgroup>
+                  </ng-container>
+                </select>
+                {{userCategory}} -->
               </div>
             </th>
               @for (day of date ; track day){
@@ -53,7 +65,7 @@
         <tbody class="table-body" >
          
               <!-- Roster Data without Filter-->
-            @for (item of (rosterData | category: userCategory); track item.roster ) {
+            @for (item of (rosterData | category:userCategory); track item.roster ) {
   
               <tr *ngIf="item" class="">
                 <td *ngIf="item" class="username-column" >
@@ -234,7 +246,7 @@
           </ng-container>
         </tr>
       </thead>
-      <tbody> 
+      <tbody class="custom-body"> 
           @for (item of userOverviewArray; track item){
             <tr class="custom-tr">
               <td class="custom-td">{{item.username}} </td>

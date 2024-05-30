@@ -76,6 +76,7 @@ export class UserRosterComponent {
       userId: localStorage.getItem('myID'),
       userName: localStorage.getItem('userName'),
       category: localStorage.getItem('category'),
+      group: localStorage.getItem('group'),
       currentMonth: this.currentDate.format('MMMM'),
       monthData : this.rosterUserData
     } 

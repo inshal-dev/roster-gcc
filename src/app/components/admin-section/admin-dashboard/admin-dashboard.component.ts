@@ -44,13 +44,28 @@ export class AdminDashboardComponent {
   // finalRoster : number = 15
   rosterObjectId!:string;
   message$: BehaviorSubject<string> = new BehaviorSubject(''); 
-  //socket = io('https://roster-server.onrender.com/');
-  socket = io('http://localhost:3000/')
+  socket = io('https://roster-server.onrender.com/');
+  //socket = io('http://localhost:3000/')
   nullCount = 0
   apiResponse!:string;
   options:Array<string> = [
     "T7", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
   ]
+
+  // categories = [
+  //   {
+  //     label: 'SDC03',
+  //     subcat : [
+  //       'SM', 'BDC', 'BACKUP', 'DATABASE'
+  //     ]
+  //   },
+  //   {
+  //     label: 'CCP',
+  //     subcat:[
+  //       'SM', 'BDC', 'BACKUP', 'DATABASE'
+  //     ]
+  //   }
+  // ];
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   monthCount: number = 0;
   responseLength: any;
@@ -78,6 +93,8 @@ export class AdminDashboardComponent {
   }
    
   ngOnChanges(){  
+   
+    
     //commented pagination logic
     // this.nullCount = 0
     // this.monthCount = 0
