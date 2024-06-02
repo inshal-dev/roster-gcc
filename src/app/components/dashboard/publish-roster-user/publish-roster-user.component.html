@@ -5,12 +5,15 @@
     </tr>
     <tr class="table-row" *ngFor="let week of userRosterData | daysFormatter: 7">
       <td *ngFor="let day of week">
-        <div class="view-box" *ngIf="day"  [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
-          <span class="date">{{ day.dayNumber }}</span>
-         
-          <span class="option">{{day.option}}</span>
+        <div class="tooltip-container">
+          <div class="view-box" *ngIf="day"   [style.backgroundColor]="day.option == 'PH' ? '#4DFF3D': day.option == 'CO'? '#FDE253': day.option == 'L'? '#FF5858' :  day.weekday == 'Sat' || day.weekday == 'Sun'? '#B6D7A8': 'transparent'">
+            <span class="date">{{ day.dayNumber }}</span>
+           
+            <span class="option"  >{{ day?.option !== 'null' ? day.option : '' }}</span>
+            <span *ngIf="day.option === 'CO' && day.reason" class="custom-tooltip">{{ day.reason }}</span>
+
+          </div>
         </div>
-      </td>
     </tr>
   </table>  
 }@else{

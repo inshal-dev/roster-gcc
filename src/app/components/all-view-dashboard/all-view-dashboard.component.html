@@ -56,12 +56,12 @@
                 </td>
                
                 @for (data of item.roster ; track data?.dayNumber) {
-               
-                  <td *ngIf="data" class="cal-input  " [style.backgroundColor]="data.option == 'PH' ? '#4DFF3D': data.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"> 
-                      {{data.option}}
-                   
-                  </td>   
-
+                  <td *ngIf="data" class="cal-input" 
+                  [style.backgroundColor]="data?.option == 'PH' ? '#4DFF3D': data?.option == 'CO'? '#FDE253': data.option == 'L'? '#FF5858' :  data.option == 'WO' ? '#B6D7A8': 'transparent'"
+                  [appTooltip]="data.reason"> 
+                {{data?.option ? data?.option : data?.dayNumber}}
+             
+              </td>    
                 }@empty{
                   <p>No Data for</p>
                 }
@@ -184,6 +184,18 @@
                 <td>Empty</td>
               </tr>
             }
+            <tr class="custom-tr">
+              <td class="custom-td"> Total </td>
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td>  
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td>  
+              <td class="custom-td shift"> {{userOverviewArray.length}} </td>   
+            </tr> 
             
            
         </tbody>

@@ -7,12 +7,13 @@ import { Subscription } from 'rxjs';
 import { UserRoster } from '../../interface/userRoster';
 import { ShiftFilterPipe } from '../../pipes/shift-filter.pipe';
 import { UserShift } from '../../interface/user-shift';
-import { ExcelConverterComponent } from '../excel-converter/excel-converter.component';
+import { ExcelConverterComponent } from '../excel-converter/excel-converter.component'; 
+import { TooltipDirective } from '../../directives/tooltip.directive';
 
 @Component({
   selector: 'app-all-view-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, ShiftFilterPipe, ExcelConverterComponent],
+  imports: [CommonModule, FormsModule, ShiftFilterPipe, ExcelConverterComponent, TooltipDirective],
   templateUrl: './all-view-dashboard.component.html',
   styleUrl: './all-view-dashboard.component.scss'
 })
@@ -78,11 +79,8 @@ prevObject!: string;
     this.rosterData = []
     this.dateObject = []
     if(month){
-     this.rostersSubscription = this.rosterService.getRosterforDashboard(month).subscribe((res) =>{
-        // console.log(res)
-        this.rosterData = res  
-     //   console.log(this.rosterData.length) 
-
+     this.rostersSubscription = this.rosterService.getRosterforDashboard(month).subscribe((res) =>{ 
+        this.rosterData = res   
         this.rosterData[0].roster.forEach((el:any) => {
           if(el?.dayNumber){
            this.dateObject.push({
@@ -91,10 +89,7 @@ prevObject!: string;
            })
           }
         }) 
-
-      },(err) =>{
-       console.log(err)
-      }
+       }
       )
     }
   }

@@ -4,6 +4,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';  
+
+import { Modal } from 'bootstrap';   
+
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -34,6 +38,10 @@ export class LoginComponent {
   userState: boolean = true;
   @Output() authState = new EventEmitter<any>();
 
+  @ViewChild('getpaswd')
+  paswd!: ElementRef; 
+
+
   ngOnInit(): void {
   }
   
@@ -60,6 +68,12 @@ export class LoginComponent {
       })
     }
 
+  }
+
+  getPassword(){ 
+      const toastElement = this.paswd.nativeElement;
+      const bootstrapModal = new Modal(toastElement)
+      bootstrapModal.show(); 
   }
 
   ngOnDestroy(){

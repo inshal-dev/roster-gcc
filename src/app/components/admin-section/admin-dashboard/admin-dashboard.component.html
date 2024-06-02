@@ -27,18 +27,8 @@
                   <option value="BDC">BDC</option>
                   <option value="BACKUP">Backup</option>
                   <option value="DATABASE">Database</option>
-                </select>
-                <!-- <select id="categorySelect" class="form-select" [(ngModel)]="userCategory">
-                  <option selected disabled>Choose a category</option>
-                  <ng-container *ngFor="let category of categories">
-                    <optgroup [label]="category.label">
-                      <option *ngFor="let subcategory of category.subcat" [value]="category">
-                        {{ subcategory }}
-                      </option>
-                    </optgroup>
-                  </ng-container>
-                </select>
-                {{userCategory}} -->
+                  <option value="CCP">CCP</option>
+                </select> 
               </div>
             </th>
               @for (day of date ; track day){
@@ -62,7 +52,7 @@
           </tr> 
           <br>
         </thead> 
-        <tbody class="table-body" >
+        <tbody class="table-body row-data" >
          
               <!-- Roster Data without Filter-->
             @for (item of (rosterData | category:userCategory); track item.roster ) {
@@ -258,17 +248,26 @@
                <td class="custom-td shift">{{item.CO}} </td> 
                <td class="custom-td shift">{{item.PH}} </td> 
                <td class="custom-td shift">{{item.L}} </td> 
-               <td class="custom-td shift">{{item.WO}} </td>
-
-
+               <td class="custom-td shift">{{item.WO}} </td> 
             </tr>
+           
           }@empty {
             <tr>
               <td>Empty</td>
             </tr>
-          }
-          
-         
+          } 
+          <tr class="custom-tr">
+            <td class="custom-td"> Total </td>
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td>  
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td> 
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td>  
+            <td class="custom-td shift"> {{userOverviewArray.length}} </td>   
+          </tr> 
       </tbody>
     </table>
   </div>

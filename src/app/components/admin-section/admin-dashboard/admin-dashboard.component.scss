@@ -58,12 +58,16 @@
 .table {
   padding: 0px ;
   margin-top: 10px;
-  margin-bottom: 60px;
+  margin-bottom: 60px;  
   width: 100%;    
   font-size: 12px;
   border-collapse: collapse;
+  min-width: 60vw;
+    max-width: 99vw;
+    overflow-y: scroll;
   .table-body{ 
     background-color: #fff;   
+    
   }
   .head-section{
     border-radius: 26px;
@@ -110,6 +114,9 @@ th:last-child{
   border-radius: 0px 45px 45px 0px;
 }
  
+.row-data{
+
+}
 
 
 table tbody tr:first-child td:first-child {
@@ -356,7 +363,7 @@ input[type=number] {
   border-radius: 6px;
   padding: 5px;
   position: absolute;
-  z-index: 1;
+  z-index: 4;
   bottom: 125%; /* Position the tooltip above the text */
   left: 50%;
   margin-left: -60px; /* Use half of the width to center the tooltip */

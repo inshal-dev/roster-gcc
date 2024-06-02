@@ -253,6 +253,8 @@ export class AdminDashboardComponent {
   getDetailedRosterValue() { 
     const dateOptionsMap:any = {};
     this.sortedRosterData = []
+  console.log(this.rosterData.length);
+  
     this.rosterData.forEach((rosterItem: any) => {
       rosterItem.roster.forEach((dayData: any) => {
         
@@ -266,7 +268,7 @@ export class AdminDashboardComponent {
               }
   
               // Increment count for the option
-              console.log((dateOptionsMap[date][option] || 0) + 1)
+    //          console.log((dateOptionsMap[date][option] || 0) + 1)
               dateOptionsMap[date][option] = (dateOptionsMap[date][option] || 0) + 1;
           } else {
               return dateOptionsMap
@@ -275,12 +277,14 @@ export class AdminDashboardComponent {
       });
   }); 
   
+  
   // Convert dateOptionsMap to an array of objects
   const dataArray = Object.entries<any>(dateOptionsMap).map(([date, options]) => {
       const optionsArray = Object.entries<any>(options).map(([option, count]) => ({ option, count }));
+      console.log(optionsArray);
+      
       return { date, options: optionsArray };
-  });
-   
+  }); 
   this.sortedRosterData = dataArray; 
   }
 

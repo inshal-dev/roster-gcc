@@ -34,9 +34,29 @@
               
               <small *ngIf="response">{{response}}</small>
               <div class="text-center mt-3">
-                  <a class="secondary-text">Contact Admin?</a>
+                  <a href="#" class="secondary-text" (click)="getPassword()">Get password</a>
               </div>
           </div>
       </div>
   </div>
 </div>
+
+
+<!-- Edit section -->
+<div class="modal fade" #getpaswd id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Get my password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">  
+      <input type="text" class="form-control mb-2" placeholder="Email">
+      <input type="password" class="form-control" name="" id="" placeholder="****">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  data-bs-dismiss="modal" >Update</button> 
+   </div>
+    </div>
+  </div>
+</div> 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { DaysFormatterPipe } from "../../../pipes/days-formatter.pipe";
@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Roster } from '../../../interface/roster';
 import { RosterService } from '../../../services/roster.service';
 import { Subscription } from 'rxjs';
-
+import { Modal } from 'bootstrap';   
 @Component({
     selector: 'app-roster-edit',
     standalone: true,
@@ -26,10 +26,13 @@ export class RosterEditComponent {
   response: any;
   currentMonth:any;
   previousMonth:any
+  modalTempData!: Roster | any;
   @Output() editRoster = new EventEmitter<any>();
   @Output() userNavigateTo = new EventEmitter<any>();
   currentMonthValue: any; 
 
+  @ViewChild('reasonCO')
+  toastCO!: ElementRef; 
   rostersSubscription!: Subscription;
 
   constructor(
@@ -82,6 +85,16 @@ export class RosterEditComponent {
      })
   }
 
+  optionChange(day:Roster){
+    console.log(day);
+    this.modalTempData = day
+    if(day.option == 'CO'){ 
+      const toastElement = this.toastCO.nativeElement;
+      const bootstrapModal = new Modal(toastElement)
+      bootstrapModal.show();
+    } 
+  }
+  
   //Current month roster submit
   submitUserRoster(){
       const userRosterData = {
@@ -100,7 +113,12 @@ export class RosterEditComponent {
       })
 
   }
-
+  submitCOreason(){
+    const toastElement = this.toastCO.nativeElement;
+    const bootstrapModal = new Modal(toastElement)
+    bootstrapModal.hide();  
+   
+  }
   openUserRoster(value:any){
     this.userNavigateTo.emit(value)
   }
