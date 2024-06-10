@@ -12,13 +12,63 @@
   </div>
   <a class="navbar-brand" href="#" (click)="routeToDash()">Roster</a>
 
-  <div class="container-fluid d-flex justify-content-end">
-    <button class="btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-      </svg>
-    </button>
+  <div class="container-fluid d-flex justify-content-end"> 
+        <div class="nav-item dropdown me-3">
+          <a class="btn btn-primary dropdown-toggle" href="#" (click)="getUserSwapHistory()" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Swap Requests 
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{swapCount}}
+            <span class="visually-hidden">Pending Requests</span>
+          </span>
+          </a>
+          <div class="dropdown-menu"> 
+            @for(item of swapHistory; track item.userId){
+              <div class="card-view" >
+                <div class="card mb-1"  >
+                  <div class="card-header">
+                    <span class="date">{{item.swapDate | date:'d MMM, y'}}</span>
+                    <p >{{item.requesterName}}</p>
+
+                  </div>
+                    <div class="card-body">
+                      <p class="shift "> Swap with: </p>
+                      <p class="name ">{{item.swapwithEmployee}}</p>
+                       
+                        <p class="shift "> Previous Shift: </p>
+                       
+                        <p class="shift">Current Shift: </p>  
+                        <div class="view-box"  > 
+                          <span class="option">{{item.swapShift}}</span>
+                          <span class="option">{{item.swapEmpShift}}</span>
+  
+                        </div>
+                        @switch(item.state != ''){
+                          @case( item.state == 'Pending'){
+                            <p class="shift">Status: </p>  <span class="badge text-bg-secondary">{{item.state}}</span>
+                          }
+                          @case (item.state == 'Approved') {
+                            <p class="shift">Status: </p>  <span class="badge text-bg-success">{{item.state}}</span>
+                          }
+                          @case (item.state == 'Rejected') {
+                            <p class="shift">Status:  </p><span class="badge text-bg-danger">{{item.state}}</span>
+                          }
+                        }
+                       
+                    </div>
+                    <div class="card-footer " >
+                      <button href="#" class="btn btn-outline-danger me-2" [disabled]="item.state == 'Approved' || item.state == 'Rejected'" (click)="swapRequestState('Rejected', item)">Reject</button>
+                      <button href="#" class="btn btn-primary float-end" [disabled]="item.state == 'Approved' || item.state == 'Rejected'" (click)="swapRequestState('Approved', item)">Approve</button>
+
+                    </div>
+                </div> 
+            </div>
+            }@empty {
+              <p>No data</p>
+            }
+          </div> 
+
+
+    </div>
     <button class="btn ms-2 btn-outline-primary" type="submit" [disabled]="userCountCheck?.state" (click)="createRoster()">Create</button>
 
     <button class="btn ms-2 btn-primary" type="submit" (click)="publishRoster('True')" [disabled]="currentDate.date() <= 16">Publish</button>

@@ -13,6 +13,9 @@
     @case (userNavValue == 'publish') {
       <app-publish-roster-user [month]="monthValue"></app-publish-roster-user>
     }
+    @case (userNavValue == 'swapShift') {
+      <app-shift-swap></app-shift-swap>
+    }
     @default {
       <span>Empty</span>
     }

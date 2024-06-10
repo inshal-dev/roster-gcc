@@ -31,3 +31,70 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.dropdown-menu{
+  width: 280px;
+  max-height: 600px ;
+  overflow: auto;
+  .card{
+    margin: 10px;
+    padding: 0;  
+    height: fit-content; 
+    p{
+      margin-bottom: 0;
+    }
+    .card-header{
+      font-size: 15px;
+      
+      .date{ 
+        position: absolute;
+        right: 10px;
+        top: 1;
+        font-weight: bolder;
+    } 
+  
+    }
+    
+    .card-body{
+        font-size: 13px;
+       .name{
+        position: absolute;
+        right: 10px;   
+        top: 22%;
+        font-weight: bolder;
+        margin-bottom: 0 !important;
+       }
+       .shift{
+        margin-bottom: 15px;
+       }
+        .view-box{
+            position: absolute;
+            right: 10px;   
+            top: 30%;
+             
+            .option{ 
+                margin: 5px;
+              padding-top: 6px; 
+                padding-right: 10px; 
+                display: flex;
+                justify-content: end;
+                width: 35px;
+                height: 35px; 
+                box-shadow: inset 0px 1px 4px rgba(155, 155, 155, 0.536);
+                border-radius: 5px;
+            } 
+          }
+  
+        .badge{
+            position: absolute;
+            right: 10px;   
+            top: 63%;
+            padding: 5px;
+            font-size: small;
+        }  
+         
+    }
+    .card-footer{
+      font-size: small;
+    }    
+  }
+}

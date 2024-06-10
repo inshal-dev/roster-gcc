@@ -5,8 +5,8 @@
   @if(userState == 'login'){
     <app-login (authState)="LogIn($event)"></app-login>
   }@else if(userState == 'admin-dash'){
-    <app-admin-nav (rosterPublishState)="getPublishState($event)" (routeToDashboard)="adminRoutetoDash($event)" (changeMonth)="getSelectedMonth($event)"></app-admin-nav>
-    <app-admin-dashboard [state]="rosterState" [monthState]="monthValue"></app-admin-dashboard>
+    <app-admin-nav (rosterPublishState)="getPublishState($event)" (routeToDashboard)="adminRoutetoDash($event)" (changeMonth)="getSelectedMonth($event)"  ></app-admin-nav>
+    <app-admin-dashboard [state]="rosterState" [monthState]="monthValue"  ></app-admin-dashboard>
   }@else if(userState == 'dash'){
     <app-head-nav (selectedMonth)="getSelectedMonth($event)" (routeDashboard)="getRouteForDashboard($event)"></app-head-nav>
     <div class="container"> 

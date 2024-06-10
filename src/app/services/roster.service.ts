@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { months } from 'moment';
 import { Observable } from 'rxjs';
+import { SwapShift } from '../interface/swapShift';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class RosterService {
    this.auth = localStorage.getItem('myToken')
    this.id = localStorage.getItem('userName')
  }
+ 
  
  sendCurrentRoster(rosterData:any){ 
   const httpOptions = { 
@@ -102,4 +104,36 @@ export class RosterService {
   return this.http.post(this.url + 'toCSV', {data: data}, { ...httpOptions, responseType: 'text' })
  }
 
+ userListSwap(group:string):Observable<any>{
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+  return this.http.post(this.url + 'user-list', {group: group}, httpOptions)
+ }
+ userSwapRequest(swapData:Object):Observable<any>{
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+    return this.http.post(this.url + 'user-swap-shift', {swapData: swapData}, httpOptions)
+ }
+ userSwapHistory(_id:string):Observable<any>{
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+    return this.http.post(this.url + 'user-swap-history', {userId: _id}, httpOptions)
+ }
+ updateSwap(data:SwapShift):Observable<any>{
+  const httpOptions = { 
+    headers: new HttpHeaders({ 
+     'Content-Type':  'application/json', 
+     'Authorization':  `${this.auth}`
+    })}; 
+    return this.http.post(this.url + 'user-swap-update',{swapData: data}, httpOptions)
+ }
 }

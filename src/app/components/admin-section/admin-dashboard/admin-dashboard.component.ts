@@ -23,7 +23,7 @@ import { CategoryPipe } from '../../../pipes/category.pipe';
 export class AdminDashboardComponent {
 
   @Input() state:any ; 
-  @Input() monthState:any;
+  @Input() monthState:any; 
   @ViewChild('myToast')
   myToast!: ElementRef; 
 
@@ -51,21 +51,7 @@ export class AdminDashboardComponent {
   options:Array<string> = [
     "T7", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
   ]
-
-  // categories = [
-  //   {
-  //     label: 'SDC03',
-  //     subcat : [
-  //       'SM', 'BDC', 'BACKUP', 'DATABASE'
-  //     ]
-  //   },
-  //   {
-  //     label: 'CCP',
-  //     subcat:[
-  //       'SM', 'BDC', 'BACKUP', 'DATABASE'
-  //     ]
-  //   }
-  // ];
+ 
   weekdays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   monthCount: number = 0;
   responseLength: any;
@@ -80,6 +66,8 @@ export class AdminDashboardComponent {
   userCategory!:string;
   temp4Category!:string;
   customOrder = ['OL', 'TL', 'SM', 'Backup', 'BDC'];
+  loaderState:boolean = true;
+
   constructor(
     private rosterService: RosterService, 
   ){ 
@@ -92,8 +80,7 @@ export class AdminDashboardComponent {
     
   }
    
-  ngOnChanges(){  
-   
+  ngOnChanges(){   
     
     //commented pagination logic
     // this.nullCount = 0
@@ -116,6 +103,9 @@ export class AdminDashboardComponent {
        this.submitRoster()
       }
     }, 100)  
+    setTimeout(()=>{
+      this.loaderState = false
+    }, 3000)
   }
 
   
@@ -131,10 +121,9 @@ export class AdminDashboardComponent {
     this.isSideOpen = !this.isSideOpen;
     this.createOverViewwithUser()
   }
-
-  getRosterData(){ 
-    console.log(this.monthState)
  
+   
+  getRosterData(){  
 
       if(this.monthState == undefined){
         this.monthState = this.month
@@ -380,7 +369,7 @@ export class AdminDashboardComponent {
       })
     } 
   }
-
+   
   getDates(startDate:any, endDate:any, rosterValue:string){ 
     this.selectedUser?.roster.forEach(el => {
      // console.log(el?.dayNumber >= startDate);

@@ -7,6 +7,7 @@ import { LoginComponent } from '../login/login.component';
 import { AdminDashboardComponent } from "../admin-section/admin-dashboard/admin-dashboard.component";
 import { AdminNavComponent } from '../admin-section/admin-nav/admin-nav.component';
 import { AllViewDashboardComponent } from '../all-view-dashboard/all-view-dashboard.component';
+import { SwapShift } from '../../interface/swapShift';
 
 
 @Component({
@@ -21,8 +22,7 @@ export class HomeComponent {
    @Input() monthValue:any
    navValue:any
    adminState:any 
-   rosterState:any
-  
+   rosterState:any 
    prevState!: string | null;
 
   constructor(){  
@@ -90,6 +90,8 @@ export class HomeComponent {
       this.userState = route 
     }
   }
+
+   
   
   routetoCurrentState(routeState:boolean){ 
     return routeState ? this.userState = this.prevState : console.log(this.userState)
