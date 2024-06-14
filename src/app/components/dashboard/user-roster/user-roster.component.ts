@@ -27,6 +27,7 @@ export class UserRosterComponent {
   response: any;
   editRoster:boolean = false;
   month:any = this.currentDate.format('MMMM');
+  tempDate = new Date()
   rosterArrayLength!:number;
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
@@ -39,12 +40,27 @@ export class UserRosterComponent {
   @Output() userNavigateToCurrent = new EventEmitter<Event>;
   @ViewChild('reasonCO')
   toastCO!: ElementRef; 
-
+  currentMonth:any
   constructor(
     private rosterService: RosterService
   ){  
     this.date = this.currentDate.date()
     this.getUserRosterData()
+  
+    
+  }
+
+  ngOnInit(){
+    this.currentMonth = this.getCurrentMonth();
+
+  }
+  getCurrentMonth(): string {
+    const date = new Date();
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return monthNames[date.getMonth()];
   }
 
   ngOnChanges(){
@@ -100,6 +116,10 @@ export class UserRosterComponent {
       bootstrapModal.show();
     } 
   }
+  resetOption(data:any){ 
+    return data.option = null
+  }
+
   submitCOreason(){
     const toastElement = this.toastCO.nativeElement;
     const bootstrapModal = new Modal(toastElement)

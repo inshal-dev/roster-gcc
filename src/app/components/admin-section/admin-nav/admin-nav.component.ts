@@ -39,10 +39,14 @@ export class AdminNavComponent {
    
   ngOnInit(){ 
     this.userId = localStorage.getItem('myID'); 
-    this.getUserSwapHistory()
+    this.getUserSwapHistory() 
   }
 
-
+  ngAfterViewInit(){
+    setInterval(()=>{
+      this.getUserSwapHistory()
+    }, 1000)
+  }
   validateUserRoster(){
     this.rostersSubscription = this.rosterService.unApprovedCountCheck().subscribe(
      (res) => {
@@ -84,10 +88,10 @@ export class AdminNavComponent {
     });
   }
   swapRequestState(state:string, item:SwapShift){ 
-    if(state === 'approve'){
+    if(state === 'Approved'){
       item.state = 'Approved' 
      this.rostersSubscription = this.rosterService.updateSwap(item).subscribe(res => {
-          
+          console.log(res)
       })
     }else{
       item.state = 'Rejected'

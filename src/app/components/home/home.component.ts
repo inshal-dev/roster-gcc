@@ -44,19 +44,17 @@ export class HomeComponent {
   ngOnChanges(){
     console.log(this.adminState)
   }
+
   LogIn(userState:any){
-    localStorage.removeItem('userState')
-    console.log(userState)
-    this.adminState = userState
-    console.log(this.adminState)
+    localStorage.removeItem('userState') 
+    this.adminState = userState 
     if(this.adminState == false ){
       this.userState = 'dash'
       localStorage.setItem('userState', this.userState)
     }else if(this.adminState == true){
       this.userState = 'admin-dash'
       localStorage.setItem('userState', this.userState)
-    }
-    console.log(this.adminState);
+    } 
      
   }
 
@@ -89,9 +87,7 @@ export class HomeComponent {
       this.prevState = this.userState
       this.userState = route 
     }
-  }
-
-   
+  } 
   
   routetoCurrentState(routeState:boolean){ 
     return routeState ? this.userState = this.prevState : console.log(this.userState)

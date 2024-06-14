@@ -43,7 +43,10 @@ export class RosterEditComponent {
     console.log(this.currentDate)
   }
 
-
+  ngOnChanges(){
+    console.log(this.modalTempData);
+    
+  }
   getDaysInMonth() {
     this.days= [];
     const daysInMonth = this.currentDate.daysInMonth();
@@ -87,14 +90,16 @@ export class RosterEditComponent {
 
   optionChange(day:Roster){
     console.log(day);
-    this.modalTempData = day
+    this.modalTempData = day 
     if(day.option == 'CO'){ 
       const toastElement = this.toastCO.nativeElement;
       const bootstrapModal = new Modal(toastElement)
       bootstrapModal.show();
     } 
   }
-  
+  resetOption(data:any){ 
+    return data.option = null
+  }
   //Current month roster submit
   submitUserRoster(){
       const userRosterData = {
@@ -105,7 +110,7 @@ export class RosterEditComponent {
         group: localStorage.getItem('group'),
         monthData : this.days
       }
-
+      
       this.rostersSubscription = this.rosterService.sendCurrentRoster(userRosterData).subscribe((res:any)=>{
         this.response = res.response
         

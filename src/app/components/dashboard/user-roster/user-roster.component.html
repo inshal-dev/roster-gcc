@@ -29,6 +29,7 @@
       </tr>
     </table>
     <div class="edit-roster" *ngIf="rosterUserData.length > 0">
+      
         <button class="btn btn-primary" (click)="editUserRoster()" [disabled]="date > 16">Edit</button>  
       <!-- <button class="btn btn-primary" (click)="editUserRoster()" >Edit</button> -->
     </div>
@@ -89,7 +90,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Reason for CO</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" [disabled]="!modalTempData?.reason" (click)="resetOption(modalTempData)"></button>
       </div>
       <div class="modal-body">  
       
@@ -107,8 +108,9 @@
      
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" (click)="submitCOreason()" data-bs-dismiss="modal" >Update</button> 
+        <button class="btn btn-primary" [disabled]="!modalTempData?.reason" (click)="submitCOreason()" data-bs-dismiss="modal" >Update</button> 
    </div>
     </div>
   </div>
 </div> 
+

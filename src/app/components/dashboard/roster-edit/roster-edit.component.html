@@ -43,7 +43,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Reason for CO</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" [disabled]="!modalTempData?.reason" (click)="resetOption(modalTempData)"></button>
       </div>
       <div class="modal-body">  
       
@@ -53,16 +53,15 @@
         <div class="mt-4">
           <label for="reason">Reason:</label>
           <input type="text" id="reason" class="form-control" [(ngModel)]="modalTempData.reason">
-        </div>
-       
+        </div> 
        }@else {
         <p>Some issue in Modal</p>
        }
      
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" (click)="submitCOreason()" data-bs-dismiss="modal" >Update</button> 
-   </div>
+        <button class="btn btn-primary" [disabled]="!modalTempData?.reason"  (click)="submitCOreason()" data-bs-dismiss="modal">Update</button> 
+      </div>
     </div>
   </div>
 </div> 
