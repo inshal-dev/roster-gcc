@@ -1,6 +1,6 @@
 {
     "/api": {
-    "target": "http://roster-server.onrender.com/",
+    "target": "https://roster-server.onrender.com/",
     "secure": false
     }
 }
