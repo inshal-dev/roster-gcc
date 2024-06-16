@@ -193,7 +193,7 @@
         <!-- Iterate through prepared data -->
         <ng-container *ngFor="let rowData of prepareDataForTable(); let rowIndex = index">
           <tr class="custom-tr">
-            <td class="custom-td">{{ rowData.shift }}</td>
+            <td class="custom-td">{{ rowData.shift == 'L' ? 'Leave' : rowData.shift }}</td>
             <!-- Iterate through counts -->
             <ng-container *ngFor="let count of rowData.counts; let i = index">
               <td class="custom-td text-center" [style.backgroundColor]="rowData.shift == 'PH' && count !== 0 ? '#4DFF3D': rowData.shift == 'WO' && count !== 0 ? '#B6D7A8': rowData.shift == 'L' && count !== 0 ?'#FF5858': rowData.shift == 'CO' && count !== 0 ? '#FDE253' : 'transparent'">{{ count }}</td>

@@ -76,12 +76,10 @@ export class AdminDashboardComponent {
   ngOnInit(){  
     this.monthState = this.month 
     this.getRosterData()      
-    this.date = []
-    
+    this.date = [] 
   }
    
-  ngOnChanges(){   
-    
+  ngOnChanges(){    
     //commented pagination logic
     // this.nullCount = 0
     // this.monthCount = 0
@@ -124,7 +122,6 @@ export class AdminDashboardComponent {
  
    
   getRosterData(){  
-
       if(this.monthState == undefined){
         this.monthState = this.month
       }else{
@@ -270,7 +267,6 @@ export class AdminDashboardComponent {
   // Convert dateOptionsMap to an array of objects
   const dataArray = Object.entries<any>(dateOptionsMap).map(([date, options]) => {
       const optionsArray = Object.entries<any>(options).map(([option, count]) => ({ option, count }));
-      console.log(optionsArray);
       
       return { date, options: optionsArray };
   }); 
@@ -287,6 +283,8 @@ export class AdminDashboardComponent {
       }
       tableData.push(rowData);
     }  
+    const order = ["F3", "S1", "T7", "G1", "G2", "L", "PH", "CO", "WO"];
+    tableData.sort((a:any, b:any) => order.indexOf(a.shift) - order.indexOf(b.shift));
     return tableData;
   }
   

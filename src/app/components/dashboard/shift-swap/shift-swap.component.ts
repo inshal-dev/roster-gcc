@@ -45,20 +45,23 @@ export class ShiftSwapComponent {
     this.userId = localStorage.getItem('myID');
     this.month = this.months[this.moments.month()] 
     this.username = localStorage.getItem('userName')
-    this.getUserSwapHistory()
+    setInterval(()=>{
+      this.getUserSwapHistory()
+    }, 1000)
+   
   }
 
   getUserSwapHistory(){
     if(this.userId)
     this.swapSubscription = this.rosterService.userSwapHistory(this.userId).subscribe((res)=> {
-      this.swapHistory = res 
-      
+      this.swapHistory = res  
     })
   }
+
   groupSelected(event:any){
     const selectElement = event.target as HTMLSelectElement;
     this.group = selectElement.value;  
-   this.swapSubscription = this.rosterService.userListSwap(this.group).subscribe((res)=> {
+    this.swapSubscription = this.rosterService.userListSwap(this.group).subscribe((res)=> {
       this.user = res    
       let username = localStorage.getItem('userName');
       //if user name is not null then push the value

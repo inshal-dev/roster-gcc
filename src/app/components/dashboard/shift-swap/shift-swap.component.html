@@ -10,32 +10,32 @@
               <div class="mb-3">
                 <label for="group">Select group</label>
                   <select class="form-select" id="group" (change)="groupSelected($event)" data-bs-toggle="dropdown" aria-expanded="false">
-                      <option value="" disabled selected>Select Group</option>
-                      <option value="SDC03">SDC03</option>
-                      <option value="CCP">CCP</option>
+                      <option class="option-value" value="" disabled selected>Select Group</option>
+                      <option class="option-value" value="SDC03">SDC03</option>
+                      <option class="option-value" value="CCP">CCP</option>
                   </select>
               </div>
               <div class="mb-3">
                 <label for="emp">Select employee name</label>
                   <select class="form-select"  formControlName="swapwithEmployee" data-bs-toggle="dropdown" aria-expanded="false">
-                    <option *ngIf="group" value="" disabled selected>Select Swap Employee</option>
-                    <option *ngIf="!group" value="" disabled selected>Select Group First</option>
-                      <option *ngFor="let option of user" [value]="option"> {{ option }}</option>
+                    <option class="option-value" *ngIf="group" value="" disabled selected>Select Swap Employee</option>
+                    <option class="option-value" *ngIf="!group" value="" disabled selected>Select Group First</option>
+                      <option class="option-value" *ngFor="let option of user" [value]="option"> {{ option }}</option>
                   </select>
               </div>
               <div class="mb-3 row d-flex align-items-center">
                   <div class="col me-1">
                     <label for="emp">Current shift</label>
                       <select class="form-select" formControlName="swapShift" data-bs-toggle="dropdown" aria-expanded="false">
-                          <option value="" selected>Select current shift</option>
-                          <option *ngFor="let option of options" [value]="option"> {{ option }}</option>
+                          <option class="option-value" value="" selected>Select current shift</option>
+                          <option class="option-value" *ngFor="let option of options" [value]="option"> {{ option }}</option>
                       </select>
                   </div>
                   <div class="col">
                     <label for="emp">Requesting shift</label>
                       <select class="form-select" formControlName="swapEmpShift" data-bs-toggle="dropdown" aria-expanded="false">
-                          <option value="" selected>Select shift swap</option>
-                          <option *ngFor="let option of options" [value]="option"> {{ option }}</option>
+                          <option class="option-value" value="" selected>Select shift swap</option>
+                          <option class="option-value" *ngFor="let option of options" [value]="option"> {{ option }}</option>
                       </select>
                   </div>
               </div>
@@ -44,7 +44,7 @@
           <button class="btn btn-primary float-end" [disabled]="shiftForm.invalid" (click)="submitShiftSwap()">Submit</button>
       </div>
       <div class="col-md-5 history-col">
-          <h5>Shift History</h5>        
+          <h5>Shift Swap History</h5>        
           <div class="card-view" >
           @for(item of swapHistory; track item.userId){
     

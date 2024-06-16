@@ -34,6 +34,7 @@ export class AllViewDashboardComponent {
   options:Array<string> = [
     "T7", "S1", "F3", "G2", "G1", "CO", "PH", "L", "WO"
   ]  
+  
 filterOption:any;
 userOverviewArray: Array<UserShift> = [] 
 prevObject!: string; 

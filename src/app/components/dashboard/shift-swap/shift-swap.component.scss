@@ -1,12 +1,12 @@
 .jumbotron {
-    font-size: medium;
+    font-size: 14px;
     .main-view {
         margin: 20px 0 0 0;
         padding: 0;
         width: 60vw;
         .request-col { 
             .form {
-                width: 100%;
+                width: 100%; 
                 .row {
                     margin: auto;
                     width: 100%;
@@ -75,4 +75,18 @@
             }
         }
     }
+}
+ 
+.option-value {
+    font-size: 14px !important;
+}
+
+.form-control,
+.form-select {
+    font-size: 14px !important;
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+    font-size: 14px !important;
 }
