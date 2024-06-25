@@ -1,15 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { months } from 'moment';
+import { Injectable } from '@angular/core'; 
 import { Observable } from 'rxjs';
 import { SwapShift } from '../interface/swapShift';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RosterService {
-  url:string = 'https://roster-server.onrender.com/'
+  //url:string = 'https://roster-server.onrender.com/'
   //url:string = 'http://localhost:3000/'
+  url:string= ''
+
   auth!:any;
   id:any
   constructor(
@@ -17,6 +19,9 @@ export class RosterService {
  ) { 
    this.auth = localStorage.getItem('myToken')
    this.id = localStorage.getItem('userName')
+   this.url = environment.apiURL
+   console.log(this.url, environment.production);
+   
  }
  
  
@@ -101,7 +106,7 @@ export class RosterService {
      'Content-Type':  'application/json', 
      'Authorization':  `${this.auth}`
     })}; 
-  return this.http.post(this.url + 'toCSV', {data: data}, { ...httpOptions, responseType: 'text' })
+  return this.http.post(this.url+ 'toCSV', {data: data}, { ...httpOptions, responseType: 'text' })
  }
 
  userListSwap(group:string):Observable<any>{

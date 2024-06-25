@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RosterService } from '../../../services/roster.service';
 import { Subscription, count, filter, retry } from 'rxjs';
@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Toast } from 'bootstrap';   
 import { UserShift } from '../../../interface/user-shift';
 import { CategoryPipe } from '../../../pipes/category.pipe';
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';  
 
 @Component({
     selector: 'app-admin-dashboard',
@@ -24,8 +25,10 @@ export class AdminDashboardComponent {
 
   @Input() state:any ; 
   @Input() monthState:any; 
-  @ViewChild('myToast')
-  myToast!: ElementRef; 
+  @Input() userCount!:any
+  @ViewChild('myToast') myToast!: ElementRef; 
+  
+  @ViewChildren(AdminNavComponent) nav: any;
 
   @ViewChild('toastWarning')
   warningToast!:ElementRef;
@@ -67,7 +70,7 @@ export class AdminDashboardComponent {
   temp4Category!:string;
   customOrder = ['OL', 'TL', 'SM', 'Backup', 'BDC'];
   loaderState:boolean = true;
-
+  userCheck!: string | null;
   constructor(
     private rosterService: RosterService, 
   ){ 
@@ -77,9 +80,12 @@ export class AdminDashboardComponent {
     this.monthState = this.month 
     this.getRosterData()      
     this.date = [] 
+
   }
    
-  ngOnChanges(){    
+  ngOnChanges(){  
+    console.log(this.userCount?.state);
+     
     //commented pagination logic
     // this.nullCount = 0
     // this.monthCount = 0
@@ -262,9 +268,7 @@ export class AdminDashboardComponent {
           }
       });
   }); 
-  
-  
-  // Convert dateOptionsMap to an array of objects
+   
   const dataArray = Object.entries<any>(dateOptionsMap).map(([date, options]) => {
       const optionsArray = Object.entries<any>(options).map(([option, count]) => ({ option, count }));
       
@@ -369,6 +373,7 @@ export class AdminDashboardComponent {
   }
    
   getDates(startDate:any, endDate:any, rosterValue:string){ 
+     
     this.selectedUser?.roster.forEach(el => {
      // console.log(el?.dayNumber >= startDate);
       
@@ -385,9 +390,10 @@ export class AdminDashboardComponent {
   
 
 
-  sendMessage() { 
-    console.log(this.currentDate.date() >= 15 && this.monthState !== this.month);
-    if(this.monthState === this.month){
+  sendMessage() {   
+    this.userCheck = localStorage.getItem('userName'); 
+   // console.log(this.currentDate.date() >= 15, this.monthState !== this.month);
+    if(this.monthState === this.month && this.userCount.state){
       if(this.currentDate.date() >= 15){
         let modifiedRoster = {
           _id: this.rosterObjectId,
@@ -401,8 +407,8 @@ export class AdminDashboardComponent {
           const bootstrapToast = new Toast(toastElement);
           bootstrapToast.show();
       }
-    }else{
-      console.log(this.month, this.monthState);
+    }else if(this.userCheck === 'admin-pro'){
+      console.log(this.month, this.monthState, this.userCheck);
       let modifiedRoster = {
         _id: this.rosterObjectId,
         roster: this.rosterData
@@ -410,6 +416,10 @@ export class AdminDashboardComponent {
       this.socket.emit('userRosterUpdate', modifiedRoster);    
       // console.log(modifiedRoster)
       this.getNewMessage()
+    }else{
+          const toastElement = this.warningToast.nativeElement;
+          const bootstrapToast = new Toast(toastElement);
+          bootstrapToast.show();
     }
     
      

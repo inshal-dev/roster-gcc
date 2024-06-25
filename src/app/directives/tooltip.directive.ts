@@ -11,7 +11,11 @@ export class TooltipDirective {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   @HostListener('mouseenter') onMouseEnter() {
-    if (!this.tooltip && this.tooltipText) {
+    console.log('tooltip');
+    console.log(this.tooltip, this.tooltipText);
+    
+    if (this.tooltipText) {
+    
       this.tooltip = this.renderer.createElement('span');
       this.renderer.appendChild(
         this.el.nativeElement,
@@ -23,6 +27,7 @@ export class TooltipDirective {
       this.renderer.setStyle(this.tooltip, 'border-radius', '6px');
       this.renderer.setStyle(this.tooltip, 'padding', '5px 10px');
       this.renderer.setStyle(this.tooltip, 'position', 'absolute');
+      this.renderer.setStyle(this.tooltip, 'z-index', '4')
       const text = this.renderer.createText(this.tooltipText);
       this.renderer.appendChild(this.tooltip, text);
       this.setPosition();

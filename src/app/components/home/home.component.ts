@@ -24,7 +24,7 @@ export class HomeComponent {
    adminState:any 
    rosterState:any 
    prevState!: string | null;
-
+    userCount:Array<string> = []
   constructor(){  
     this.detechUserToken() 
   }
@@ -88,7 +88,10 @@ export class HomeComponent {
       this.userState = route 
     }
   } 
-  
+  getUserCountCheck(count:Array<string>){
+    this.userCount = count
+  } 
+
   routetoCurrentState(routeState:boolean){ 
     return routeState ? this.userState = this.prevState : console.log(this.userState)
   }

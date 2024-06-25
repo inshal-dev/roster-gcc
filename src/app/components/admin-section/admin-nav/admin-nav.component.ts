@@ -18,6 +18,8 @@ export class AdminNavComponent {
   @Output() rosterPublishState = new EventEmitter<any>; 
   @Output() changeMonth = new EventEmitter<any>;
   @Output() routeToDashboard = new EventEmitter<any>; 
+  @Output() getUserCount = new EventEmitter<any>
+
   selectValue:any;
   monthList:Array<string> = [
     'January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
@@ -51,6 +53,7 @@ export class AdminNavComponent {
     this.rostersSubscription = this.rosterService.unApprovedCountCheck().subscribe(
      (res) => {
       this.userCountCheck = res 
+      this.getUserCount.emit(this.userCountCheck)
       console.log(this.userCountCheck.state, this.userCountCheck.count)
      }
     )
@@ -72,6 +75,7 @@ export class AdminNavComponent {
   getMonthRoster(month:string){
     this.changeMonth.emit(month)
   }
+  
   getUserSwapHistory(){
     console.log(this.userId);
     
@@ -87,6 +91,8 @@ export class AdminNavComponent {
       this.swapCount = this.swapHistory.filter(el => el.state == 'Pending').length
     });
   }
+
+
   swapRequestState(state:string, item:SwapShift){ 
     if(state === 'Approved'){
       item.state = 'Approved' 
@@ -112,14 +118,14 @@ export class AdminNavComponent {
     ) 
     setTimeout(()=>{
       location.reload()
-    },2000)
-    
+    },2000) 
   }
 
   signOut(){
     localStorage.clear()
     location.reload()
   }
+
   ngOnDestory(){
     this.rostersSubscription.unsubscribe()
   }
